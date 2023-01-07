@@ -10,4 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveAssociateRequest {
+    private String name;
+    private String cpf;
+    private String bithDate;
+    private String profession;
+    private String salary;
 }

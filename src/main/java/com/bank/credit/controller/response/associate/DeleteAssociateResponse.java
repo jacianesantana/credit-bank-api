@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeleteAssociateResponse {
+
+    private Boolean deleted;
+    private String message;
 }

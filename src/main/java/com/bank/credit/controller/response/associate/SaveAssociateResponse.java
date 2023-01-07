@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveAssociateResponse {
+    private Long id;
+    private String name;
+    private String cpf;
 }

@@ -2,6 +2,7 @@ package com.bank.credit.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,4 +17,6 @@ public class Contract {
 
     @Id
     private Long id;
+    @ManyToOne
+    private Associate associate;
 }
