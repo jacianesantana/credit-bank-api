@@ -1,6 +1,8 @@
 package com.bank.credit.service.credit;
 
+import com.bank.credit.controller.request.credit.CreditHireRequest;
 import com.bank.credit.controller.request.credit.CreditOptionsRequest;
+import com.bank.credit.controller.response.credit.CreditHireResponse;
 import com.bank.credit.controller.response.credit.CreditOptionsResponse;
 import com.bank.credit.model.enums.ProductType;
 import org.springframework.stereotype.Component;
@@ -32,6 +34,10 @@ public class FinancingService {
         return CreditOptionsResponse.builder()
                 .plotsAvailable(List.of())
                 .build();
+    }
+
+    public CreditHireResponse hire(CreditHireRequest request) {
+        return new CreditHireResponse();
     }
 
     private Boolean lessThanThirtyYears(LocalDate birthDate) {

@@ -19,4 +19,8 @@ public class ContractService {
         log.info("Buscando contratos para o associado com id: {}", associateId);
         return contractRepository.findByAssociateId(associateId);
     }
+
+    public Contract sign(Contract contract) {
+        return contractRepository.save(contract);
+    }
 }

@@ -101,7 +101,7 @@ public class AssociateService {
                 .build();
     }
 
-    private Associate findById(Long id) {
+    public Associate findById(Long id) {
         log.info("Buscando associado com o id: {}", id);
         try {
             return associateRepository.findById(id).orElseThrow();

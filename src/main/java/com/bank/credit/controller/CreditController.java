@@ -1,6 +1,8 @@
 package com.bank.credit.controller;
 
+import com.bank.credit.controller.request.credit.CreditHireRequest;
 import com.bank.credit.controller.request.credit.CreditOptionsRequest;
+import com.bank.credit.controller.response.credit.CreditHireResponse;
 import com.bank.credit.controller.response.credit.CreditOptionsResponse;
 import com.bank.credit.service.credit.CreditService;
 import lombok.RequiredArgsConstructor;
@@ -20,5 +22,10 @@ public class CreditController {
     @PatchMapping("/options")
     public ResponseEntity<CreditOptionsResponse> options(@RequestBody CreditOptionsRequest request) {
         return ResponseEntity.ok().body(creditService.options(request));
+    }
+
+    @PatchMapping("/hire")
+    public ResponseEntity<CreditHireResponse> hire(@RequestBody CreditHireRequest request) {
+        return ResponseEntity.ok().body(creditService.hire(request));
     }
 }
