@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class SaveAssociateRequest {
     private String name;
     private String cpf;
-    private String bithDate;
+    private String birthDate;
     private String profession;
     private String salary;
 }

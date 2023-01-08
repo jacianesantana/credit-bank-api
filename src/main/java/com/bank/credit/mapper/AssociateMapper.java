@@ -15,7 +15,7 @@ public class AssociateMapper {
         return Associate.builder()
                 .name(request.getName())
                 .cpf(request.getCpf())
-                .bithDate(request.getBithDate())
+                .birthDate(request.getBirthDate())
                 .profession(request.getProfession())
                 .salary(request.getSalary())
                 .lastPaycheck(LocalDate.now())
