@@ -39,10 +39,10 @@ public class CreditService {
     }
 
     public CreditHireResponse hire(CreditHireRequest request) {
-        var associate = associateService.findById(request.getAssociateId());
+        var associate = associateService.findById(request.getIdAssociate());
         var product = productService.findByType(request.getProductType());
         var contract = Contract.builder()
-                .idAssociate(request.getAssociateId())
+                .idAssociate(request.getIdAssociate())
                 .idProduct(product.getId())
                 .paidOff(false)
                 .value(request.getValue())
@@ -53,7 +53,7 @@ public class CreditService {
                 .build();
         var savedContract = contractService.sign(contract);
         return CreditHireResponse.builder()
-                .contractId(savedContract.getId())
+                .idContract(savedContract.getId())
                 .build();
     }
 }

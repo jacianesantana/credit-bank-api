@@ -18,4 +18,5 @@ public class CreditOptionsRequest {
     private ProductType productType;
     private LocalDate birthDate;
     private BigDecimal salary;
+
 }

@@ -1,8 +1,8 @@
 package com.bank.credit.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -28,7 +28,7 @@ public class Associate {
     @Column(name = "cpf")
     private String cpf;
 
-    @Column(name = "birthDate")
+    @Column(name = "birthdate")
     private LocalDate birthDate;
 
     @Column(name = "profession")
@@ -37,7 +37,7 @@ public class Associate {
     @Column(name = "salary")
     private BigDecimal salary;
 
-    @Column(name = "lastPaycheck")
+    @Column(name = "lastpaycheck")
     private LocalDate lastPaycheck;
 
 }

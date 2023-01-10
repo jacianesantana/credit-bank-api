@@ -1,9 +1,10 @@
 package com.bank.credit.model;
 
 import com.bank.credit.model.enums.AccountType;
-import jakarta.persistence.*;
+
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Getter

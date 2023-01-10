@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreditHireResponse {
 
-    private Long contractId;
+    private Long idContract;
+
 }

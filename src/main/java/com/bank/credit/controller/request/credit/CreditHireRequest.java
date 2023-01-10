@@ -14,9 +14,10 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class CreditHireRequest {
 
-    private Long associateId;
-    private Long accountId;
+    private Long idAssociate;
+    private Long idAccount;
     private ProductType productType;
     private Integer numberOfInstallments;
     private BigDecimal value;
+
 }

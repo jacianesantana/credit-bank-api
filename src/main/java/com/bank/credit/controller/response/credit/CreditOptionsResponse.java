@@ -22,4 +22,5 @@ public class CreditOptionsResponse {
     private List<Integer> plotsAvailable;
     private BigDecimal minValue;
     private BigDecimal maxValue;
+
 }

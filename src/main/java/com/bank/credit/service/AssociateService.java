@@ -12,8 +12,10 @@ import com.bank.credit.exception.UpdateEntityException;
 import com.bank.credit.mapper.AssociateMapper;
 import com.bank.credit.model.Associate;
 import com.bank.credit.repository.AssociateRepository;
+import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ import java.time.LocalDate;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+//@AllArgsConstructor
 public class AssociateService {
 
     private static final String UPDATE_SUCCESS = "Associado atualizado com sucesso!";

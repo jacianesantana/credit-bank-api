@@ -1,5 +1,8 @@
 package com.bank.credit.controller;
 
+import com.bank.credit.annotation.associate.DeleteAssociateStandard;
+import com.bank.credit.annotation.associate.SaveAssociateStandard;
+import com.bank.credit.annotation.associate.UpdateAssociateStandard;
 import com.bank.credit.controller.request.associate.SaveAssociateRequest;
 import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
 import com.bank.credit.controller.response.associate.DeleteAssociateResponse;
@@ -19,11 +22,13 @@ public class AssociateController {
     private final AssociateService associateService;
 
     @PostMapping("/save")
+    @SaveAssociateStandard
     public ResponseEntity<SaveAssociateResponse> save(@RequestBody SaveAssociateRequest request) {
-        return new ResponseEntity<>(associateService.save(request), HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(associateService.save(request));
     }
 
     @PutMapping("/update/{id}")
+    @UpdateAssociateStandard
     public ResponseEntity<UpdateAssociateResponse> update(@PathVariable Long id,
                                                           @RequestBody UpdateAssociateRequest request) {
         var response = associateService.update(id, request);
@@ -35,6 +40,7 @@ public class AssociateController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @DeleteAssociateStandard
     public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
         return ResponseEntity.ok().body(associateService.delete(id));
     }

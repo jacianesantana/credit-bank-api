@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ContractRepository extends JpaRepository<Contract, Long> {
-    List<Contract> findByAssociateId(Long id);
+    List<Contract> findByIdAssociate(Long id);
 }

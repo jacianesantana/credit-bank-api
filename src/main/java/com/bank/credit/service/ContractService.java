@@ -4,6 +4,7 @@ import com.bank.credit.model.Contract;
 import com.bank.credit.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,7 @@ public class ContractService {
 
     public List<Contract> findContracts(Long associateId) {
         log.info("Buscando contratos para o associado com id: {}", associateId);
-        return contractRepository.findByAssociateId(associateId);
+        return contractRepository.findByIdAssociate(associateId);
     }
 
     public Contract sign(Contract contract) {

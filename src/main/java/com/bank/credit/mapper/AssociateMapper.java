@@ -13,6 +13,7 @@ public class AssociateMapper {
 
     public Associate saveRequestToAssociate(SaveAssociateRequest request) {
         return Associate.builder()
+                .id(null)
                 .name(request.getName())
                 .cpf(request.getCpf())
                 .birthDate(request.getBirthDate())

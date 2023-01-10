@@ -1,17 +1,25 @@
-server:
-  port: 8080
-  servlet:
-    context-path: /api
-
 springdoc:
+  api-docs:
+    path: /docs
   swagger-ui:
-    url: http://localhost:8080/api/swagger-ui.html
+    path: /swagger
+    operationsSorter: method
+
+server:
+  servlet:
+    context-path: /api/v1
 
 spring:
-  datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password: password
-    driverClassName: org.h2.Driver
+  application:
+    name: api-bank
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: none
+    show_sql: false
+    defer-datasource-initialization: true
+    database: postgresql
+  datasource:
+    url: jdbc:postgresql://localhost:5432/JaciBank
+    username: postgres
+    password: jacI2313
+    driver-class-name: org.postgresql.Driver

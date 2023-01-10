@@ -1,6 +1,7 @@
 package com.bank.credit.model.enums;
 
 public enum ProductType {
+
     FINANCIAMENTO,
     EMPRESTIMO_PESSOAL,
     CONSIGNADO;
@@ -14,4 +15,5 @@ public enum ProductType {
             default: return null;
         }
     }
+
 }

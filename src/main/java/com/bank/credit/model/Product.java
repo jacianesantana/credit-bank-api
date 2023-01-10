@@ -1,8 +1,9 @@
 package com.bank.credit.model;
 
 import com.bank.credit.model.enums.ProductType;
-import jakarta.persistence.*;
 import lombok.*;
+
+import javax.persistence.*;
 
 @Getter
 @Setter

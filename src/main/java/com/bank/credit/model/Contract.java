@@ -1,8 +1,8 @@
 package com.bank.credit.model;
 
-import jakarta.persistence.*;
 import lombok.*;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -28,11 +28,11 @@ public class Contract {
     @Column(name = "idProduct")
     private Long idProduct;
 
-    @Column(name = "paidOff")
-    private Boolean paidOff;
-
     @Column(name = "value")
     private BigDecimal value;
+
+    @Column(name = "paidOff")
+    private Boolean paidOff;
 
     @Column(name = "hireDate")
     private LocalDate hireDate;
