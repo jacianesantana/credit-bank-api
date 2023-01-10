@@ -24,9 +24,9 @@ public class AssociateController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<UpdateAssociateResponse> update(@PathVariable String id,
+    public ResponseEntity<UpdateAssociateResponse> update(@PathVariable Long id,
                                                           @RequestBody UpdateAssociateRequest request) {
-        var response = associateService.update(Long.parseLong(id), request);
+        var response = associateService.update(id, request);
 
         if (response.getUpdated().equals(true)) {
             return ResponseEntity.noContent().build();
@@ -35,7 +35,7 @@ public class AssociateController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable String id) {
-        return ResponseEntity.ok().body(associateService.delete(Long.parseLong(id)));
+    public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
+        return ResponseEntity.ok().body(associateService.delete(id));
     }
 }
