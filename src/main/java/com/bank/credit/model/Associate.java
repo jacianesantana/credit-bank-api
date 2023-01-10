@@ -1,38 +1,43 @@
 package com.bank.credit.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "associate")
 public class Associate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "associate_id_seq")
+    @SequenceGenerator(name = "associate_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
-    @NotNull
+
+    @Column(name = "name")
     private String name;
-    @NotNull
+
+    @Column(name = "cpf")
     private String cpf;
-    @NotNull
+
+    @Column(name = "birthDate")
     private LocalDate birthDate;
-    @NotNull
+
+    @Column(name = "profession")
     private String profession;
-    @NotNull
+
+    @Column(name = "salary")
     private BigDecimal salary;
-    @NotNull
+
+    @Column(name = "lastPaycheck")
     private LocalDate lastPaycheck;
+
 }

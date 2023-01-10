@@ -20,8 +20,8 @@ public class PersonalLoanService {
     public CreditOptionsResponse options(CreditOptionsRequest request) {
         if (biggerThenMinimumSalary(request.getSalary())) {
             return CreditOptionsResponse.builder()
-                    .product(ProductType.PERSONAL)
-                    .taxes(ProductType.PERSONAL.getTaxes())
+                    .product(ProductType.EMPRESTIMO_PESSOAL)
+                    .taxes(ProductType.EMPRESTIMO_PESSOAL.getTaxes())
                     .firstPaymentDate(LocalDate.now().plusMonths(1))
                     .plotsAvailable(PLOTS_AVAILABLE)
                     .minValue(MIN_VALUE)

@@ -2,23 +2,26 @@ package com.bank.credit.model;
 
 import com.bank.credit.model.enums.ProductType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "product")
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "product_id_seq")
+    @SequenceGenerator(name = "product_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
-    @NotNull
+
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private ProductType type;
+
 }

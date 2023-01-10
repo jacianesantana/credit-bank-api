@@ -2,32 +2,40 @@ package com.bank.credit.model;
 
 import com.bank.credit.model.enums.AccountType;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "account")
 public class Account {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "account_id_seq")
+    @SequenceGenerator(name = "account_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
-    @ManyToOne
-    private Associate associate;
-    @NotNull
+
+    @Column(name = "idAssociate")
+    private Long idAssociate;
+
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private AccountType type;
-    @NotNull
+
+    @Column(name = "agency")
     private String agency;
-    @NotNull
+
+    @Column(name = "number")
     private String number;
-    @NotNull
+
+    @Column(name = "balance")
     private BigDecimal balance;
+
 }
