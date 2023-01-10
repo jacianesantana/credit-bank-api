@@ -1,11 +1,11 @@
-#server:
-#  port: 8080
-#  servlet:
-#    context-path: /api
-#
-#springdoc:
-#  swagger-ui:
-#    url: http://localhost:8080/api/swagger-ui.html
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+springdoc:
+  swagger-ui:
+    url: http://localhost:8080/api/swagger-ui.html
 
 spring:
   datasource:

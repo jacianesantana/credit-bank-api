@@ -22,7 +22,7 @@ import static com.bank.credit.builder.AssociateBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class AssociateServiceTest {
@@ -67,7 +67,7 @@ class AssociateServiceTest {
         var associate = buildAssociate();
 
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
-        when(associateRepository.save(any(Associate.class))).thenThrow(new Exception());
+        when(associateRepository.save(any(Associate.class))).thenThrow(new RuntimeException());
 
         assertThrows(SaveEntityException.class, () -> associateService.save(request));
     }
@@ -83,7 +83,7 @@ class AssociateServiceTest {
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.updateRequestToAssociate(any(UpdateAssociateRequest.class))).thenReturn(updatedAssociate);
-        doNothing().when(associateRepository.save(any(Associate.class)));
+        when(associateRepository.save(any(Associate.class))).thenReturn(updatedAssociate);
 
         var response = associateService.update(1L, request);
 
@@ -95,7 +95,7 @@ class AssociateServiceTest {
     void updateShouldReturnFindEntityException() {
         var request = buildUpdateAssociateRequest();
 
-        when(associateRepository.findById(anyLong())).thenThrow(new Exception());
+        when(associateRepository.findById(anyLong())).thenThrow(new RuntimeException());
 
         assertThrows(FindEntityException.class, () -> associateService.update(1L, request));
     }
@@ -111,7 +111,7 @@ class AssociateServiceTest {
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.updateRequestToAssociate(any(UpdateAssociateRequest.class))).thenReturn(updatedAssociate);
-        doThrow().when(associateRepository.save(any(Associate.class)));
+        when(associateRepository.save(any(Associate.class))).thenThrow(new RuntimeException());
 
         assertThrows(UpdateEntityException.class, () -> associateService.update(1L, request));
     }

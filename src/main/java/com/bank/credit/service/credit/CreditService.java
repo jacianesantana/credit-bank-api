@@ -42,8 +42,8 @@ public class CreditService {
         var associate = associateService.findById(request.getAssociateId());
         var product = productService.findByType(request.getProductType());
         var contract = Contract.builder()
-                .associate(associate)
-                .product(product)
+                .idAssociate(request.getAssociateId())
+                .idProduct(product.getId())
                 .paidOff(false)
                 .value(request.getValue())
                 .hireDate(LocalDate.now())
