@@ -19,6 +19,8 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @ManyToOne
+    private Associate associate;
     @NotNull
     @Enumerated(EnumType.STRING)
     private AccountType type;

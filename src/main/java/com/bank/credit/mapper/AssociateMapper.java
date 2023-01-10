@@ -17,7 +17,7 @@ public class AssociateMapper {
                 .cpf(request.getCpf())
                 .birthDate(request.getBirthDate())
                 .profession(request.getProfession())
-                .salary(request.getSalary())
+                // .salary(request.getSalary())
                 .lastPaycheck(LocalDate.now())
                 .build();
     }

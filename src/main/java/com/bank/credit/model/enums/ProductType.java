@@ -1,15 +1,15 @@
 package com.bank.credit.model.enums;
 
 public enum ProductType {
-    FINANCING,
-    PERSONAL,
-    CONSIGNED;
+    FINANCIAMENTO,
+    EMPRESTIMO_PESSOAL,
+    CONSIGNADO;
 
     public Integer getTaxes() {
         switch (this) {
-            case FINANCING: return 7;
-            case PERSONAL: return 4;
-            case CONSIGNED: return 2;
+            case FINANCIAMENTO: return 7;
+            case EMPRESTIMO_PESSOAL: return 4;
+            case CONSIGNADO: return 2;
 
             default: return null;
         }
