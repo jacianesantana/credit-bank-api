@@ -6,7 +6,9 @@ import com.bank.credit.exception.FindEntityException;
 import com.bank.credit.exception.SaveEntityException;
 import com.bank.credit.exception.UpdateEntityException;
 import com.bank.credit.mapper.AssociateMapper;
+import com.bank.credit.model.Account;
 import com.bank.credit.model.Associate;
+import com.bank.credit.model.enums.AccountType;
 import com.bank.credit.repository.AssociateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +18,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static com.bank.credit.builder.AssociateBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -52,7 +54,7 @@ class AssociateServiceTest {
 
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
         when(associateRepository.save(any(Associate.class))).thenReturn(associate);
-        when(associateMapper.associateToSaveResponse(any(Associate.class))).thenReturn(saveResponse);
+        when(associateMapper.associateToSaveResponse(any(Associate.class), anyList())).thenReturn(saveResponse);
 
         var response = associateService.save(request);
 

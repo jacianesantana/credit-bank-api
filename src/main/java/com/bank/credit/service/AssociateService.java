@@ -5,44 +5,48 @@ import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
 import com.bank.credit.controller.response.associate.DeleteAssociateResponse;
 import com.bank.credit.controller.response.associate.SaveAssociateResponse;
 import com.bank.credit.controller.response.associate.UpdateAssociateResponse;
-import com.bank.credit.exception.DeleteEntityException;
-import com.bank.credit.exception.FindEntityException;
-import com.bank.credit.exception.SaveEntityException;
-import com.bank.credit.exception.UpdateEntityException;
+import com.bank.credit.exception.*;
 import com.bank.credit.mapper.AssociateMapper;
+import com.bank.credit.model.Account;
 import com.bank.credit.model.Associate;
+import com.bank.credit.model.enums.AccountType;
 import com.bank.credit.repository.AssociateRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
-//@AllArgsConstructor
 public class AssociateService {
 
     private static final String UPDATE_SUCCESS = "Associado atualizado com sucesso!";
     private static final String UPDATE_ERROR = "Associado com menos de 3 meses desde da última atualização!";
     private static final String DELETE_SUCCESS = "Associado excluido com sucesso!";
     private static final String DELETE_ERROR = "Associado contém contratos ativos!";
+    private static final BigDecimal MIN_SALARY_ACCEPTABLE = BigDecimal.valueOf(1500);
 
     private final AssociateRepository associateRepository;
     private final AssociateMapper associateMapper;
     private final ContractService contractService;
+    private final AccountService accountService;
 
     public SaveAssociateResponse save(SaveAssociateRequest request) {
+        validateBusinessRules(request);
+
         log.info("Tentando salvar o associdado com cpf {}", request.getCpf().substring(0, 4).concat("..."));
         try {
             var entity = associateMapper.saveRequestToAssociate(request);
             var savedAssociate = associateRepository.save(entity);
 
             log.info("Associado salvo com sucesso. Id gerado: {}", savedAssociate.getId());
-            return associateMapper.associateToSaveResponse(savedAssociate);
+
+            var accounts = createAccounts(savedAssociate.getId());
+            return associateMapper.associateToSaveResponse(savedAssociate, accounts);
         } catch (Exception e) {
             log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
             throw new SaveEntityException("Não foi possível salvar o associado.");
@@ -116,5 +120,26 @@ public class AssociateService {
 
     private Boolean hasActiveContracts(Long id) {
         return contractService.findContracts(id).isEmpty();
+    }
+
+    private void validateBusinessRules(SaveAssociateRequest request) {
+        if (isLegalAge(request.getBirthDate()) && salaryAboveRequirement(request.getSalary())) {
+            throw new AssociateRulesException("Idade ou Salário não atendem o mínimo necessário!");
+        }
+    }
+
+    private Boolean isLegalAge(LocalDate birthDate) {
+        return birthDate.isBefore(LocalDate.now().minusYears(18));
+    }
+
+    private Boolean salaryAboveRequirement(BigDecimal salary) {
+        return salary.compareTo(MIN_SALARY_ACCEPTABLE) > 0;
+    }
+
+    private List<Account> createAccounts(Long associateId) {
+        var accountOne = accountService.create(associateId, AccountType.CORRENTE);
+        var accountTwo = accountService.create(associateId, AccountType.POUPANCA);
+
+        return List.of(accountOne, accountTwo);
     }
 }

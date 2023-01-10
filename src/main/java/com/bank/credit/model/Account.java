@@ -31,10 +31,10 @@ public class Account {
     private AccountType type;
 
     @Column(name = "agency")
-    private String agency;
+    private Integer agency;
 
     @Column(name = "number")
-    private String number;
+    private Integer number;
 
     @Column(name = "balance")
     private BigDecimal balance;
