@@ -1,39 +1,49 @@
 package com.bank.credit.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
+@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "contract")
 public class Contract {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "contract_id_seq")
+    @SequenceGenerator(name = "contract_id_seq", allocationSize = 1)
+    @Column(name = "id")
     private Long id;
-    @ManyToOne
-    private Associate associate;
-    @ManyToOne
-    private Product product;
-    @NotNull
+
+    @Column(name = "idAssociate")
+    private Long idAssociate;
+
+    @Column(name = "idProduct")
+    private Long idProduct;
+
+    @Column(name = "paidOff")
     private Boolean paidOff;
-    @NotNull
+
+    @Column(name = "value")
     private BigDecimal value;
-    @NotNull
+
+    @Column(name = "hireDate")
     private LocalDate hireDate;
-    @NotNull
+
+    @Column(name = "expirationDate")
     private LocalDate expirationDate;
-    @NotNull
+
+    @Column(name = "installmentsPaid")
     private Integer installmentsPaid;
-    @NotNull
+
+    @Column(name = "installmentsRemaining")
     private Integer installmentsRemaining;
+
 }

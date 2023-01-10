@@ -20,8 +20,8 @@ public class FinancingService {
     public CreditOptionsResponse options(CreditOptionsRequest request) {
         if (biggerThenMinimumSalary(request.getSalary()) && lessThanThirtyYears(request.getBirthDate())) {
             return CreditOptionsResponse.builder()
-                    .product(ProductType.FINANCING)
-                    .taxes(ProductType.FINANCING.getTaxes())
+                    .product(ProductType.FINANCIAMENTO)
+                    .taxes(ProductType.FINANCIAMENTO.getTaxes())
                     .firstPaymentDate(LocalDate.now().plusMonths(1))
                     .plotsAvailable(PLOTS_AVAILABLE)
                     .minValue(MIN_VALUE)

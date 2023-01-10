@@ -20,8 +20,8 @@ public class ConsignedService {
     public CreditOptionsResponse options(CreditOptionsRequest request) {
         if (biggerThenMinimumSalary(request.getSalary()) && lessThanThirtyYears(request.getBirthDate())) {
             return CreditOptionsResponse.builder()
-                    .product(ProductType.CONSIGNED)
-                    .taxes(ProductType.CONSIGNED.getTaxes())
+                    .product(ProductType.CONSIGNADO)
+                    .taxes(ProductType.CONSIGNADO.getTaxes())
                     .firstPaymentDate(LocalDate.now().plusMonths(1))
                     .plotsAvailable(PLOTS_AVAILABLE)
                     .minValue(MIN_VALUE)
