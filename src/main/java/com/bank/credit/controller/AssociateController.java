@@ -42,6 +42,11 @@ public class AssociateController {
     @DeleteMapping("/delete/{id}")
     @DeleteAssociateStandard
     public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
-        return ResponseEntity.ok().body(associateService.delete(id));
+        var response = associateService.delete(id);
+
+        if (response.getDeleted().equals(true)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 }

@@ -123,7 +123,7 @@ public class AssociateService {
     }
 
     private void validateBusinessRules(SaveAssociateRequest request) {
-        if (isLegalAge(request.getBirthDate()) && salaryAboveRequirement(request.getSalary())) {
+        if (isLegalAge(request.getBirthDate()) || salaryAboveRequirement(request.getSalary())) {
             throw new AssociateRulesException("Idade ou Salário não atendem o mínimo necessário!");
         }
     }
