@@ -28,9 +28,9 @@ public class CreditService {
     public CreditOptionsResponse options(CreditOptionsRequest request) {
         var choice = request.getProductType();
 
-        if (choice.equals(ProductType.FINANCING)) {
+        if (choice.equals(ProductType.FINANCIAMENTO)) {
             return financingService.options(request);
-        } else if (choice.equals(ProductType.CONSIGNED)) {
+        } else if (choice.equals(ProductType.CONSIGNADO)) {
             return consignedService.options(request);
         }
         return personalLoanService.options(request);

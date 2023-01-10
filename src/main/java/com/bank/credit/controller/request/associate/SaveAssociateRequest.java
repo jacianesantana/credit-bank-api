@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -12,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class SaveAssociateRequest {
     private String name;
     private String cpf;
-    private String birthDate;
+    private LocalDate birthDate;
     private String profession;
-    private String salary;
+    private BigDecimal salary;
 }
