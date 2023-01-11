@@ -1,10 +1,13 @@
 package com.bank.credit.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -39,5 +42,10 @@ public class Associate {
 
     @Column(name = "lastpaycheck")
     private LocalDate lastPaycheck;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+    private Set<Account> accountSet;
+    //private Set<Account> accountSet = new HashSet<>();
 
 }

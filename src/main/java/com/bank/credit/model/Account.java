@@ -2,6 +2,7 @@ package com.bank.credit.model;
 
 import com.bank.credit.model.enums.AccountType;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,8 +24,12 @@ public class Account {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "idAssociate")
-    private Long idAssociate;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idassociate", referencedColumnName = "id")
+    private Associate associate;
+//    @Column(name = "idassociate")
+//    private Long idAssociate;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

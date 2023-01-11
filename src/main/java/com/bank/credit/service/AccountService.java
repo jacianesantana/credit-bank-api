@@ -7,6 +7,7 @@ import com.bank.credit.controller.response.account.AccountDepositResponse;
 import com.bank.credit.controller.response.account.AccountTransferResponse;
 import com.bank.credit.controller.response.account.AccountWithdrawResponse;
 import com.bank.credit.model.Account;
+import com.bank.credit.model.Associate;
 import com.bank.credit.model.enums.AccountType;
 import com.bank.credit.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,18 +22,18 @@ import java.util.Random;
 @RequiredArgsConstructor
 public class AccountService {
 
-    private static final Integer AGENCY_DIGITS = 3;
-    private static final Integer ACCOUNT_DIGITS = 6;
+    private static final Integer AGENCY = 1000;
+    private static final Integer ACCOUNT_DIGITS = 8;
 
     private final AccountRepository accountRepository;
 
-    public Account create(Long associateId, AccountType type) {
-        log.info("Criando uma conta do tipo {} para o associado com o id {}", type, associateId);
+    public Account create(Associate associate, AccountType type) {
+        log.info("Criando uma conta do tipo {} para o associado com o id {}", type, associate.getId());
         var account = Account.builder()
-                .idAssociate(associateId)
+                .associate(associate)
                 .type(type)
-                .agency(generateRandomNumber(AGENCY_DIGITS))
-                .number(generateRandomNumber(ACCOUNT_DIGITS))
+                .agency(AGENCY)
+                .number(generateAccountNumber())
                 .balance(BigDecimal.ZERO)
                 .build();
         return accountRepository.save(account);
@@ -50,14 +51,14 @@ public class AccountService {
         return new AccountDepositResponse();
     }
 
-    public static String generateRandomNumber(Integer count) {
+    public static Integer generateAccountNumber() {
         var random = new Random();
-        var builder = new StringBuilder(count);
+        var builder = new StringBuilder();
 
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < ACCOUNT_DIGITS; i++) {
             builder.append((random.nextInt(10)));
         }
 
-        return builder.toString();
+        return Integer.parseInt(builder.toString());
     }
 }

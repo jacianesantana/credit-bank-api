@@ -38,14 +38,17 @@ public class AssociateService {
     public SaveAssociateResponse save(SaveAssociateRequest request) {
         validateBusinessRules(request);
 
-        log.info("Tentando salvar o associdado com cpf {}", request.getCpf().substring(0, 4).concat("..."));
+        log.info("Tentando salvar o associado com cpf {}", request.getCpf().substring(0, 4).concat("..."));
         try {
             var entity = associateMapper.saveRequestToAssociate(request);
             var savedAssociate = associateRepository.save(entity);
 
             log.info("Associado salvo com sucesso. Id gerado: {}", savedAssociate.getId());
 
-            var accounts = createAccounts(savedAssociate.getId());
+            var checkingAccount = accountService.create(savedAssociate, AccountType.CORRENTE);
+            var savesAccount = accountService.create(savedAssociate, AccountType.POUPANCA);
+            var accounts = List.of(checkingAccount, savesAccount);
+
             return associateMapper.associateToSaveResponse(savedAssociate, accounts);
         } catch (Exception e) {
             log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
@@ -123,7 +126,7 @@ public class AssociateService {
     }
 
     private void validateBusinessRules(SaveAssociateRequest request) {
-        if (isLegalAge(request.getBirthDate()) || salaryAboveRequirement(request.getSalary())) {
+        if (!isLegalAge(request.getBirthDate()) || !salaryAboveRequirement(request.getSalary())) {
             throw new AssociateRulesException("Idade ou Salário não atendem o mínimo necessário!");
         }
     }
@@ -136,10 +139,4 @@ public class AssociateService {
         return salary.compareTo(MIN_SALARY_ACCEPTABLE) > 0;
     }
 
-    private List<Account> createAccounts(Long associateId) {
-        var accountOne = accountService.create(associateId, AccountType.CORRENTE);
-        var accountTwo = accountService.create(associateId, AccountType.POUPANCA);
-
-        return List.of(accountOne, accountTwo);
-    }
 }

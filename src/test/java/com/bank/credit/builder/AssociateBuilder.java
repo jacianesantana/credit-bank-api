@@ -20,7 +20,7 @@ public class AssociateBuilder {
         return SaveAssociateRequest.builder()
                 .name("anyName")
                 .cpf("anyCpf")
-                .birthDate(LocalDate.now())
+                .birthDate(LocalDate.of(1993, 10, 19))
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
                 .build();
@@ -31,10 +31,10 @@ public class AssociateBuilder {
                 .id(1L)
                 .name("anyName")
                 .cpf("anyCpf")
-                .birthDate(LocalDate.now())
+                .birthDate(LocalDate.of(1993, 10, 19))
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
-                .lastPaycheck(LocalDate.now().minusMonths(4))
+                .lastPaycheck(LocalDate.now())
                 .build();
     }
 
