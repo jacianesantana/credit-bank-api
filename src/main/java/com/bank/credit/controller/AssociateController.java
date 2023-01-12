@@ -16,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/associate")
 @RequiredArgsConstructor
@@ -25,7 +27,7 @@ public class AssociateController {
 
     @PostMapping("/save")
     @SaveAssociateStandard
-    public ResponseEntity<SaveAssociateResponse> save(@RequestBody SaveAssociateRequest request) {
+    public ResponseEntity<SaveAssociateResponse> save(@Valid @RequestBody SaveAssociateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(associateService.save(request));
     }
 
@@ -35,17 +37,17 @@ public class AssociateController {
 //        return ResponseEntity.ok(associateService.findById(id));
 //    }
 
-//    @PutMapping("/update/{id}")
-//    @UpdateAssociateStandard
-//    public ResponseEntity<UpdateAssociateResponse> update(@PathVariable Long id,
-//                                                          @RequestBody UpdateAssociateRequest request) {
-//        var response = associateService.update(id, request);
-//
-//        if (response.getUpdated().equals(true)) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.badRequest().body(response);
-//    }
+    @PatchMapping("/updatePaycheck/{id}")
+    @UpdateAssociateStandard
+    public ResponseEntity<UpdateAssociateResponse> updatePaycheck(@PathVariable Long id,
+                                                                  @Valid @RequestBody UpdateAssociateRequest request) {
+        var response = associateService.update(id, request);
+
+        if (response.getUpdated()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.badRequest().body(response);
+    }
 
 //    @DeleteMapping("/delete/{id}")
 //    @DeleteAssociateStandard

@@ -63,8 +63,10 @@ public class AssociateService {
         if (associate.getLastPaycheck().isBefore(LocalDate.now().minusMonths(3))) {
             log.info("Tentando atualizar o associado com o id {}", id);
             try {
-                var entity = associateMapper.updateRequestToAssociate(request);
-                associateRepository.save(entity);
+                associate.setProfession(request.getProfession());
+                associate.setSalary(request.getSalary());
+                associate.setLastPaycheck(LocalDate.now());
+                associateRepository.save(associate);
 
                 log.info("Associado atualizado com sucesso para o id {}", id);
                 return UpdateAssociateResponse.builder()
