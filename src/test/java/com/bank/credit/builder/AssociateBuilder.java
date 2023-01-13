@@ -2,12 +2,15 @@ package com.bank.credit.builder;
 
 import com.bank.credit.controller.request.associate.SaveAssociateRequest;
 import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
+import com.bank.credit.controller.response.associate.FindAssociateResponse;
 import com.bank.credit.controller.response.associate.SaveAssociateResponse;
 import com.bank.credit.controller.response.associate.UpdateAssociateResponse;
 import com.bank.credit.model.Associate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class AssociateBuilder {
 
@@ -34,7 +37,7 @@ public class AssociateBuilder {
                 .birthDate(LocalDate.of(1993, 10, 19))
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
-                .lastPaycheck(LocalDate.now())
+                .lastPaycheck(LocalDate.now().minusMonths(4))
                 .build();
     }
 
@@ -57,6 +60,19 @@ public class AssociateBuilder {
         return UpdateAssociateResponse.builder()
                 .updated(true)
                 .message(UPDATE_SUCCESS)
+                .build();
+    }
+
+    public static FindAssociateResponse buildFindAssociateResponse() {
+        return FindAssociateResponse.builder()
+                .id(1L)
+                .name("anyName")
+                .cpf("anyCpf")
+                .birthDate(LocalDate.of(1993, 10, 19))
+                .profession("anyProfession")
+                .salary(BigDecimal.valueOf(10000))
+                .lastPaycheck(LocalDate.now().minusMonths(4))
+                .accounts(List.of())
                 .build();
     }
 }

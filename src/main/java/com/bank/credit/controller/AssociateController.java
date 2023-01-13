@@ -46,17 +46,18 @@ public class AssociateController {
         if (response.getUpdated()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.badRequest().body(response);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 
-//    @DeleteMapping("/delete/{id}")
-//    @DeleteAssociateStandard
-//    public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
-//        var response = associateService.delete(id);
-//
-//        if (response.getDeleted().equals(true)) {
-//            return ResponseEntity.noContent().build();
-//        }
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-//    }
+    @DeleteMapping("/delete/{id}")
+    @DeleteAssociateStandard
+    public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
+        var response = associateService.delete(id);
+
+        if (response.getDeleted().equals(true)) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+    }
+
 }

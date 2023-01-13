@@ -1,7 +1,7 @@
 package com.bank.credit.service;
 
 import com.bank.credit.controller.request.associate.SaveAssociateRequest;
-import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
+import com.bank.credit.controller.response.associate.FindAssociateResponse;
 import com.bank.credit.exception.FindEntityException;
 import com.bank.credit.exception.SaveEntityException;
 import com.bank.credit.exception.UpdateEntityException;
@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +23,7 @@ import java.util.Optional;
 import static com.bank.credit.builder.AssociateBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -39,6 +39,9 @@ class AssociateServiceTest {
     private AssociateMapper associateMapper;
 
     @Mock
+    private AccountService accountService;
+
+    @Mock
     private ContractService contractService;
 
     private static final String UPDATE_SUCCESS = "Associado atualizado com sucesso!";
@@ -51,9 +54,11 @@ class AssociateServiceTest {
         var request = buildSaveAssociateRequest();
         var associate = buildAssociate();
         var saveResponse = buildSaveAssociateResponse();
+        var account = new Account();
 
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
         when(associateRepository.save(any(Associate.class))).thenReturn(associate);
+        when(accountService.create(any(Associate.class), any(AccountType.class))).thenReturn(account);
         when(associateMapper.associateToSaveResponse(any(Associate.class), anyList())).thenReturn(saveResponse);
 
         var response = associateService.save(request);
@@ -75,17 +80,33 @@ class AssociateServiceTest {
     }
 
     @Test
+    void findById() {
+        var associate = buildAssociate();
+        var associateResponse = buildFindAssociateResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToFindAssociateResponse(any(Associate.class))).thenReturn(associateResponse);
+
+        var response = associateService.findById(associate.getId());
+
+        assertEquals(associate.getId(), response.getId());
+        assertEquals(associate.getCpf(), response.getCpf());
+    }
+
+    @Test
     void updateSuccess() {
         var request = buildUpdateAssociateRequest();
         var associate = buildAssociate();
-        var updatedAssociate = buildAssociate();
-        updatedAssociate.setProfession("otherProfessional");
-        updatedAssociate.setSalary(BigDecimal.valueOf(15000));
-        updatedAssociate.setLastPaycheck(LocalDate.now());
+        var associateResponse = buildFindAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.updateRequestToAssociate(any(UpdateAssociateRequest.class))).thenReturn(updatedAssociate);
-        when(associateRepository.save(any(Associate.class))).thenReturn(updatedAssociate);
+        when(associateMapper.associateToFindAssociateResponse(any(Associate.class))).thenReturn(associateResponse);
+        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
+
+        associate.setProfession(request.getProfession());
+        associate.setSalary(request.getSalary());
+
+        when(associateRepository.save(any(Associate.class))).thenReturn(associate);
 
         var response = associateService.update(1L, request);
 
@@ -106,13 +127,12 @@ class AssociateServiceTest {
     void updateShouldReturnUpdateEntityException() {
         var request = buildUpdateAssociateRequest();
         var associate = buildAssociate();
-        var updatedAssociate = buildAssociate();
-        updatedAssociate.setProfession("otherProfessional");
-        updatedAssociate.setSalary(BigDecimal.valueOf(15000));
-        updatedAssociate.setLastPaycheck(LocalDate.now());
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.updateRequestToAssociate(any(UpdateAssociateRequest.class))).thenReturn(updatedAssociate);
+
+        associate.setProfession(request.getProfession());
+        associate.setSalary(request.getSalary());
+
         when(associateRepository.save(any(Associate.class))).thenThrow(new RuntimeException());
 
         assertThrows(UpdateEntityException.class, () -> associateService.update(1L, request));
@@ -134,9 +154,17 @@ class AssociateServiceTest {
 
     @Test
     void delete() {
+        var associate = buildAssociate();
+        var associateResponse = buildFindAssociateResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToFindAssociateResponse(any(Associate.class))).thenReturn(associateResponse);
+        when(contractService.findContracts(anyLong())).thenReturn(List.of());
+        doNothing().when(associateRepository).deleteById(anyLong());
+
+        var response = associateService.delete(1L);
+
+        assertEquals(DELETE_SUCCESS, response.getMessage());
     }
 
-    @Test
-    void findById() {
-    }
 }

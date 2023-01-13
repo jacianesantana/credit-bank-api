@@ -3,11 +3,11 @@ package com.bank.credit.service;
 import com.bank.credit.controller.request.associate.SaveAssociateRequest;
 import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
 import com.bank.credit.controller.response.associate.DeleteAssociateResponse;
+import com.bank.credit.controller.response.associate.FindAssociateResponse;
 import com.bank.credit.controller.response.associate.SaveAssociateResponse;
 import com.bank.credit.controller.response.associate.UpdateAssociateResponse;
 import com.bank.credit.exception.*;
 import com.bank.credit.mapper.AssociateMapper;
-import com.bank.credit.model.Account;
 import com.bank.credit.model.Associate;
 import com.bank.credit.model.enums.AccountType;
 import com.bank.credit.repository.AssociateRepository;
@@ -36,28 +36,46 @@ public class AssociateService {
     private final AccountService accountService;
 
     public SaveAssociateResponse save(SaveAssociateRequest request) {
-        validateBusinessRules(request);
+        var associate = associateRepository.findByCpf(request.getCpf());
 
-        log.info("Tentando salvar o associado com cpf {}", request.getCpf().substring(0, 4).concat("..."));
+        if (associate.isEmpty()) {
+            validateBusinessRules(request);
+
+            log.info("Tentando salvar o associado com cpf {}", request.getCpf().substring(0, 4).concat("..."));
+            try {
+                var entity = associateMapper.saveRequestToAssociate(request);
+                var savedAssociate = associateRepository.save(entity);
+
+                log.info("Associado salvo com sucesso. Id gerado: {}", savedAssociate.getId());
+
+                var checkingAccount = accountService.create(savedAssociate, AccountType.CORRENTE);
+                var savesAccount = accountService.create(savedAssociate, AccountType.POUPANCA);
+                var accounts = List.of(checkingAccount, savesAccount);
+
+                return associateMapper.associateToSaveResponse(savedAssociate, accounts);
+            } catch (Exception e) {
+                log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
+                throw new SaveEntityException("Não foi possível salvar o associado.");
+            }
+        }
+
+        throw new AssociateRulesException("Não foi possível salvar. Associado já existe!");
+    }
+
+    public FindAssociateResponse findById(Long id) {
+        log.info("Buscando associado com o id: {}", id);
         try {
-            var entity = associateMapper.saveRequestToAssociate(request);
-            var savedAssociate = associateRepository.save(entity);
-
-            log.info("Associado salvo com sucesso. Id gerado: {}", savedAssociate.getId());
-
-            var checkingAccount = accountService.create(savedAssociate, AccountType.CORRENTE);
-            var savesAccount = accountService.create(savedAssociate, AccountType.POUPANCA);
-            var accounts = List.of(checkingAccount, savesAccount);
-
-            return associateMapper.associateToSaveResponse(savedAssociate, accounts);
+            var associate = associateRepository.findById(id).orElseThrow();
+            return associateMapper.associateToFindAssociateResponse(associate);
         } catch (Exception e) {
-            log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
-            throw new SaveEntityException("Não foi possível salvar o associado.");
+            log.error("Associdado não encontrado com o id: {}", id);
+            throw new FindEntityException("Associdado não encontrado.");
         }
     }
 
     public UpdateAssociateResponse update(Long id, UpdateAssociateRequest request) {
-        var associate = findById(id);
+        var associateResponse = findById(id);
+        var associate = associateMapper.findAssociateResponseToAssociate(associateResponse);
 
         log.info("Verificando data da ultima atualização para o id {}", id);
         if (associate.getLastPaycheck().isBefore(LocalDate.now().minusMonths(3))) {
@@ -90,7 +108,7 @@ public class AssociateService {
     public DeleteAssociateResponse delete(Long id) {
         var associate = findById(id);
 
-        if (!hasActiveContracts(associate.getId())) {
+        if (hasNoActiveContracts(associate.getId())) {
             log.info("Tentando excluir o associado com id: {}", associate.getId());
             try {
                 associateRepository.deleteById(id);
@@ -101,8 +119,8 @@ public class AssociateService {
                         .message(DELETE_SUCCESS)
                         .build();
             } catch (Exception e) {
-                log.error("Não foi possivel atualizar o associdado. Motivo: {}", e.getMessage());
-                throw new DeleteEntityException("Não foi possível atualizar o associado.");
+                log.error("Não foi possivel deletar o associdado. Motivo: {}", e.getMessage());
+                throw new DeleteEntityException("Não foi possível deletar o associado.");
             }
         }
 
@@ -113,17 +131,7 @@ public class AssociateService {
                 .build();
     }
 
-    public Associate findById(Long id) {
-        log.info("Buscando associado com o id: {}", id);
-        try {
-            return associateRepository.findById(id).orElseThrow();
-        } catch (Exception e) {
-            log.error("Associdado não encontrado com o id: {}", id);
-            throw new FindEntityException("Associdado não encontrado.");
-        }
-    }
-
-    private Boolean hasActiveContracts(Long id) {
+    private Boolean hasNoActiveContracts(Long id) {
         return contractService.findContracts(id).isEmpty();
     }
 

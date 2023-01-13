@@ -39,16 +39,17 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public AccountDepositResponse deposit(AccountDepositRequest request, BigDecimal value) {
+
+        return new AccountDepositResponse();
+    }
+
     public AccountWithdrawResponse withdraw(AccountWithdrawRequest request) {
         return new AccountWithdrawResponse();
     }
 
     public AccountTransferResponse transfer(AccountTransferRequest request) {
         return new AccountTransferResponse();
-    }
-
-    public AccountDepositResponse deposit(AccountDepositRequest request) {
-        return new AccountDepositResponse();
     }
 
     public static Integer generateAccountNumber() {
@@ -61,4 +62,5 @@ public class AccountService {
 
         return Integer.parseInt(builder.toString());
     }
+
 }

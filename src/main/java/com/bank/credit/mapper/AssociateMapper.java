@@ -1,8 +1,8 @@
 package com.bank.credit.mapper;
 
 import com.bank.credit.controller.request.associate.SaveAssociateRequest;
-import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
 import com.bank.credit.controller.response.account.AccountResponse;
+import com.bank.credit.controller.response.associate.FindAssociateResponse;
 import com.bank.credit.controller.response.associate.SaveAssociateResponse;
 import com.bank.credit.model.Account;
 import com.bank.credit.model.Associate;
@@ -40,15 +40,41 @@ public class AssociateMapper {
                 .build();
     }
 
-    public Associate updateRequestToAssociate(UpdateAssociateRequest associateRequest) {
-        return Associate.builder().build();
+    public FindAssociateResponse associateToFindAssociateResponse(Associate associate) {
+        var accounts = associate.getAccountSet().stream()
+                .map(this::toAccountResponse)
+                .collect(Collectors.toList());
+
+        return FindAssociateResponse.builder()
+                .id(associate.getId())
+                .name(associate.getName())
+                .cpf(associate.getCpf())
+                .birthDate(associate.getBirthDate())
+                .profession(associate.getProfession())
+                .salary(associate.getSalary())
+                .lastPaycheck(associate.getLastPaycheck())
+                .accounts(accounts)
+                .build();
     }
 
-    private AccountResponse toAccountResponse(Account account) {
+    public Associate findAssociateResponseToAssociate(FindAssociateResponse response) {
+        return Associate.builder()
+                .id(response.getId())
+                .name(response.getName())
+                .cpf(response.getCpf())
+                .birthDate(response.getBirthDate())
+                .profession(response.getProfession())
+                .salary(response.getSalary())
+                .lastPaycheck(response.getLastPaycheck())
+                .build();
+    }
+
+    public AccountResponse toAccountResponse(Account account) {
         return AccountResponse.builder()
                 .type(account.getType())
                 .agency(account.getAgency())
                 .number(account.getNumber())
                 .build();
     }
+
 }

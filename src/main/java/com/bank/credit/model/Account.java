@@ -28,8 +28,6 @@ public class Account {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idassociate", referencedColumnName = "id")
     private Associate associate;
-//    @Column(name = "idassociate")
-//    private Long idAssociate;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)

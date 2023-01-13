@@ -46,6 +46,5 @@ public class Associate {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
     private Set<Account> accountSet;
-    //private Set<Account> accountSet = new HashSet<>();
 
 }
