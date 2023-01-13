@@ -31,11 +31,11 @@ public class AssociateController {
         return ResponseEntity.status(HttpStatus.CREATED).body(associateService.save(request));
     }
 
-//    @GetMapping("/find/{id}")
-//    @FindAssociateStandard
-//    public ResponseEntity<FindAssociateResponse> save(@PathVariable Long id) {
-//        return ResponseEntity.ok(associateService.findById(id));
-//    }
+    @GetMapping("/find/{id}")
+    @FindAssociateStandard
+    public ResponseEntity<FindAssociateResponse> save(@PathVariable Long id) {
+        return ResponseEntity.ok(associateService.findById(id));
+    }
 
     @PatchMapping("/updatePaycheck/{id}")
     @UpdateAssociateStandard

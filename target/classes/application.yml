@@ -8,6 +8,8 @@ springdoc:
 server:
   servlet:
     context-path: /api/v1
+  error:
+    include-message: always
 
 spring:
   application:
@@ -21,5 +23,5 @@ spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/Bank
     username: postgres
-    password: ${DB_PASS}
+    password: jacI2313
     driver-class-name: org.postgresql.Driver
