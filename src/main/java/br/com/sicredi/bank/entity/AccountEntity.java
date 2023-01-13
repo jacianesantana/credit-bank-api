@@ -7,6 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +28,7 @@ public class AccountEntity {
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idassociate", referencedColumnName = "id")
-    private AssociateEntity associateEntity;
+    private AssociateEntity associate;
 
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
@@ -41,5 +42,9 @@ public class AccountEntity {
 
     @Column(name = "balance")
     private BigDecimal balance;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<TransactionEntity> transactionSet;
 
 }

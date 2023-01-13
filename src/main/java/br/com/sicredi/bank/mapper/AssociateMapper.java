@@ -1,11 +1,11 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.response.account.AccountResponse;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -13,7 +13,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class AssociateMapper {
+
+    private final AccountMapper accountMapper;
 
     public AssociateEntity saveRequestToAssociate(SaveAssociateRequest request) {
         return AssociateEntity.builder()
@@ -29,7 +32,7 @@ public class AssociateMapper {
 
     public SaveAssociateResponse associateToSaveResponse(AssociateEntity associateEntity, List<AccountEntity> accountEntities) {
         var accountResponse = accountEntities.stream()
-                .map(this::toAccountResponse)
+                .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
         return SaveAssociateResponse.builder()
@@ -41,8 +44,8 @@ public class AssociateMapper {
     }
 
     public FindAssociateResponse associateToFindAssociateResponse(AssociateEntity associateEntity) {
-        var accounts = associateEntity.getAccountEntitySet().stream()
-                .map(this::toAccountResponse)
+        var accounts = associateEntity.getAccountSet().stream()
+                .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
         return FindAssociateResponse.builder()
@@ -68,13 +71,4 @@ public class AssociateMapper {
                 .lastPaycheck(response.getLastPaycheck())
                 .build();
     }
-
-    public AccountResponse toAccountResponse(AccountEntity accountEntity) {
-        return AccountResponse.builder()
-                .type(accountEntity.getType())
-                .agency(accountEntity.getAgency())
-                .number(accountEntity.getNumber())
-                .build();
-    }
-
 }

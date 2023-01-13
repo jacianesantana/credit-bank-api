@@ -1,9 +1,12 @@
 package br.com.sicredi.bank.entity;
 
 import br.com.sicredi.bank.entity.enums.TransactionType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,4 +28,13 @@ public class TransactionEntity {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
+    @Column(name = "value")
+    private BigDecimal value;
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idaccount", referencedColumnName = "id")
+    private AccountEntity account;
+
+    private LocalDateTime createdAt;
 }
