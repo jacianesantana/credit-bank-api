@@ -17,10 +17,12 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(summary = "Atualizar um associado", description = "Realiza a atualização de dados do associado.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Associado atualizado com sucesso!",
+        @ApiResponse(responseCode = "204", description = "Associado atualizado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = UpdateAssociateResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
+                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
+        @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))

@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateAssociateResponse {
+
     private Boolean updated;
     private String message;
+
 }

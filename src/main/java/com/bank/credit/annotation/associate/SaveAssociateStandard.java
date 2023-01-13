@@ -22,8 +22,6 @@ import java.lang.annotation.Target;
                 schema = @Schema(implementation = SaveAssociateResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "404", description = "Associado já existente.",
-                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })

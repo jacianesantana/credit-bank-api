@@ -20,7 +20,7 @@ import java.lang.annotation.Target;
         @ApiResponse(responseCode = "204", description = "Associado deletado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = DeleteAssociateResponse.class))),
-        @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
+        @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
