@@ -8,7 +8,6 @@ import com.bank.credit.controller.response.associate.SaveAssociateResponse;
 import com.bank.credit.controller.response.associate.UpdateAssociateResponse;
 import com.bank.credit.exception.*;
 import com.bank.credit.mapper.AssociateMapper;
-import com.bank.credit.model.Associate;
 import com.bank.credit.model.enums.AccountType;
 import com.bank.credit.repository.AssociateRepository;
 import lombok.RequiredArgsConstructor;

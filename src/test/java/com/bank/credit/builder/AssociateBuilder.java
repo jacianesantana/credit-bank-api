@@ -4,20 +4,13 @@ import com.bank.credit.controller.request.associate.SaveAssociateRequest;
 import com.bank.credit.controller.request.associate.UpdateAssociateRequest;
 import com.bank.credit.controller.response.associate.FindAssociateResponse;
 import com.bank.credit.controller.response.associate.SaveAssociateResponse;
-import com.bank.credit.controller.response.associate.UpdateAssociateResponse;
 import com.bank.credit.model.Associate;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AssociateBuilder {
-
-    private static final String UPDATE_SUCCESS = "Associado atualizado com sucesso!";
-    private static final String UPDATE_ERROR = "Associado com menos de 3 meses desde da última atualização!";
-    private static final String DELETE_SUCCESS = "Associado excluido com sucesso!";
-    private static final String DELETE_ERROR = "Associado contém contratos ativos!";
 
     public static SaveAssociateRequest buildSaveAssociateRequest() {
         return SaveAssociateRequest.builder()
@@ -56,13 +49,6 @@ public class AssociateBuilder {
                 .build();
     }
 
-    public static UpdateAssociateResponse buildUpdateAssociateResponse() {
-        return UpdateAssociateResponse.builder()
-                .updated(true)
-                .message(UPDATE_SUCCESS)
-                .build();
-    }
-
     public static FindAssociateResponse buildFindAssociateResponse() {
         return FindAssociateResponse.builder()
                 .id(1L)
@@ -75,4 +61,5 @@ public class AssociateBuilder {
                 .accounts(List.of())
                 .build();
     }
+
 }
