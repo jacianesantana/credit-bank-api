@@ -1,7 +1,5 @@
 package br.com.sicredi.bank.service;
 
-import br.com.sicredi.bank.builder.AccountBuilder;
-import br.com.sicredi.bank.builder.TransactionBuilder;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.entity.enums.TransactionType;
@@ -16,9 +14,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
+import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
+import static br.com.sicredi.bank.builder.AccountBuilder.buildAccountResponse;
+import static br.com.sicredi.bank.builder.TransactionBuilder.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -42,12 +44,12 @@ class TransactionServiceTest {
 
     @Test
     void depositSuccess() {
-        var account = AccountBuilder.buildAccount();
-        var transactionRequest = TransactionBuilder.buildTransactionRequest();
-        var transaction = TransactionBuilder.buildTransactionDeposit();
-        var accountResponse = AccountBuilder.buildAccountResponse();
+        var account = buildAccount();
+        var transactionRequest = buildTransactionRequest();
+        var transaction = buildTransactionDeposit();
+        var accountResponse = buildAccountResponse();
 
-        when(accountService.findById(anyLong())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
@@ -61,12 +63,12 @@ class TransactionServiceTest {
 
     @Test
     void withdrawSuccess() {
-        var account = AccountBuilder.buildAccount();
-        var transactionRequest = TransactionBuilder.buildTransactionRequest();
-        var transaction = TransactionBuilder.buildTransactionWithdraw();
-        var accountResponse = AccountBuilder.buildAccountResponse();
+        var account = buildAccount();
+        var transactionRequest = buildTransactionRequest();
+        var transaction = buildTransactionWithdraw();
+        var accountResponse = buildAccountResponse();
 
-        when(accountService.findById(anyLong())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
@@ -75,9 +77,6 @@ class TransactionServiceTest {
 
         var response = transactionService.deposit(transactionRequest);
 
-//        assertEquals(transactionRequest.getDebitAccount().getId(), response.getAccount()());
-//        assertEquals(transactionRequest.getAccount().getType(), response.getAccount().getType());
-//        assertNotEquals(transactionRequest.getAccount().getBalance(), response.getNewBalance());
+        assertNotEquals(transactionRequest.getDebitAccount().getBalance(), response.getNewBalance());
     }
-
 }
