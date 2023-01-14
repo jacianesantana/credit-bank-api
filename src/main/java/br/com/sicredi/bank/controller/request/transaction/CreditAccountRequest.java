@@ -1,6 +1,5 @@
-package br.com.sicredi.bank.controller.response.account;
+package br.com.sicredi.bank.controller.request.transaction;
 
-import br.com.sicredi.bank.entity.enums.AccountType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,10 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AccountResponse {
+public class CreditAccountRequest {
 
-    private AccountType type;
     private Integer agency;
     private Integer number;
-
 }

@@ -29,4 +29,8 @@ public class TransactionController {
         return ResponseEntity.ok().body(transactionService.deposit(request));
     }
 
+    @PatchMapping("/transfer")
+    public ResponseEntity<TransactionResponse> transfer(@Valid @RequestBody TransactionRequest request) {
+        return ResponseEntity.ok().body(transactionService.transfer(request));
+    }
 }

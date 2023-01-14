@@ -20,7 +20,6 @@ public class AssociateMapper {
 
     public AssociateEntity saveRequestToAssociate(SaveAssociateRequest request) {
         return AssociateEntity.builder()
-                .id(null)
                 .name(request.getName())
                 .cpf(request.getCpf())
                 .birthDate(request.getBirthDate())
@@ -30,32 +29,32 @@ public class AssociateMapper {
                 .build();
     }
 
-    public SaveAssociateResponse associateToSaveResponse(AssociateEntity associateEntity, List<AccountEntity> accountEntities) {
-        var accountResponse = accountEntities.stream()
+    public SaveAssociateResponse associateToSaveResponse(AssociateEntity associate, List<AccountEntity> accounts) {
+        var accountResponse = accounts.stream()
                 .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
         return SaveAssociateResponse.builder()
-                .id(associateEntity.getId())
-                .name(associateEntity.getName())
-                .cpf(associateEntity.getCpf())
+                .id(associate.getId())
+                .name(associate.getName())
+                .cpf(associate.getCpf())
                 .accounts(accountResponse)
                 .build();
     }
 
-    public FindAssociateResponse associateToFindAssociateResponse(AssociateEntity associateEntity) {
-        var accounts = associateEntity.getAccountSet().stream()
+    public FindAssociateResponse associateToFindAssociateResponse(AssociateEntity associate) {
+        var accounts = associate.getAccountSet().stream()
                 .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
         return FindAssociateResponse.builder()
-                .id(associateEntity.getId())
-                .name(associateEntity.getName())
-                .cpf(associateEntity.getCpf())
-                .birthDate(associateEntity.getBirthDate())
-                .profession(associateEntity.getProfession())
-                .salary(associateEntity.getSalary())
-                .lastPaycheck(associateEntity.getLastPaycheck())
+                .id(associate.getId())
+                .name(associate.getName())
+                .cpf(associate.getCpf())
+                .birthDate(associate.getBirthDate())
+                .profession(associate.getProfession())
+                .salary(associate.getSalary())
+                .lastPaycheck(associate.getLastPaycheck())
                 .accounts(accounts)
                 .build();
     }

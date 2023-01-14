@@ -37,6 +37,10 @@ public class AccountService {
         return accountRepository.findById(id).orElseThrow();
     }
 
+    public AccountEntity findByAgencyAndNumber(Integer agency, Integer number) {
+        return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
+    }
+
     public void save(AccountEntity account) {
         accountRepository.save(account);
     }
