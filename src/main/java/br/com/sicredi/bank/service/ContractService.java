@@ -23,4 +23,5 @@ public class ContractService {
     public ContractEntity sign(ContractEntity contractEntity) {
         return contractRepository.save(contractEntity);
     }
+
 }

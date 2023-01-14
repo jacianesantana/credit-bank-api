@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/credit")
 @RequiredArgsConstructor
+@RequestMapping("/credit")
 public class CreditController {
 
     private final CreditService creditService;
@@ -28,4 +28,5 @@ public class CreditController {
     public ResponseEntity<CreditHireResponse> hire(@RequestBody CreditHireRequest request) {
         return ResponseEntity.ok().body(creditService.hire(request));
     }
+
 }

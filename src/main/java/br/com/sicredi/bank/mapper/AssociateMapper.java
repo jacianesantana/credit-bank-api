@@ -70,4 +70,5 @@ public class AssociateMapper {
                 .lastPaycheck(response.getLastPaycheck())
                 .build();
     }
+
 }

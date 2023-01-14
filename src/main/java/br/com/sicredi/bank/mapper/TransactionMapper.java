@@ -28,4 +28,5 @@ public class TransactionMapper {
 
         return transaction.build();
     }
+
 }

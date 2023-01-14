@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@ToString
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -42,4 +41,5 @@ public class TransactionEntity {
     private AccountEntity debitAccount;
 
     private LocalDateTime createdAt;
+
 }

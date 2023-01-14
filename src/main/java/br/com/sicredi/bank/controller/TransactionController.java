@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/transaction")
 @RequiredArgsConstructor
+@RequestMapping("/transaction")
 public class TransactionController {
 
     private final TransactionService transactionService;
@@ -33,4 +33,5 @@ public class TransactionController {
     public ResponseEntity<TransactionResponse> transfer(@Valid @RequestBody TransactionRequest request) {
         return ResponseEntity.ok().body(transactionService.transfer(request));
     }
+
 }

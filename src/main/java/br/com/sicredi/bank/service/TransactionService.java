@@ -95,4 +95,5 @@ public class TransactionService {
             throw new SaveEntityException("Falha interna ao finalizar a transação.");
         }
     }
+
 }

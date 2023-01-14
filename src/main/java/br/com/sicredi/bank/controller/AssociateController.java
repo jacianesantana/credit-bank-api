@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/associate")
 @RequiredArgsConstructor
+@RequestMapping("/associate")
 public class AssociateController {
 
     private final AssociateService associateService;

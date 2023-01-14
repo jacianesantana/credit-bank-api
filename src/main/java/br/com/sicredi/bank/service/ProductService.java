@@ -4,9 +4,9 @@ import br.com.sicredi.bank.entity.ProductEntity;
 import br.com.sicredi.bank.entity.enums.ProductType;
 import br.com.sicredi.bank.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 @RequiredArgsConstructor
 public class ProductService {
 
@@ -15,4 +15,5 @@ public class ProductService {
     public ProductEntity findByType(ProductType productType) {
         return productRepository.findByType(productType).orElseThrow();
     }
+
 }
