@@ -33,15 +33,15 @@ public class AssociateService {
                 log.info("Tentando salvar o associado com cpf {}", saveAssociateRequest.getCpf().substring(0, 4).concat("..."));
                 try {
                     var associateEntity = associateMapper.saveRequestToAssociate(saveAssociateRequest);
-                    var savedAssociate = associateRepository.save(associateEntity);
+                    associateRepository.save(associateEntity);
 
-                    log.info("Associado salvo com sucesso. Id gerado: {}", savedAssociate.getId());
+                    log.info("Associado salvo com sucesso. Id gerado: {}", associateEntity.getId());
 
-                    var checkingAccount = accountService.create(savedAssociate, AccountType.CORRENTE);
-                    var savesAccount = accountService.create(savedAssociate, AccountType.POUPANCA);
+                    var checkingAccount = accountService.create(associateEntity, AccountType.CORRENTE);
+                    var savesAccount = accountService.create(associateEntity, AccountType.POUPANCA);
                     var accounts = List.of(checkingAccount, savesAccount);
 
-                    return associateMapper.associateWithAccountsToResponse(savedAssociate, accounts);
+                    return associateMapper.associateWithAccountsToResponse(associateEntity, accounts);
                 } catch (Exception e) {
                     log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
                     throw new SaveEntityException("Não foi possível salvar o associado.");

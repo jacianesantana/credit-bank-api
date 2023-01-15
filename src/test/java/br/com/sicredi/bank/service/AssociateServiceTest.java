@@ -8,6 +8,7 @@ import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.enums.AccountType;
+import br.com.sicredi.bank.repository.AccountRepository;
 import br.com.sicredi.bank.repository.AssociateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,6 +42,9 @@ class AssociateServiceTest {
     private AccountService accountService;
 
     @Mock
+    private AccountRepository accountRepository;
+
+    @Mock
     private ContractService contractService;
 
     @Test
@@ -54,6 +58,9 @@ class AssociateServiceTest {
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
         when(accountService.create(any(AssociateEntity.class), any(AccountType.class))).thenReturn(account);
+
+        //when(accountRepository.save(any(AccountEntity.class))).thenReturn(account);
+
         when(associateMapper.associateWithAccountsToResponse(any(AssociateEntity.class), anyList())).thenReturn(saveResponse);
 
         var response = associateService.save(request);
@@ -68,6 +75,7 @@ class AssociateServiceTest {
         var request = AssociateBuilder.buildSaveAssociateRequest();
         var associate = buildAssociate();
 
+        when(associateRepository.findByCpf(anyString())).thenReturn(Optional.of(associate));
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
         when(associateRepository.save(any(AssociateEntity.class))).thenThrow(new RuntimeException());
 
@@ -89,7 +97,7 @@ class AssociateServiceTest {
     void saveShouldReturnBusinessRulesExceptionWithExistingCpf() {
         var request = AssociateBuilder.buildSaveAssociateRequest();
 
-        when(associateRepository.findByCpf(anyString())).thenThrow(new RuntimeException());
+        when(associateRepository.findByCpf(anyString())).thenReturn(Optional.empty());
 
         assertThrows(BusinessRulesException.class, () -> associateService.save(request));
     }
@@ -179,6 +187,7 @@ class AssociateServiceTest {
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
         when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
+        when(contractService.findContracts(any(AssociateEntity.class))).thenReturn(List.of());
         doNothing().when(associateRepository).deleteById(anyLong());
 
         assertDoesNotThrow(() -> associateService.delete(associate.getId()));
@@ -193,6 +202,7 @@ class AssociateServiceTest {
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
         when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
+        when(contractService.findContracts(any(AssociateEntity.class))).thenReturn(List.of());
         doNothing().when(associateRepository).deleteById(anyLong());
 
         assertThrows(DeleteEntityException.class, () -> associateService.delete(associate.getId()));
@@ -207,6 +217,7 @@ class AssociateServiceTest {
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
         when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
+        when(contractService.findContracts(any(AssociateEntity.class))).thenReturn(List.of());
 
         assertThrows(BusinessRulesException.class, () -> associateService.delete(associate.getId()));
     }
