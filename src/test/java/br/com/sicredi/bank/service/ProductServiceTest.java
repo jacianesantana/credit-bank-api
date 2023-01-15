@@ -13,8 +13,8 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static br.com.sicredi.bank.builder.ProductBuilder.buildProductEntity;
-import static br.com.sicredi.bank.builder.ProductBuilder.buildProductRequest;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -40,58 +40,50 @@ class ProductServiceTest {
 
     @Test
     void consignedSuccess() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.CONSIGNADO);
+        var salary = BigDecimal.valueOf(3000);
 
-        var response = productService.consigned(request);
+        var response = productService.consigned(salary);
 
         assertEquals(ProductType.CONSIGNADO.getTaxes(), response.getTaxes());
     }
 
     @Test
     void consignedShouldReturnBusinessRulesException() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.CONSIGNADO);
-        request.setSalary(BigDecimal.valueOf(2999));
+        var salary = BigDecimal.valueOf(2999);
 
-        assertThrows(BusinessRulesException.class, () -> productService.consigned(request));
+        assertThrows(BusinessRulesException.class, () -> productService.consigned(salary));
     }
 
     @Test
     void financingSuccess() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.FINANCIAMENTO);
+        var salary = BigDecimal.valueOf(5000);
 
-        var response = productService.financing(request);
+        var response = productService.financing(salary);
 
         assertEquals(ProductType.FINANCIAMENTO.getTaxes(), response.getTaxes());
     }
 
     @Test
     void financingShouldReturnBusinessRulesException() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.FINANCIAMENTO);
-        request.setSalary(BigDecimal.valueOf(4999));
+        var salary = BigDecimal.valueOf(4999);
 
-        assertThrows(BusinessRulesException.class, () -> productService.financing(request));
+        assertThrows(BusinessRulesException.class, () -> productService.financing(salary));
     }
 
     @Test
     void personalSuccess() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.PESSOAL);
+        var salary = BigDecimal.valueOf(1500);
 
-        var response = productService.personal(request);
+        var response = productService.personal(salary);
 
         assertEquals(ProductType.PESSOAL.getTaxes(), response.getTaxes());
     }
 
     @Test
     void personalShouldReturnBusinessRulesException() {
-        var request = buildProductRequest();
-        request.setProductType(ProductType.PESSOAL);
-        request.setSalary(BigDecimal.valueOf(1499));
+        var salary = BigDecimal.valueOf(1499);
 
-        assertThrows(BusinessRulesException.class, () -> productService.personal(request));
+        assertThrows(BusinessRulesException.class, () -> productService.personal(salary));
     }
+
 }

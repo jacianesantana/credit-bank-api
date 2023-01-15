@@ -1,6 +1,5 @@
 package br.com.sicredi.bank.service;
 
-import br.com.sicredi.bank.controller.request.product.ProductRequest;
 import br.com.sicredi.bank.controller.response.product.ProductResponse;
 import br.com.sicredi.bank.entity.ProductEntity;
 import br.com.sicredi.bank.entity.enums.ProductType;
@@ -23,10 +22,10 @@ public class ProductService {
         return productRepository.findByType(productType).orElseThrow();
     }
 
-    public ProductResponse consigned(ProductRequest request) {
+    public ProductResponse consigned(BigDecimal salary) {
         var plotsAvailable = List.of(6, 12, 18, 24, 36);
 
-        if (request.getSalary().compareTo(BigDecimal.valueOf(3000)) >= 0) {
+        if (salary.compareTo(BigDecimal.valueOf(3000)) >= 0) {
             return ProductResponse.builder()
                     .type(ProductType.CONSIGNADO)
                     .taxes(ProductType.CONSIGNADO.getTaxes())
@@ -37,13 +36,13 @@ public class ProductService {
                     .build();
         }
 
-        throw new BusinessRulesException("Salário abaixo do permitido para contratar este produto");
+        throw new BusinessRulesException("Salário abaixo do permitido para contratar este produto.");
     }
 
-    public ProductResponse financing(ProductRequest request) {
+    public ProductResponse financing(BigDecimal salary) {
         var plotsAvailable = List.of(180, 240, 360);
 
-        if (request.getSalary().compareTo(BigDecimal.valueOf(5000)) >= 0) {
+        if (salary.compareTo(BigDecimal.valueOf(5000)) >= 0) {
             return ProductResponse.builder()
                     .type(ProductType.FINANCIAMENTO)
                     .taxes(ProductType.FINANCIAMENTO.getTaxes())
@@ -57,10 +56,10 @@ public class ProductService {
         throw new BusinessRulesException("Salário abaixo do permitido para contratar este produto");
     }
 
-    public ProductResponse personal(ProductRequest request) {
+    public ProductResponse personal(BigDecimal salary) {
         var plotsAvailable = List.of(6, 12, 18, 24);
 
-        if (request.getSalary().compareTo(BigDecimal.valueOf(1500)) >= 0) {
+        if (salary.compareTo(BigDecimal.valueOf(1500)) >= 0) {
             return ProductResponse.builder()
                     .type(ProductType.PESSOAL)
                     .taxes(ProductType.PESSOAL.getTaxes())
