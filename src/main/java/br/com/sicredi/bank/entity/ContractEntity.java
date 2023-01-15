@@ -1,5 +1,6 @@
 package br.com.sicredi.bank.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,28 +22,35 @@ public class ContractEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "idAssociate")
-    private Long idAssociate;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idassociate", referencedColumnName = "id")
+    private AssociateEntity associate;
 
-    @Column(name = "idProduct")
-    private Long idProduct;
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idproduct", referencedColumnName = "id")
+    private ProductEntity product;
 
     @Column(name = "value")
     private BigDecimal value;
 
-    @Column(name = "paidOff")
-    private Boolean paidOff;
+    @Column(name = "paidoff")
+    private Boolean paidOff;    //quitado
 
-    @Column(name = "hireDate")
+    @Column(name = "hiredate")
     private LocalDate hireDate;
 
-    @Column(name = "expirationDate")
+    @Column(name = "expirationdate")
     private LocalDate expirationDate;
 
-    @Column(name = "installmentsPaid")
+    @Column(name = "installmentspaid")
     private Integer installmentsPaid;
 
-    @Column(name = "installmentsRemaining")
+    @Column(name = "installmentsremaining")
     private Integer installmentsRemaining;
+
+    @Column(name = "firstpaymentdate")
+    private LocalDate firstPaymentDate;
 
 }

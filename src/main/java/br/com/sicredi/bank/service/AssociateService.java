@@ -58,7 +58,7 @@ public class AssociateService {
             }
         }
 
-        throw new AssociateRulesException("Não foi possível salvar. Associado já existe!");
+        throw new BusinessRulesException("Não foi possível salvar. Associado já existe!");
     }
 
     public FindAssociateResponse findById(Long id) {
@@ -136,7 +136,7 @@ public class AssociateService {
 
     private void validateBusinessRules(SaveAssociateRequest request) {
         if (!isLegalAge(request.getBirthDate()) || !salaryAboveRequirement(request.getSalary())) {
-            throw new AssociateRulesException("Idade ou Salário não atendem o mínimo necessário!");
+            throw new BusinessRulesException("Idade ou Salário não atendem o mínimo necessário!");
         }
     }
 

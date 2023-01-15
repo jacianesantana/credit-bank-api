@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.controller.request.credit;
+package br.com.sicredi.bank.controller.request.contract;
 
 import br.com.sicredi.bank.entity.enums.ProductType;
 import lombok.AllArgsConstructor;
@@ -7,16 +7,17 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditOptionsRequest {
+public class ContractRequest {
 
+    private Long idAssociate;
+    private Long idAccount;
     private ProductType productType;
-    private LocalDate birthDate;
-    private BigDecimal salary;
+    private Integer numberOfInstallments;
+    private BigDecimal value;
 
 }

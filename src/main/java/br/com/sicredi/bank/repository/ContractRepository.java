@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface ContractRepository extends JpaRepository<ContractEntity, Long> {
+
     List<ContractEntity> findByIdAssociate(Long id);
+
 }

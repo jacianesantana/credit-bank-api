@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.controller.response.credit;
+package br.com.sicredi.bank.controller.response.contract;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditHireResponse {
+public class ContractResponse {
 
     private Long idContract;
 

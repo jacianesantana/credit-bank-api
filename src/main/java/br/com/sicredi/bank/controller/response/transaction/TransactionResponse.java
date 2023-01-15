@@ -16,4 +16,5 @@ public class TransactionResponse {
 
     private AccountResponse account;
     private BigDecimal newBalance;
+
 }

@@ -1,9 +1,11 @@
 package br.com.sicredi.bank.entity;
 
 import br.com.sicredi.bank.entity.enums.ProductType;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,5 +25,12 @@ public class ProductEntity {
     @Column(name = "type")
     @Enumerated(EnumType.STRING)
     private ProductType type;
+
+    @Column(name = "taxes")
+    private Integer taxes;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private Set<ContractEntity> contractSet;
 
 }

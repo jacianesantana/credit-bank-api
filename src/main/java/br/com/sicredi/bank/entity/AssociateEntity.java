@@ -45,4 +45,8 @@ public class AssociateEntity {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
     private Set<AccountEntity> accountSet;
 
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+    private Set<ContractEntity> contractSet;
+
 }

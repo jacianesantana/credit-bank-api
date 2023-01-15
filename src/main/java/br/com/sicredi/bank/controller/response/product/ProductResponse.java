@@ -1,6 +1,7 @@
-package br.com.sicredi.bank.controller.response.credit;
+package br.com.sicredi.bank.controller.response.product;
 
 import br.com.sicredi.bank.entity.enums.ProductType;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,13 +15,24 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreditOptionsResponse {
+public class ProductResponse {
 
-    private ProductType product;
+    @Schema(example = "FINANCIAMENTO")
+    private ProductType type;
+
+    @Schema(example = "7")
     private Integer taxes;
+
+    @Schema(example = "2022-02-01")
     private LocalDate firstPaymentDate;
+
+    @Schema(example = "[12, 24, 36]")
     private List<Integer> plotsAvailable;
+
+    @Schema(example = "1000.00")
     private BigDecimal minValue;
+
+    @Schema(example = "100000.00")
     private BigDecimal maxValue;
 
 }
