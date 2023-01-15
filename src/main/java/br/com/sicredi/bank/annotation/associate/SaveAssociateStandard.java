@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.annotation.associate;
 
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,10 +19,8 @@ import java.lang.annotation.Target;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Associado cadastrado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = SaveAssociateResponse.class))),
+                schema = @Schema(implementation = AssociateResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
-                content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "403", description = "Não foi possível salvar. Não atende a regra de negócio.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))

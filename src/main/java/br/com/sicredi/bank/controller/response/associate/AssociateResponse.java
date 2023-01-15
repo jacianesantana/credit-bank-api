@@ -15,7 +15,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindAssociateResponse {
+public class AssociateResponse {
 
     @Schema(example = "1")
     private Long id;

@@ -1,8 +1,7 @@
 package br.com.sicredi.bank.mapper;
 
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import lombok.RequiredArgsConstructor;
@@ -29,25 +28,28 @@ public class AssociateMapper {
                 .build();
     }
 
-    public SaveAssociateResponse associateToSaveResponse(AssociateEntity associate, List<AccountEntity> accounts) {
+    public AssociateResponse associateWithAccountsToResponse(AssociateEntity associate, List<AccountEntity> accounts) {
         var accountResponse = accounts.stream()
                 .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
-        return SaveAssociateResponse.builder()
+        return AssociateResponse.builder()
                 .id(associate.getId())
                 .name(associate.getName())
                 .cpf(associate.getCpf())
+                .birthDate(associate.getBirthDate())
+                .profession(associate.getProfession())
+                .salary(associate.getSalary())
                 .accounts(accountResponse)
                 .build();
     }
 
-    public FindAssociateResponse associateToFindAssociateResponse(AssociateEntity associate) {
+    public AssociateResponse associateToAssociateResponse(AssociateEntity associate) {
         var accounts = associate.getAccountSet().stream()
                 .map(accountMapper::accountToAccountResponse)
                 .collect(Collectors.toList());
 
-        return FindAssociateResponse.builder()
+        return AssociateResponse.builder()
                 .id(associate.getId())
                 .name(associate.getName())
                 .cpf(associate.getCpf())
@@ -59,7 +61,7 @@ public class AssociateMapper {
                 .build();
     }
 
-    public AssociateEntity findAssociateResponseToAssociate(FindAssociateResponse response) {
+    public AssociateEntity associateResponseToAssociate(AssociateResponse response) {
         return AssociateEntity.builder()
                 .id(response.getId())
                 .name(response.getName())

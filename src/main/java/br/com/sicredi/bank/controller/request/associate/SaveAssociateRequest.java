@@ -38,7 +38,7 @@ public class SaveAssociateRequest {
     private String profession;
 
     @NotNull(message = "Salário não pode ser nulo.")
-    @Min(value = 1500)
+    @Min(value = 1)
     @Schema(example = "4000.00")
     private BigDecimal salary;
 

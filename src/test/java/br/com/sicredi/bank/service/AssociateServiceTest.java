@@ -1,12 +1,10 @@
 package br.com.sicredi.bank.service;
 
 import br.com.sicredi.bank.builder.AssociateBuilder;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.exception.FindEntityException;
-import br.com.sicredi.bank.exception.UpdateEntityException;
+import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
+import br.com.sicredi.bank.exception.*;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.enums.AccountType;
@@ -45,22 +43,18 @@ class AssociateServiceTest {
     @Mock
     private ContractService contractService;
 
-    private static final String UPDATE_SUCCESS = "Associado atualizado com sucesso!";
-    private static final String UPDATE_ERROR = "Associado com menos de 3 meses desde da última atualização!";
-    private static final String DELETE_SUCCESS = "Associado excluido com sucesso!";
-    private static final String DELETE_ERROR = "Associado contém contratos ativos!";
-
     @Test
     void saveSuccess() {
         var request = AssociateBuilder.buildSaveAssociateRequest();
         var associate = buildAssociate();
-        var saveResponse = AssociateBuilder.buildSaveAssociateResponse();
+        var saveResponse = AssociateBuilder.buildAssociateResponse();
         var account = new AccountEntity();
 
+        when(associateRepository.findByCpf(anyString())).thenReturn(Optional.of(associate));
         when(associateMapper.saveRequestToAssociate(any(SaveAssociateRequest.class))).thenReturn(associate);
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
         when(accountService.create(any(AssociateEntity.class), any(AccountType.class))).thenReturn(account);
-        when(associateMapper.associateToSaveResponse(any(AssociateEntity.class), anyList())).thenReturn(saveResponse);
+        when(associateMapper.associateWithAccountsToResponse(any(AssociateEntity.class), anyList())).thenReturn(saveResponse);
 
         var response = associateService.save(request);
 
@@ -81,12 +75,32 @@ class AssociateServiceTest {
     }
 
     @Test
-    void findById() {
+    void saveShouldReturnBusinessRulesExceptionWithMinimumAge() {
+        var request = AssociateBuilder.buildSaveAssociateRequest();
         var associate = buildAssociate();
-        var associateResponse = buildFindAssociateResponse();
+        associate.setBirthDate(LocalDate.now().minusYears(17));
+
+        when(associateRepository.findByCpf(anyString())).thenReturn(Optional.of(associate));
+
+        assertThrows(BusinessRulesException.class, () -> associateService.save(request));
+    }
+
+    @Test
+    void saveShouldReturnBusinessRulesExceptionWithExistingCpf() {
+        var request = AssociateBuilder.buildSaveAssociateRequest();
+
+        when(associateRepository.findByCpf(anyString())).thenThrow(new RuntimeException());
+
+        assertThrows(BusinessRulesException.class, () -> associateService.save(request));
+    }
+
+    @Test
+    void findByIdSuccess() {
+        var associate = buildAssociate();
+        var associateResponse = buildAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
 
         var response = associateService.findById(associate.getId());
 
@@ -95,86 +109,106 @@ class AssociateServiceTest {
     }
 
     @Test
+    void findByIdShouldReturnFindEntityException() {
+        var associate = buildAssociate();
+
+        when(associateRepository.findById(anyLong())).thenThrow(new RuntimeException());
+
+        assertThrows(FindEntityException.class, () -> associateService.findById(associate.getId()));
+    }
+
+    @Test
     void updateSuccess() {
         var request = buildUpdateAssociateRequest();
         var associate = buildAssociate();
-        var associateResponse = buildFindAssociateResponse();
+        var associateResponse = buildAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
-        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
 
         associate.setProfession(request.getProfession());
         associate.setSalary(request.getSalary());
 
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
 
-        var response = associateService.update(1L, request);
+        var response = associateService.update(associate.getId(), request);
 
-        assertTrue(response.getUpdated());
-        assertEquals(UPDATE_SUCCESS, response.getMessage());
-    }
-
-    @Test
-    void updateShouldReturnFindEntityException() {
-        var request = buildUpdateAssociateRequest();
-
-        when(associateRepository.findById(anyLong())).thenThrow(new RuntimeException());
-
-        assertThrows(FindEntityException.class, () -> associateService.update(1L, request));
+        assertNotNull(response.getId());
+        assertEquals(request.getProfession(), response.getProfession());
+        assertEquals(request.getSalary(), response.getSalary());
     }
 
     @Test
     void updateShouldReturnUpdateEntityException() {
         var request = buildUpdateAssociateRequest();
         var associate = buildAssociate();
-        var associateResponse = buildFindAssociateResponse();
+        var associateResponse = buildAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class)))
-                .thenReturn(associateResponse);
-        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class)))
-                .thenReturn(associate);
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
 
         associate.setProfession(request.getProfession());
         associate.setSalary(request.getSalary());
 
         when(associateRepository.save(any(AssociateEntity.class))).thenThrow(new RuntimeException());
 
-        assertThrows(UpdateEntityException.class, () -> associateService.update(1L, request));
+        assertThrows(UpdateEntityException.class, () -> associateService.update(associate.getId(), request));
     }
 
     @Test
-    void updateShouldReturnError() {
+    void updateShouldReturnBusinessRulesException() {
         var request = buildUpdateAssociateRequest();
         var associate = buildAssociate();
         associate.setLastPaycheck(LocalDate.now().minusMonths(2));
-        var associateResponse = buildFindAssociateResponse();
+        var associateResponse = buildAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class)))
-                .thenReturn(associateResponse);
-        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class)))
-                .thenReturn(associate);
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
 
-        var response = associateService.update(1L, request);
-
-        assertFalse(response.getUpdated());
-        assertEquals(UPDATE_ERROR, response.getMessage());
+        assertThrows(BusinessRulesException.class, () -> associateService.update(associate.getId(), request));
     }
 
     @Test
-    void delete() {
+    void deleteSuccess() {
         var associate = buildAssociate();
-        var associateResponse = buildFindAssociateResponse();
+        var associateResponse = buildAssociateResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
-        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
-        when(contractService.findContracts(anyLong())).thenReturn(List.of());
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
         doNothing().when(associateRepository).deleteById(anyLong());
 
-        var response = associateService.delete(1L);
-
-        assertEquals(DELETE_SUCCESS, response.getMessage());
+        assertDoesNotThrow(() -> associateService.delete(associate.getId()));
     }
+
+    @Test
+    void deleteShouldReturnDeleteEntityException() {
+        var associate = buildAssociate();
+        //associate.setContractSet();
+        var associateResponse = buildAssociateResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
+        doNothing().when(associateRepository).deleteById(anyLong());
+
+        assertThrows(DeleteEntityException.class, () -> associateService.delete(associate.getId()));
+    }
+
+    @Test
+    void deleteShouldReturnBusinessRulesException() {
+        var associate = buildAssociate();
+        //associate.setContractSet();
+        var associateResponse = buildAssociateResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
+        when(associateMapper.associateResponseToAssociate(any(AssociateResponse.class))).thenReturn(associate);
+
+        assertThrows(BusinessRulesException.class, () -> associateService.delete(associate.getId()));
+    }
+
 }

@@ -40,6 +40,7 @@ public class TransactionEntity {
     @JoinColumn(name = "iddebitaccount", referencedColumnName = "id")
     private AccountEntity debitAccount;
 
+    @Column(name = "createdat")
     private LocalDateTime createdAt;
 
 }

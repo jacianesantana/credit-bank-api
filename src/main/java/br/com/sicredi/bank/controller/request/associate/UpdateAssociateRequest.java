@@ -23,7 +23,7 @@ public class UpdateAssociateRequest {
     private String profession;
 
     @NotNull(message = "Salário não pode ser nulo.")
-    @Min(value = 1499)
+    @Min(value = 1)
     @Schema(example = "4000.00")
     private BigDecimal salary;
 

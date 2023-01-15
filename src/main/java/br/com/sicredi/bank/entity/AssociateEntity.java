@@ -42,11 +42,11 @@ public class AssociateEntity {
     private LocalDate lastPaycheck;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = CascadeType.ALL)
     private Set<AccountEntity> accountSet;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = CascadeType.ALL)
     private Set<ContractEntity> contractSet;
 
 }
