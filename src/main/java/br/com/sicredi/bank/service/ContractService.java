@@ -4,6 +4,7 @@ import br.com.sicredi.bank.controller.request.contract.ContractRequest;
 import br.com.sicredi.bank.controller.response.contract.ContractResponse;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.ContractEntity;
+import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +40,14 @@ public class ContractService {
                 .firstPaymentDate(LocalDate.now().plusMonths(1))
                 .build();
 
-        var savedContract = contractRepository.save(contract);
-
-        return ContractResponse.builder()
-                .idContract(savedContract.getId())
-                .build();
+        try {
+            var savedContract = contractRepository.save(contract);
+            return ContractResponse.builder()
+                    .idContract(savedContract.getId())
+                    .build();
+        } catch (Exception e) {
+            log.info("Não foi possivel salvar o cotrato no banco de dados. Motivo: {}", e.getMessage());
+            throw new SaveEntityException("Não foi possível salvar o contrato.");
+        }
     }
 }

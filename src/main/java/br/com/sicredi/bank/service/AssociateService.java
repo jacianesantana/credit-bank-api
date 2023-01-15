@@ -29,7 +29,8 @@ public class AssociateService {
 
         if (associate.isEmpty()) {
 
-            if (saveAssociateRequest.getBirthDate().isBefore(LocalDate.now().minusYears(18))) {
+            if (saveAssociateRequest.getBirthDate().isEqual(LocalDate.now().minusYears(18)) ||
+                    saveAssociateRequest.getBirthDate().isBefore(LocalDate.now().minusYears(18))) {
                 log.info("Tentando salvar o associado com cpf {}", saveAssociateRequest.getCpf().substring(0, 4).concat("..."));
                 try {
                     var associateEntity = associateMapper.saveRequestToAssociate(saveAssociateRequest);

@@ -3,13 +3,13 @@ package br.com.sicredi.bank.entity.enums;
 public enum ProductType {
 
     FINANCIAMENTO,
-    EMPRESTIMO_PESSOAL,
+    PESSOAL,
     CONSIGNADO;
 
     public Integer getTaxes() {
         switch (this) {
             case FINANCIAMENTO: return 7;
-            case EMPRESTIMO_PESSOAL: return 4;
+            case PESSOAL: return 4;
             case CONSIGNADO: return 2;
 
             default: return null;

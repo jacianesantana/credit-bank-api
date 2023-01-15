@@ -3,6 +3,9 @@ package br.com.sicredi.bank.service;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.entity.enums.TransactionType;
+import br.com.sicredi.bank.exception.FindEntityException;
+import br.com.sicredi.bank.exception.InsufficientBalanceException;
+import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.repository.TransactionRepository;
@@ -13,14 +16,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.NoSuchElementException;
 
 import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
 import static br.com.sicredi.bank.builder.AccountBuilder.buildAccountResponse;
 import static br.com.sicredi.bank.builder.TransactionBuilder.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -48,6 +50,7 @@ class TransactionServiceTest {
         var transactionRequest = buildTransactionRequest();
         var transaction = buildTransactionDeposit();
         var accountResponse = buildAccountResponse();
+        var newBalance = account.getBalance().add(transactionRequest.getValue());
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
@@ -58,7 +61,16 @@ class TransactionServiceTest {
 
         var response = transactionService.deposit(transactionRequest);
 
-        assertEquals(transactionRequest.getCreditAccount().getNumber(), response.getAccount().getNumber());
+        assertEquals(newBalance, response.getNewBalance());
+    }
+
+    @Test
+    void depositShouldReturnFindEntityException() {
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new RuntimeException());
+
+        assertThrows(FindEntityException.class, () -> transactionService.deposit(transactionRequest));
     }
 
     @Test
@@ -67,7 +79,64 @@ class TransactionServiceTest {
         var transactionRequest = buildTransactionRequest();
         var transaction = buildTransactionWithdraw();
         var accountResponse = buildAccountResponse();
+        var newBalance = account.getBalance().subtract(transactionRequest.getValue());
 
+        when(accountService.findById(anyLong())).thenReturn(account);
+        doNothing().when(accountService).save(any(AccountEntity.class));
+        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+                any(BigDecimal.class))).thenReturn(transaction);
+        when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
+        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
+
+        var response = transactionService.withdraw(transactionRequest);
+
+        assertEquals(newBalance, response.getNewBalance());
+    }
+
+    @Test
+    void withdrawShouldReturnSaveEntityException() {
+        var account = buildAccount();
+        var transactionRequest = buildTransactionRequest();
+        var transaction = buildTransactionWithdraw();
+
+        when(accountService.findById(anyLong())).thenReturn(account);
+        doNothing().when(accountService).save(any(AccountEntity.class));
+        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+                any(BigDecimal.class))).thenReturn(transaction);
+        when(transactionRepository.save(any(TransactionEntity.class))).thenThrow(new RuntimeException());
+
+        assertThrows(SaveEntityException.class, () -> transactionService.withdraw(transactionRequest));
+    }
+
+    @Test
+    void withdrawShouldReturnInsufficientBalanceException() {
+        var account = buildAccount();
+        account.setBalance(BigDecimal.valueOf(99));
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findById(anyLong())).thenReturn(account);
+
+        assertThrows(InsufficientBalanceException.class, () -> transactionService.withdraw(transactionRequest));
+    }
+
+    @Test
+    void withdrawShouldReturnFindEntityException() {
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findById(anyLong())).thenThrow(new NoSuchElementException());
+
+        assertThrows(FindEntityException.class, () -> transactionService.withdraw(transactionRequest));
+    }
+
+    @Test
+    void transferSuccess() {
+        var account = buildAccount();
+        var transactionRequest = buildTransactionRequest();
+        var transaction = buildTransactionWithdraw();
+        var accountResponse = buildAccountResponse();
+        var newBalance = account.getBalance().subtract(transactionRequest.getValue());
+
+        when(accountService.findById(anyLong())).thenReturn(account);
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
@@ -75,8 +144,8 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
 
-        var response = transactionService.deposit(transactionRequest);
+        var response = transactionService.transfer(transactionRequest);
 
-        assertNotEquals(transactionRequest.getDebitAccount().getBalance(), response.getNewBalance());
+        assertEquals(newBalance, response.getNewBalance());
     }
 }

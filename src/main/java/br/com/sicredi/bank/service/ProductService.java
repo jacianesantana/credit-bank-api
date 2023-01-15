@@ -62,8 +62,8 @@ public class ProductService {
 
         if (request.getSalary().compareTo(BigDecimal.valueOf(1500)) >= 0) {
             return ProductResponse.builder()
-                    .type(ProductType.EMPRESTIMO_PESSOAL)
-                    .taxes(ProductType.EMPRESTIMO_PESSOAL.getTaxes())
+                    .type(ProductType.PESSOAL)
+                    .taxes(ProductType.PESSOAL.getTaxes())
                     .firstPaymentDate(LocalDate.now().plusMonths(1))
                     .plotsAvailable(plotsAvailable)
                     .minValue(BigDecimal.valueOf(1000))
