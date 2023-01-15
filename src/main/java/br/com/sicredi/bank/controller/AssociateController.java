@@ -41,23 +41,15 @@ public class AssociateController {
     @UpdateAssociateStandard
     public ResponseEntity<UpdateAssociateResponse> updatePaycheck(@PathVariable Long id,
                                                                   @Valid @RequestBody UpdateAssociateRequest request) {
-        var response = associateService.update(id, request);
-
-        if (response.getUpdated()) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        return ResponseEntity.ok(associateService.update(id, request));
     }
 
     @DeleteMapping("/delete/{id}")
     @DeleteAssociateStandard
-    public ResponseEntity<DeleteAssociateResponse> delete(@PathVariable Long id) {
-        var response = associateService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        associateService.delete(id);
 
-        if (response.getDeleted().equals(true)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+        return ResponseEntity.noContent().build();
     }
 
 }
