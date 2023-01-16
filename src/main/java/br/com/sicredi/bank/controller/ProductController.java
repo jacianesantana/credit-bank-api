@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -19,22 +20,10 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/consigned")
+    @GetMapping
     @ProductStandard
-    public ResponseEntity<ProductResponse> consigned(@RequestParam BigDecimal salary) {
-        return ResponseEntity.ok().body(productService.consigned(salary));
-    }
-
-    @GetMapping("/financing")
-    @ProductStandard
-    public ResponseEntity<ProductResponse> financing(@RequestParam BigDecimal salary) {
-        return ResponseEntity.ok().body(productService.financing(salary));
-    }
-
-    @GetMapping("/personal")
-    @ProductStandard
-    public ResponseEntity<ProductResponse> personal(@RequestParam BigDecimal salary) {
-        return ResponseEntity.ok().body(productService.personal(salary));
+    public ResponseEntity<List<ProductResponse>> listProducts(@RequestParam BigDecimal salary) {
+        return ResponseEntity.ok().body(productService.listProducts(salary));
     }
 
 }
