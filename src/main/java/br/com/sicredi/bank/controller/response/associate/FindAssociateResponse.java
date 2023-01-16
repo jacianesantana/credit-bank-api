@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.controller.response.associate;
 
 import br.com.sicredi.bank.controller.response.account.AccountResponse;
-import br.com.sicredi.bank.controller.response.contract.ContractResponse;
+import br.com.sicredi.bank.controller.response.contract.ListContractsResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -41,6 +41,6 @@ public class FindAssociateResponse {
 
     private List<AccountResponse> accounts;
 
-    private List<ContractResponse> contracts;
+    private List<ListContractsResponse> contracts;
 
 }

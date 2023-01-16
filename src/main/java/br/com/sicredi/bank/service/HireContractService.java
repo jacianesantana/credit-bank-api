@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.service;
 
 import br.com.sicredi.bank.controller.request.contract.ContractRequest;
-import br.com.sicredi.bank.controller.response.contract.ContractResponse;
+import br.com.sicredi.bank.controller.response.contract.SaveContractResponse;
 import br.com.sicredi.bank.entity.ContractEntity;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AssociateMapper;
@@ -22,7 +22,7 @@ public class HireContractService {
     private final AssociateService associateService;
     private final AssociateMapper associateMapper;
 
-    public ContractResponse hire(ContractRequest request) {
+    public SaveContractResponse hire(ContractRequest request) {
         var associateResponse = associateService.findById(request.getIdAssociate());
         var associate = associateMapper.findAssociateResponseToAssociate(associateResponse);
         var product = productService.findByType(request.getProductType());
@@ -40,7 +40,7 @@ public class HireContractService {
 
         try {
             var savedContract = contractRepository.save(contract);
-            return ContractResponse.builder()
+            return SaveContractResponse.builder()
                     .id(savedContract.getId())
                     .paidOff(savedContract.getPaidOff())
                     .build();

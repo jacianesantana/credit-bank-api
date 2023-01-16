@@ -1,9 +1,11 @@
 package br.com.sicredi.bank.service;
 
+import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
 import br.com.sicredi.bank.controller.response.product.ProductResponse;
 import br.com.sicredi.bank.entity.ProductEntity;
 import br.com.sicredi.bank.entity.enums.ProductType;
 import br.com.sicredi.bank.exception.BusinessRulesException;
+import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

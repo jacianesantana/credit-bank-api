@@ -23,12 +23,12 @@ public class ContractEntity {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "idassociate", referencedColumnName = "id")
     private AssociateEntity associate;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "idproduct", referencedColumnName = "id")
     private ProductEntity product;
 
@@ -36,7 +36,7 @@ public class ContractEntity {
     private BigDecimal value;
 
     @Column(name = "paidoff")
-    private Boolean paidOff;    //quitado
+    private Boolean paidOff;
 
     @Column(name = "hiredate")
     private LocalDate hireDate;

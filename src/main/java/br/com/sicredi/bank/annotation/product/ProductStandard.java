@@ -15,12 +15,12 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Buscar um produto", description = "Realiza a busca de dados de um tipo de produto.")
+@Operation(summary = "Buscar produtos", description = "Realiza a busca de lista de produtos.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso!",
+        @ApiResponse(responseCode = "200", description = "Produtos encontrados com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = ProductResponse.class))),
-        @ApiResponse(responseCode = "404", description = "Salário abaixo do permitido para contratar este produto.",
+        @ApiResponse(responseCode = "400", description = "Salário abaixo do permitido para contratação de produtos.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))

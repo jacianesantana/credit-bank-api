@@ -1,8 +1,10 @@
 package br.com.sicredi.bank.service;
 
+import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.enums.AccountType;
+import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +22,7 @@ public class AccountService {
     private static final Integer ACCOUNT_DIGITS = 8;
 
     private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
 
     public AccountEntity create(AssociateEntity associateEntity, AccountType type) {
         log.info("Criando uma conta do tipo {} para o associado com o id {}", type, associateEntity.getId());
@@ -39,6 +42,12 @@ public class AccountService {
 
     public AccountEntity findByAgencyAndNumber(Integer agency, Integer number) {
         return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
+    }
+
+    public BalanceAccountResponse findBalance(Long id) {
+        var account = findById(id);
+
+        return accountMapper.accountToBalanceAccountResponse(account);
     }
 
     public void save(AccountEntity account) {

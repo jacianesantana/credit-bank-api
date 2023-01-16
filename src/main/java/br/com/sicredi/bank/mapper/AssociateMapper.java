@@ -53,7 +53,7 @@ public class AssociateMapper {
                 .collect(Collectors.toList());
 
         var contracts = associate.getContractSet().stream()
-                .map(contractMapper::contractToContractResponse)
+                .map(contractMapper::contractToListContractsResponse)
                 .collect(Collectors.toList());
 
         return FindAssociateResponse.builder()
@@ -75,18 +75,6 @@ public class AssociateMapper {
                 .profession(associate.getProfession())
                 .salary(associate.getSalary())
                 .lastPaycheck(associate.getLastPaycheck())
-                .build();
-    }
-
-    public AssociateEntity saveAssociateResponseToAssociate(SaveAssociateResponse response) {
-        return AssociateEntity.builder()
-                .id(response.getId())
-                .name(response.getName())
-                .cpf(response.getCpf())
-                .birthDate(response.getBirthDate())
-                .profession(response.getProfession())
-                .salary(response.getSalary())
-                .lastPaycheck(response.getLastPaycheck())
                 .build();
     }
 
