@@ -20,7 +20,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping
+    @GetMapping("/products")
     @ProductStandard
     public ResponseEntity<List<ProductResponse>> listProducts(@RequestParam BigDecimal salary) {
         return ResponseEntity.ok().body(productService.listProducts(salary));

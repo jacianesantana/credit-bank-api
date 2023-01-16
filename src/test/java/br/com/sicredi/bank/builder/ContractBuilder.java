@@ -12,8 +12,7 @@ public class ContractBuilder {
 
     public static ContractRequest buildContractRequest() {
         return ContractRequest.builder()
-                .idAccount(1L)
-                .associate(buildAssociate())
+                .idAssociate(buildAssociate().getId())
                 .productType(ProductType.PESSOAL)
                 .numberOfInstallments(12)
                 .value(BigDecimal.TEN)
@@ -25,4 +24,5 @@ public class ContractBuilder {
                 .id(1L)
                 .build();
     }
+
 }

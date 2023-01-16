@@ -28,7 +28,7 @@ class ProductServiceTest {
     private ProductRepository productRepository;
 
     @Test
-    void findByType() {
+    void findByTypeSuccess() {
         var product = buildProductEntity();
 
         when(productRepository.findByType(any(ProductType.class))).thenReturn(Optional.of(product));
@@ -39,51 +39,37 @@ class ProductServiceTest {
     }
 
     @Test
-    void consignedSuccess() {
-        var salary = BigDecimal.valueOf(3000);
-
-        var response = productService.consigned(salary);
-
-        assertEquals(ProductType.CONSIGNADO.getTaxes(), response.getTaxes());
-    }
-
-    @Test
-    void consignedShouldReturnBusinessRulesException() {
-        var salary = BigDecimal.valueOf(2999);
-
-        assertThrows(BusinessRulesException.class, () -> productService.consigned(salary));
-    }
-
-    @Test
-    void financingSuccess() {
-        var salary = BigDecimal.valueOf(5000);
-
-        var response = productService.financing(salary);
-
-        assertEquals(ProductType.FINANCIAMENTO.getTaxes(), response.getTaxes());
-    }
-
-    @Test
-    void financingShouldReturnBusinessRulesException() {
-        var salary = BigDecimal.valueOf(4999);
-
-        assertThrows(BusinessRulesException.class, () -> productService.financing(salary));
-    }
-
-    @Test
-    void personalSuccess() {
+    void listProductsWithSalary1500Success() {
         var salary = BigDecimal.valueOf(1500);
 
-        var response = productService.personal(salary);
+        var response = productService.listProducts(salary);
 
-        assertEquals(ProductType.PESSOAL.getTaxes(), response.getTaxes());
+        assertEquals(1, response.size());
     }
 
     @Test
-    void personalShouldReturnBusinessRulesException() {
-        var salary = BigDecimal.valueOf(1499);
+    void listProductsWithSalary3000Success() {
+        var salary = BigDecimal.valueOf(3000);
 
-        assertThrows(BusinessRulesException.class, () -> productService.personal(salary));
+        var response = productService.listProducts(salary);
+
+        assertEquals(2, response.size());
+    }
+
+    @Test
+    void listProductsWithSalary5000Success() {
+        var salary = BigDecimal.valueOf(5000);
+
+        var response = productService.listProducts(salary);
+
+        assertEquals(3, response.size());
+    }
+
+    @Test
+    void listProductsShouldReturnBusinessRulesException() {
+        var salary = BigDecimal.valueOf(1000);
+
+        assertThrows(BusinessRulesException.class, () -> productService.listProducts(salary));
     }
 
 }
