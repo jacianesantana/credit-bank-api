@@ -1,6 +1,6 @@
-package br.com.sicredi.bank.annotation.product;
+package br.com.sicredi.bank.annotation.contract;
 
-import br.com.sicredi.bank.controller.response.product.ProductResponse;
+import br.com.sicredi.bank.controller.response.contract.ContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,15 +15,15 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Buscar um produto", description = "Realiza a busca de dados de um tipo de produto.")
+@Operation(summary = "Assina e cadastra um contrato", description = "Realiza a assinatura e o cadastramento de dados do contrato.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Produto encontrado com sucesso!",
+        @ApiResponse(responseCode = "201", description = "Contrato assinado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = ProductResponse.class))),
-        @ApiResponse(responseCode = "404", description = "Salário abaixo do permitido para contratar este produto.",
+                schema = @Schema(implementation = ContractResponse.class))),
+        @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-public @interface ProductStandard {
+public @interface ContractStandard {
 }

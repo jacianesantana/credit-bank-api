@@ -72,5 +72,4 @@ public class ProductService {
 
         throw new BusinessRulesException("Salário abaixo do permitido para contratar este produto");
     }
-
 }
