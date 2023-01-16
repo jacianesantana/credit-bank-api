@@ -1,6 +1,7 @@
 package br.com.sicredi.bank.controller.response.associate;
 
 import br.com.sicredi.bank.controller.response.account.AccountResponse;
+import br.com.sicredi.bank.controller.response.contract.ContractResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,7 +16,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class AssociateResponse {
+public class FindAssociateResponse {
 
     @Schema(example = "1")
     private Long id;
@@ -39,5 +40,7 @@ public class AssociateResponse {
     private LocalDate lastPaycheck;
 
     private List<AccountResponse> accounts;
+
+    private List<ContractResponse> contracts;
 
 }

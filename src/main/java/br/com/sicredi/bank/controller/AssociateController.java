@@ -6,7 +6,9 @@ import br.com.sicredi.bank.annotation.associate.SaveAssociateStandard;
 import br.com.sicredi.bank.annotation.associate.UpdateAssociateStandard;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.controller.request.associate.UpdateAssociateRequest;
-import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.UpdateAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,20 +26,20 @@ public class AssociateController {
 
     @PostMapping("/save")
     @SaveAssociateStandard
-    public ResponseEntity<AssociateResponse> save(@Valid @RequestBody SaveAssociateRequest request) {
+    public ResponseEntity<SaveAssociateResponse> save(@Valid @RequestBody SaveAssociateRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(associateService.save(request));
     }
 
     @GetMapping("/find/{id}")
     @FindAssociateStandard
-    public ResponseEntity<AssociateResponse> findById(@PathVariable Long id) {
+    public ResponseEntity<FindAssociateResponse> findById(@PathVariable Long id) {
         return ResponseEntity.ok(associateService.findById(id));
     }
 
     @PatchMapping("/updatePaycheck/{id}")
     @UpdateAssociateStandard
-    public ResponseEntity<AssociateResponse> updatePaycheck(@PathVariable Long id,
-                                                            @Valid @RequestBody UpdateAssociateRequest request) {
+    public ResponseEntity<UpdateAssociateResponse> updatePaycheck(@PathVariable Long id,
+                                                                  @Valid @RequestBody UpdateAssociateRequest request) {
         return ResponseEntity.ok(associateService.update(id, request));
     }
 

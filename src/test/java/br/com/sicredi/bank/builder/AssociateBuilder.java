@@ -1,8 +1,10 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.controller.request.associate.UpdateAssociateRequest;
+import br.com.sicredi.bank.controller.response.associate.UpdateAssociateResponse;
 import br.com.sicredi.bank.entity.AssociateEntity;
 
 import java.math.BigDecimal;
@@ -28,8 +30,8 @@ public class AssociateBuilder {
                 .build();
     }
 
-    public static AssociateResponse buildAssociateResponse() {
-        return AssociateResponse.builder()
+    public static SaveAssociateResponse buildSaveAssociateResponse() {
+        return SaveAssociateResponse.builder()
                 .id(1L)
                 .name("anyName")
                 .cpf("anyCpf")
@@ -38,6 +40,29 @@ public class AssociateBuilder {
                 .salary(BigDecimal.valueOf(10000))
                 .lastPaycheck(LocalDate.now().minusMonths(4))
                 .accounts(List.of())
+                .build();
+    }
+
+    public static FindAssociateResponse buildFindAssociateResponse() {
+        return FindAssociateResponse.builder()
+                .id(1L)
+                .name("anyName")
+                .cpf("anyCpf")
+                .birthDate(LocalDate.now().minusYears(18))
+                .profession("anyProfession")
+                .salary(BigDecimal.valueOf(10000))
+                .lastPaycheck(LocalDate.now().minusMonths(4))
+                .accounts(List.of())
+                .contracts(List.of())
+                .build();
+    }
+
+    public static UpdateAssociateResponse buildUpdateAssociateResponse() {
+        return UpdateAssociateResponse.builder()
+                .id(1L)
+                .profession("anyProfession")
+                .salary(BigDecimal.valueOf(10000))
+                .lastPaycheck(LocalDate.now())
                 .build();
     }
 

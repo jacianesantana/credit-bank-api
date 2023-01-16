@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.annotation.associate;
 
-import br.com.sicredi.bank.controller.response.associate.AssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Associado encontrado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = AssociateResponse.class))),
+                schema = @Schema(implementation = SaveAssociateResponse.class))),
         @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",

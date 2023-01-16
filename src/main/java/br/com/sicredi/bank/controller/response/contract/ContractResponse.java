@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 public class ContractResponse {
 
     @Schema(example = "1")
-    private Long idContract;
+    private Long id;
+
+    @Schema(example = "false")
+    private Boolean paidOff;
 
 }

@@ -22,6 +22,7 @@ public class ContractBuilder {
     public static ContractEntity buildContractEntity() {
         return ContractEntity.builder()
                 .id(1L)
+                .paidOff(false)
                 .build();
     }
 

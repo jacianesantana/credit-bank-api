@@ -24,7 +24,7 @@ public class HireContractService {
 
     public ContractResponse hire(ContractRequest request) {
         var associateResponse = associateService.findById(request.getIdAssociate());
-        var associate = associateMapper.associateResponseToAssociate(associateResponse);
+        var associate = associateMapper.findAssociateResponseToAssociate(associateResponse);
         var product = productService.findByType(request.getProductType());
         var contract = ContractEntity.builder()
                 .associate(associate)
@@ -41,7 +41,8 @@ public class HireContractService {
         try {
             var savedContract = contractRepository.save(contract);
             return ContractResponse.builder()
-                    .idContract(savedContract.getId())
+                    .id(savedContract.getId())
+                    .paidOff(savedContract.getPaidOff())
                     .build();
         } catch (Exception e) {
             log.info("Não foi possivel salvar o cotrato no banco de dados. Motivo: {}", e.getMessage());
