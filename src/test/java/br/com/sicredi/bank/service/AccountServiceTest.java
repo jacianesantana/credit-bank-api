@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.service;
 
-import br.com.sicredi.bank.builder.AccountBuilder;
-import br.com.sicredi.bank.builder.AssociateBuilder;
+import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,6 +12,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
+import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
@@ -25,10 +27,13 @@ class AccountServiceTest {
     @Mock
     private AccountRepository accountRepository;
 
+    @Mock
+    private AccountMapper accountMapper;
+
     @Test
     void createSuccess() {
-        var account = AccountBuilder.buildAccount();
-        var associate = AssociateBuilder.buildAssociate();
+        var account = buildAccount();
+        var associate = buildAssociate();
 
         when(accountRepository.save(any(AccountEntity.class))).thenReturn(account);
 
@@ -40,7 +45,7 @@ class AccountServiceTest {
 
     @Test
     void findByIdSuccess() {
-        var account = AccountBuilder.buildAccount();
+        var account = buildAccount();
 
         when(accountRepository.findById(anyLong())).thenReturn(Optional.of(account));
 
@@ -53,7 +58,7 @@ class AccountServiceTest {
 
     @Test
     void findByAgencyAndNumberSuccess() {
-        var account = AccountBuilder.buildAccount();
+        var account = buildAccount();
 
         when(accountRepository.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(Optional.of(account));
 
@@ -66,11 +71,21 @@ class AccountServiceTest {
 
     @Test
     void saveSuccess() {
-        var account = AccountBuilder.buildAccount();
+        var account = buildAccount();
 
         when(accountRepository.save(any(AccountEntity.class))).thenReturn(account);
 
         assertDoesNotThrow(() -> accountService.save(account));
     }
 
+    @Test
+    void findBalanceSuccess() {
+        var account = buildAccount();
+        var balanceAccountResponse = new BalanceAccountResponse(account.getBalance());
+
+        when(accountRepository.findById(anyLong())).thenReturn(Optional.of(account));
+        when(accountMapper.accountToBalanceAccountResponse(account)).thenReturn(balanceAccountResponse);
+
+        assertDoesNotThrow(() -> accountService.findBalance(account.getId()));
+    }
 }

@@ -81,7 +81,7 @@ class TransactionServiceTest {
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().subtract(transactionRequest.getValue());
 
-        when(accountService.findById(anyLong())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
@@ -99,7 +99,7 @@ class TransactionServiceTest {
         var transactionRequest = buildWithdrawTransactionRequest();
         var transaction = buildTransactionWithdraw();
 
-        when(accountService.findById(anyLong())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
@@ -114,7 +114,7 @@ class TransactionServiceTest {
         account.setBalance(BigDecimal.valueOf(99));
         var transactionRequest = buildWithdrawTransactionRequest();
 
-        when(accountService.findById(anyLong())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
 
         assertThrows(InsufficientBalanceException.class, () -> transactionService.withdraw(transactionRequest));
     }
@@ -123,7 +123,7 @@ class TransactionServiceTest {
     void withdrawShouldReturnFindEntityException() {
         var transactionRequest = buildWithdrawTransactionRequest();
 
-        when(accountService.findById(anyLong())).thenThrow(new NoSuchElementException());
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new NoSuchElementException());
 
         assertThrows(FindEntityException.class, () -> transactionService.withdraw(transactionRequest));
     }
@@ -136,7 +136,6 @@ class TransactionServiceTest {
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().subtract(transactionRequest.getValue());
 
-        when(accountService.findById(anyLong())).thenReturn(account);
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
@@ -148,4 +147,15 @@ class TransactionServiceTest {
 
         assertEquals(newBalance, response.getNewBalance());
     }
+
+    @Test
+    void transferShouldReturnFindEntityException() {
+        var account = buildAccount();
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new NoSuchElementException());
+
+        assertThrows(FindEntityException.class, () -> transactionService.transfer(transactionRequest));
+    }
+
 }

@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Buscar um saldo", description = "Realiza a busca de saldo de uma conta.")
+@Operation(summary = "Buscar saldo de uma conta", description = "Realiza a busca de saldo de uma conta.")
 @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Saldo encontrado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
