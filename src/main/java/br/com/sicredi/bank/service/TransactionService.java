@@ -73,22 +73,26 @@ public class TransactionService {
     }
 
     public TransactionResponse transfer(TransferTransactionRequest request) {
-        var withdrawRequest = WithdrawTransactionRequest.builder()
-                .debitAccount(request.getDebitAccount())
-                .value(request.getValue())
-                .build();
-        var depositRequest = DepositTransactionRequest.builder()
-                .creditAccount(request.getCreditAccount())
-                .value(request.getValue())
-                .build();
+        try {
+            var withdrawRequest = WithdrawTransactionRequest.builder()
+                    .debitAccount(request.getDebitAccount())
+                    .value(request.getValue())
+                    .build();
+            var depositRequest = DepositTransactionRequest.builder()
+                    .creditAccount(request.getCreditAccount())
+                    .value(request.getValue())
+                    .build();
 
-        var debitAccount = validateWithdraw(withdrawRequest);
-        var sourceAccount = registerTransaction(debitAccount, null, withdrawRequest, SAQUE);
+            var debitAccount = validateWithdraw(withdrawRequest);
+            var sourceAccount = registerTransaction(debitAccount, null, withdrawRequest, SAQUE);
 
-        var creditAccount = validateDeposit(depositRequest);
-        registerTransaction(creditAccount, depositRequest, null, DEPOSITO);
+            var creditAccount = validateDeposit(depositRequest);
+            registerTransaction(creditAccount, depositRequest, null, DEPOSITO);
 
-        return sourceAccount;
+            return sourceAccount;
+        } catch (FindEntityException e) {
+            throw new FindEntityException("Transferência não pode ser efetuada, conta não encontrada!");
+        }
     }
 
     private TransactionResponse registerTransaction(AccountEntity account, DepositTransactionRequest depositTransactionRequest,

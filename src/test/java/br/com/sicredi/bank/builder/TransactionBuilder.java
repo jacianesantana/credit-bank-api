@@ -35,8 +35,8 @@ public class TransactionBuilder {
 
     public static DebitAccountRequest buildDebitAccountRequest() {
         return DebitAccountRequest.builder()
-                .id(1L)
-                .balance(BigDecimal.valueOf(10000))
+                .agency(1000)
+                .number(12345678)
                 .build();
     }
 
