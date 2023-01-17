@@ -1,5 +1,6 @@
 package br.com.sicredi.bank.controller.response.account;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class BalanceAccountResponse {
 
+    @Schema(example = "5000.00")
     private BigDecimal balance;
 
 }

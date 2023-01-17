@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class AccountRequest {
     private Integer number;
 
     @NotNull(message = "Saldo não pode ser nulo.")
+    @Min(value = 0)
     @Schema(example = "1000.00")
     private BigDecimal balance;
 

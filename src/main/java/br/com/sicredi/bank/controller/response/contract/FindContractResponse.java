@@ -24,19 +24,25 @@ public class FindContractResponse {
 
     private ProductEntity product;
 
+    @Schema(example = "1000.00")
     private BigDecimal value;
 
     @Schema(example = "false")
-    private Boolean paidOff;    //quitado
+    private Boolean paidOff;
 
+    @Schema(example = "2022-10-10")
     private LocalDate hireDate;
 
+    @Schema(example = "2022-10-10")
     private LocalDate expirationDate;
 
+    @Schema(example = "6")
     private Integer installmentsPaid;
 
+    @Schema(example = "6")
     private Integer installmentsRemaining;
 
+    @Schema(example = "2022-10-10")
     private LocalDate firstPaymentDate;
 
 }

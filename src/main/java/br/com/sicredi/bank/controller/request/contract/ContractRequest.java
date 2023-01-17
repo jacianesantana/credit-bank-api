@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -28,6 +29,7 @@ public class ContractRequest {
     private Integer numberOfInstallments;
 
     @NotNull(message = "Valor não pode ser nulo.")
+    @Min(value = 0)
     @Schema(example = "10000.00")
     private BigDecimal value;
 
