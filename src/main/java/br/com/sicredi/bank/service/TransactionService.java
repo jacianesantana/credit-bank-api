@@ -1,6 +1,8 @@
 package br.com.sicredi.bank.service;
 
-import br.com.sicredi.bank.controller.request.transaction.TransactionRequest;
+import br.com.sicredi.bank.controller.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.controller.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.controller.request.transaction.WithdrawTransactionRequest;
 import br.com.sicredi.bank.controller.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.enums.TransactionType;
@@ -29,12 +31,12 @@ public class TransactionService {
     private final AccountService accountService;
     private final AccountMapper accountMapper;
 
-    public TransactionResponse deposit(TransactionRequest request) {
+    public TransactionResponse deposit(DepositTransactionRequest request) {
         var account = validateDeposit(request);
-        return registerTransaction(account, request, DEPOSITO);
+        return registerTransaction(account, request, null, DEPOSITO);
     }
 
-    private AccountEntity validateDeposit(TransactionRequest request) {
+    private AccountEntity validateDeposit(DepositTransactionRequest request) {
         try {
             var account = accountService.findByAgencyAndNumber(request.getCreditAccount().getAgency(),
                     request.getCreditAccount().getNumber());
@@ -47,14 +49,15 @@ public class TransactionService {
         }
     }
 
-    public TransactionResponse withdraw(TransactionRequest request) {
+    public TransactionResponse withdraw(WithdrawTransactionRequest request) {
         var account = validateWithdraw(request);
-        return registerTransaction(account, request, SAQUE);
+        return registerTransaction(account, null, request, SAQUE);
     }
 
-    private AccountEntity validateWithdraw(TransactionRequest request) {
+    private AccountEntity validateWithdraw(WithdrawTransactionRequest request) {
         try {
-            var account = accountService.findById(request.getDebitAccount().getId());
+            var account = accountService.findByAgencyAndNumber(request.getDebitAccount().getAgency(),
+                    request.getDebitAccount().getNumber());
 
             if (account.getBalance().compareTo(request.getValue()) >= 0) {
                 var newBalance = account.getBalance().subtract(request.getValue());
@@ -69,22 +72,34 @@ public class TransactionService {
         }
     }
 
-    public TransactionResponse transfer(TransactionRequest request) {
-        var debitAccount = validateWithdraw(request);
-        var sourceAccount = registerTransaction(debitAccount, request, SAQUE);
+    public TransactionResponse transfer(TransferTransactionRequest request) {
+        var withdrawRequest = WithdrawTransactionRequest.builder()
+                .debitAccount(request.getDebitAccount())
+                .value(request.getValue())
+                .build();
+        var depositRequest = DepositTransactionRequest.builder()
+                .creditAccount(request.getCreditAccount())
+                .value(request.getValue())
+                .build();
 
-        var creditAccount = validateDeposit(request);
-        registerTransaction(creditAccount, request, DEPOSITO);
+        var debitAccount = validateWithdraw(withdrawRequest);
+        var sourceAccount = registerTransaction(debitAccount, null, withdrawRequest, SAQUE);
+
+        var creditAccount = validateDeposit(depositRequest);
+        registerTransaction(creditAccount, depositRequest, null, DEPOSITO);
 
         return sourceAccount;
     }
 
-    private TransactionResponse registerTransaction(AccountEntity account, TransactionRequest request,
-                                                    TransactionType type) {
+    private TransactionResponse registerTransaction(AccountEntity account, DepositTransactionRequest depositTransactionRequest,
+                                                    WithdrawTransactionRequest withdrawTransactionRequest, TransactionType type) {
         try {
             accountService.save(account);
 
-            var transaction = transactionMapper.requestToTransaction(account, type, request.getValue());
+            var transaction = depositTransactionRequest != null
+                    ? transactionMapper.requestToTransaction(account, type, depositTransactionRequest.getValue())
+                    : transactionMapper.requestToTransaction(account, type, withdrawTransactionRequest.getValue());
+
             transactionRepository.save(transaction);
 
             return TransactionResponse.builder()

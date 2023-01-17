@@ -47,7 +47,7 @@ class TransactionServiceTest {
     @Test
     void depositSuccess() {
         var account = buildAccount();
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildDepositTransactionRequest();
         var transaction = buildTransactionDeposit();
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().add(transactionRequest.getValue());
@@ -66,7 +66,7 @@ class TransactionServiceTest {
 
     @Test
     void depositShouldReturnFindEntityException() {
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildDepositTransactionRequest();
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new RuntimeException());
 
@@ -76,7 +76,7 @@ class TransactionServiceTest {
     @Test
     void withdrawSuccess() {
         var account = buildAccount();
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildWithdrawTransactionRequest();
         var transaction = buildTransactionWithdraw();
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().subtract(transactionRequest.getValue());
@@ -96,7 +96,7 @@ class TransactionServiceTest {
     @Test
     void withdrawShouldReturnSaveEntityException() {
         var account = buildAccount();
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildWithdrawTransactionRequest();
         var transaction = buildTransactionWithdraw();
 
         when(accountService.findById(anyLong())).thenReturn(account);
@@ -112,7 +112,7 @@ class TransactionServiceTest {
     void withdrawShouldReturnInsufficientBalanceException() {
         var account = buildAccount();
         account.setBalance(BigDecimal.valueOf(99));
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildWithdrawTransactionRequest();
 
         when(accountService.findById(anyLong())).thenReturn(account);
 
@@ -121,7 +121,7 @@ class TransactionServiceTest {
 
     @Test
     void withdrawShouldReturnFindEntityException() {
-        var transactionRequest = buildTransactionRequest();
+        var transactionRequest = buildWithdrawTransactionRequest();
 
         when(accountService.findById(anyLong())).thenThrow(new NoSuchElementException());
 

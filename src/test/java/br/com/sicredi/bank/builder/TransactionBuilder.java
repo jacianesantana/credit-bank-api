@@ -1,8 +1,6 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.request.transaction.CreditAccountRequest;
-import br.com.sicredi.bank.controller.request.transaction.DebitAccountRequest;
-import br.com.sicredi.bank.controller.request.transaction.TransactionRequest;
+import br.com.sicredi.bank.controller.request.transaction.*;
 import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.entity.enums.TransactionType;
 
@@ -13,10 +11,24 @@ import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
 
 public class TransactionBuilder {
 
-    public static TransactionRequest buildTransactionRequest() {
-        return TransactionRequest.builder()
+    public static TransferTransactionRequest buildTransactionRequest() {
+        return TransferTransactionRequest.builder()
                 .debitAccount(buildDebitAccountRequest())
                 .creditAccount(buildCreditAccountRequest())
+                .value(BigDecimal.valueOf(100))
+                .build();
+    }
+
+    public static DepositTransactionRequest buildDepositTransactionRequest() {
+        return DepositTransactionRequest.builder()
+                .creditAccount(buildCreditAccountRequest())
+                .value(BigDecimal.valueOf(100))
+                .build();
+    }
+
+    public static WithdrawTransactionRequest buildWithdrawTransactionRequest() {
+        return WithdrawTransactionRequest.builder()
+                .debitAccount(buildDebitAccountRequest())
                 .value(BigDecimal.valueOf(100))
                 .build();
     }

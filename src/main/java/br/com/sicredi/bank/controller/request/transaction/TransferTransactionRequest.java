@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TransactionRequest {
+public class TransferTransactionRequest {
 
     private DebitAccountRequest debitAccount;
 

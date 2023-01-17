@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -13,14 +14,13 @@ import java.math.BigDecimal;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class DebitAccountRequest {
+public class WithdrawTransactionRequest {
 
-    @NotNull(message = "Agência não pode ser nula.")
-    @Schema(example = "1000")
-    private Integer agency;
+    private DebitAccountRequest debitAccount;
 
-    @NotNull(message = "Número da Conta não pode ser nulo.")
-    @Schema(example = "12345678")
-    private Integer number;
+    @NotNull(message = "Valor não pode ser nulo.")
+    @Schema(example = "1000.00")
+    @Min(value = 1)
+    private BigDecimal value;
 
 }
