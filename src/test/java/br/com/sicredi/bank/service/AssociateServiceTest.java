@@ -129,9 +129,9 @@ class AssociateServiceTest {
         when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(findAssociateResponse);
         when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
-        when(associateMapper.associateToUpdateAssociateResponse(any(AssociateEntity.class))).thenReturn(updateAssociateResponse);
+        when(associateMapper.associateToUpdateAssociatePaycheckResponse(any(AssociateEntity.class))).thenReturn(updateAssociateResponse);
 
-        var response = associateService.update(associate.getId(), request);
+        var response = associateService.updatePaycheck(associate.getId(), request);
 
         assertNotNull(response.getId());
         assertEquals(request.getProfession(), response.getProfession());
@@ -150,7 +150,7 @@ class AssociateServiceTest {
         when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
         when(associateRepository.save(any(AssociateEntity.class))).thenThrow(new RuntimeException());
 
-        assertThrows(UpdateEntityException.class, () -> associateService.update(associate.getId(), request));
+        assertThrows(UpdateEntityException.class, () -> associateService.updatePaycheck(associate.getId(), request));
     }
 
     @Test
@@ -164,7 +164,7 @@ class AssociateServiceTest {
         when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(findAssociateResponse);
         when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
 
-        assertThrows(BusinessRulesException.class, () -> associateService.update(associate.getId(), request));
+        assertThrows(BusinessRulesException.class, () -> associateService.updatePaycheck(associate.getId(), request));
     }
 
     @Test

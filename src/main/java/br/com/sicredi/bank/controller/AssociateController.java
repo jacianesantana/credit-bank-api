@@ -1,13 +1,12 @@
 package br.com.sicredi.bank.controller;
 
-import br.com.sicredi.bank.annotation.associate.DeleteAssociateStandard;
-import br.com.sicredi.bank.annotation.associate.FindAssociateStandard;
-import br.com.sicredi.bank.annotation.associate.SaveAssociateStandard;
-import br.com.sicredi.bank.annotation.associate.UpdateAssociateStandard;
+import br.com.sicredi.bank.annotation.associate.*;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.controller.request.associate.UpdateAssociatePaycheckRequest;
 import br.com.sicredi.bank.controller.request.associate.UpdateAssociateRequest;
 import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.UpdateAssociatePaycheckResponse;
 import br.com.sicredi.bank.controller.response.associate.UpdateAssociateResponse;
 import br.com.sicredi.bank.service.AssociateService;
 import lombok.RequiredArgsConstructor;
@@ -36,11 +35,18 @@ public class AssociateController {
         return ResponseEntity.ok(associateService.findById(id));
     }
 
-    @PatchMapping("/updatePaycheck/{id}")
+    @PutMapping("/update/{id}")
     @UpdateAssociateStandard
-    public ResponseEntity<UpdateAssociateResponse> updatePaycheck(@PathVariable Long id,
-                                                                  @Valid @RequestBody UpdateAssociateRequest request) {
+    public ResponseEntity<UpdateAssociateResponse> update(@PathVariable Long id,
+                                                          @Valid @RequestBody UpdateAssociateRequest request) {
         return ResponseEntity.ok(associateService.update(id, request));
+    }
+
+    @PatchMapping("/updatePaycheck/{id}")
+    @UpdateAssociatePaycheckStandard
+    public ResponseEntity<UpdateAssociatePaycheckResponse> updatePaycheck(@PathVariable Long id,
+                                                                          @Valid @RequestBody UpdateAssociatePaycheckRequest request) {
+        return ResponseEntity.ok(associateService.updatePaycheck(id, request));
     }
 
     @DeleteMapping("/delete/{id}")

@@ -15,9 +15,9 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Atualizar dados de um associado", description = "Realiza a atualização de dados do associado.")
+@Operation(summary = "Atualizar contra-cheque de um associado", description = "Realiza a atualização de contra-cheque do associado.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Associado atualizado com sucesso!",
+        @ApiResponse(responseCode = "200", description = "Contra-cheque atualizado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = UpdateAssociatePaycheckResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
@@ -27,5 +27,5 @@ import java.lang.annotation.Target;
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-public @interface UpdateAssociateStandard {
+public @interface UpdateAssociatePaycheckStandard {
 }
