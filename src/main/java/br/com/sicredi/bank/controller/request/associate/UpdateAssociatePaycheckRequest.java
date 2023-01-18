@@ -18,7 +18,7 @@ import java.math.BigDecimal;
 public class UpdateAssociatePaycheckRequest {
 
     @NotNull(message = "Profissão não pode ser nulo.")
-    @NotBlank(message = "Profissão não pode ficar em branco.")
+    @NotBlank(message = "Profissão não pode ser vazio.")
     @Schema(example = "Engenheiro de Software")
     private String profession;
 

@@ -118,6 +118,40 @@ class AssociateServiceTest {
     }
 
     @Test
+    void updateContactSuccess() {
+        var request = buildUpdateAssociateContactRequest();
+        var associate = buildAssociate();
+        var findAssociateResponse = buildFindAssociateResponse();
+        var updateAssociateResponse = buildUpdateAssociateContactResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(findAssociateResponse);
+        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
+        when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
+        when(associateMapper.associateToUpdateAssociateContactResponse(any(AssociateEntity.class))).thenReturn(updateAssociateResponse);
+
+        var response = associateService.updateContact(associate.getId(), request);
+
+        assertEquals(associate.getId(), response.getId());
+        assertEquals(request.getPhone(), response.getPhone());
+        assertEquals(request.getEmail(), response.getEmail());
+    }
+
+    @Test
+    void updateContactShouldReturnUpdateEntityException() {
+        var request = buildUpdateAssociateContactRequest();
+        var associate = buildAssociate();
+        var findAssociateResponse = buildFindAssociateResponse();
+
+        when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
+        when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(findAssociateResponse);
+        when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
+        when(associateRepository.save(any(AssociateEntity.class))).thenThrow(new RuntimeException());
+
+        assertThrows(UpdateEntityException.class, () -> associateService.updateContact(associate.getId(), request));
+    }
+
+    @Test
     void updatePaycheckSuccess() {
         var request = buildUpdateAssociatePaycheckRequest();
         var associate = buildAssociate();

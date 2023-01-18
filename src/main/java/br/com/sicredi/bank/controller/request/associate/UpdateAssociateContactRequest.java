@@ -17,12 +17,12 @@ import javax.validation.constraints.NotNull;
 public class UpdateAssociateContactRequest {
 
     @NotNull(message = "Telefone não pode ser nulo.")
-    @NotBlank(message = "Telefone não pode ficar em branco.")
+    @NotBlank(message = "Telefone não pode ser vazio.")
     @Schema(example = "71999999999")
     private String phone;
 
     @NotNull(message = "Email não pode ser nulo.")
-    @NotBlank(message = "Email não pode ficar em branco.")
+    @NotBlank(message = "Email não pode ser vazio.")
     @Email(message = "Email inválido.")
     @Schema(example = "nome.sobrenome@mail.com")
     private String email;

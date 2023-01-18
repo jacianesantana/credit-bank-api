@@ -1,9 +1,11 @@
 package br.com.sicredi.bank.builder;
 
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.controller.request.associate.UpdateAssociateContactRequest;
 import br.com.sicredi.bank.controller.request.associate.UpdateAssociatePaycheckRequest;
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.UpdateAssociateContactResponse;
 import br.com.sicredi.bank.controller.response.associate.UpdateAssociatePaycheckResponse;
 import br.com.sicredi.bank.entity.AssociateEntity;
 
@@ -18,8 +20,17 @@ public class AssociateBuilder {
                 .name("anyName")
                 .cpf("anyCpf")
                 .birthDate(LocalDate.now().minusYears(18))
+                .phone("anyPhone")
+                .email("any@mail.com")
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
+                .build();
+    }
+
+    public static UpdateAssociateContactRequest buildUpdateAssociateContactRequest() {
+        return UpdateAssociateContactRequest.builder()
+                .phone("anyPhone")
+                .email("any@mail.com")
                 .build();
     }
 
@@ -36,6 +47,8 @@ public class AssociateBuilder {
                 .name("anyName")
                 .cpf("anyCpf")
                 .birthDate(LocalDate.now().minusYears(18))
+                .phone("anyPhone")
+                .email("any@mail.com")
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
                 .lastPaycheck(LocalDate.now().minusMonths(4))
@@ -49,11 +62,21 @@ public class AssociateBuilder {
                 .name("anyName")
                 .cpf("anyCpf")
                 .birthDate(LocalDate.now().minusYears(18))
+                .phone("anyPhone")
+                .email("any@mail.com")
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
                 .lastPaycheck(LocalDate.now().minusMonths(4))
                 .accounts(List.of())
                 .contracts(List.of())
+                .build();
+    }
+
+    public static UpdateAssociateContactResponse buildUpdateAssociateContactResponse() {
+        return UpdateAssociateContactResponse.builder()
+                .id(1L)
+                .phone("anyPhone")
+                .email("any@mail.com")
                 .build();
     }
 

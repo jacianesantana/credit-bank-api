@@ -21,12 +21,12 @@ import java.time.LocalDate;
 public class SaveAssociateRequest {
 
     @NotNull(message = "Nome não pode ser nulo.")
-    @NotBlank(message = "Nome não pode ficar em branco.")
+    @NotBlank(message = "Nome não pode ser vazio.")
     @Schema(example = "Jaciane Santana")
     private String name;
 
     @NotNull(message = "CPF não pode ser nulo.")
-    @NotBlank(message = "CPF não pode ficar em branco.")
+    @NotBlank(message = "CPF não pode ser vazio.")
     @CPF(message = "CPF inválido.")
     @Schema(example = "01234567890")
     private String cpf;
@@ -36,18 +36,18 @@ public class SaveAssociateRequest {
     private LocalDate birthDate;
 
     @NotNull(message = "Telefone não pode ser nulo.")
-    @NotBlank(message = "Telefone não pode ficar em branco.")
+    @NotBlank(message = "Telefone não pode ser vazio.")
     @Schema(example = "71999999999")
     private String phone;
 
     @NotNull(message = "Email não pode ser nulo.")
-    @NotBlank(message = "Email não pode ficar em branco.")
+    @NotBlank(message = "Email não pode ser vazio.")
     @Email(message = "Email inválido.")
     @Schema(example = "nome.sobrenome@mail.com")
     private String email;
 
     @NotNull(message = "Profissão não pode ser nulo.")
-    @NotBlank(message = "Profissão não pode ficar em branco.")
+    @NotBlank(message = "Profissão não pode ser vazio.")
     @Schema(example = "Engenheiro de Software")
     private String profession;
 

@@ -25,11 +25,16 @@ public class AddressService {
         var associateResponse = associateService.findById(idAssociate);
         var associate = associateMapper.findAssociateResponseToAssociate(associateResponse);
 
-        log.info("Criando um endereço para o associado com o id {}", idAssociate);
-        var address = addressMapper.addressRequestToAddress(associate, request);
-        var addressSaved = addressRepository.save(address);
+        try {
+            log.info("Criando um endereço para o associado com o id {}", idAssociate);
+            var address = addressMapper.addressRequestToAddress(associate, request);
+            var addressSaved = addressRepository.save(address);
 
-        return addressMapper.addressToAddressResponse(addressSaved);
+            return addressMapper.addressToAddressResponse(addressSaved);
+        } catch (Exception e) {
+            log.error("Não foi possivel salvar o endereço. Motivo: {}", e.getMessage());
+            throw new SaveEntityException("Não foi possível salvar o endereço.");
+        }
     }
 
     public AddressResponse update(Long id, Long idAssociate, AddressRequest request) {
