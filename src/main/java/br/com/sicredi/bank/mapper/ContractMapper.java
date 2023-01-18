@@ -1,15 +1,15 @@
 package br.com.sicredi.bank.mapper;
 
 import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.controller.response.contract.ListContractsResponse;
+import br.com.sicredi.bank.controller.response.contract.ListContractResponse;
 import br.com.sicredi.bank.entity.ContractEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ContractMapper {
 
-    public ListContractsResponse contractToListContractsResponse(ContractEntity contractEntity) {
-        return ListContractsResponse.builder()
+    public ListContractResponse contractToListContractsResponse(ContractEntity contractEntity) {
+        return ListContractResponse.builder()
                 .id(contractEntity.getId())
                 .paidOff(contractEntity.getPaidOff())
                 .build();

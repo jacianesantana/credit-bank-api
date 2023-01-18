@@ -2,6 +2,7 @@ package br.com.sicredi.bank.service;
 
 import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.repository.AccountRepository;
 import org.junit.jupiter.api.Test;
@@ -70,6 +71,15 @@ class AccountServiceTest {
     }
 
     @Test
+    void findByAgencyAndNumberShouldReturnFindEntityException() {
+        var account = buildAccount();
+
+        when(accountRepository.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new RuntimeException());
+
+        assertThrows(FindEntityException.class, () -> accountService.findByAgencyAndNumber(account.getAgency(), account.getNumber()));
+    }
+
+    @Test
     void saveSuccess() {
         var account = buildAccount();
 
@@ -88,4 +98,5 @@ class AccountServiceTest {
 
         assertDoesNotThrow(() -> accountService.findBalance(account.getId()));
     }
+
 }

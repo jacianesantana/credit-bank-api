@@ -24,33 +24,33 @@ public class ContractEntity {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "idassociate", referencedColumnName = "id")
+    @JoinColumn(name = "id_associate", referencedColumnName = "id")
     private AssociateEntity associate;
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "idproduct", referencedColumnName = "id")
+    @JoinColumn(name = "id_product", referencedColumnName = "id")
     private ProductEntity product;
 
     @Column(name = "value")
     private BigDecimal value;
 
-    @Column(name = "paidoff")
+    @Column(name = "paid_off")
     private Boolean paidOff;
 
-    @Column(name = "hiredate")
+    @Column(name = "hire_date")
     private LocalDate hireDate;
 
-    @Column(name = "expirationdate")
+    @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-    @Column(name = "installmentspaid")
+    @Column(name = "installments_paid")
     private Integer installmentsPaid;
 
-    @Column(name = "installmentsremaining")
+    @Column(name = "installments_remaining")
     private Integer installmentsRemaining;
 
-    @Column(name = "firstpaymentdate")
+    @Column(name = "first_payment_date")
     private LocalDate firstPaymentDate;
 
 }

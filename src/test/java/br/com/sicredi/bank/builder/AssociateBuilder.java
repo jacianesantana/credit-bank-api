@@ -1,9 +1,9 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.controller.request.associate.UpdateAssociatePaycheckRequest;
+import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.controller.response.associate.UpdateAssociatePaycheckResponse;
 import br.com.sicredi.bank.entity.AssociateEntity;
 
@@ -23,7 +23,7 @@ public class AssociateBuilder {
                 .build();
     }
 
-    public static UpdateAssociatePaycheckRequest buildUpdateAssociateRequest() {
+    public static UpdateAssociatePaycheckRequest buildUpdateAssociatePaycheckRequest() {
         return UpdateAssociatePaycheckRequest.builder()
                 .profession("anyProfession")
                 .salary(BigDecimal.valueOf(10000))
@@ -57,7 +57,7 @@ public class AssociateBuilder {
                 .build();
     }
 
-    public static UpdateAssociatePaycheckResponse buildUpdateAssociateResponse() {
+    public static UpdateAssociatePaycheckResponse buildUpdateAssociatePaycheckResponse() {
         return UpdateAssociatePaycheckResponse.builder()
                 .id(1L)
                 .profession("anyProfession")

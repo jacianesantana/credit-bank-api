@@ -26,7 +26,7 @@ public class AccountEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idassociate", referencedColumnName = "id")
+    @JoinColumn(name = "id_associate", referencedColumnName = "id")
     private AssociateEntity associate;
 
     @Column(name = "type")

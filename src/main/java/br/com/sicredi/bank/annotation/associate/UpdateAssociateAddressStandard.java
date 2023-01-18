@@ -1,6 +1,6 @@
-package br.com.sicredi.bank.annotation.contract;
+package br.com.sicredi.bank.annotation.associate;
 
-import br.com.sicredi.bank.controller.response.contract.ListContractResponse;
+import br.com.sicredi.bank.controller.response.address.AddressResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,17 +15,17 @@ import java.lang.annotation.Target;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Assinar e cadastrar um contrato", description = "Realiza a assinatura e o cadastramento de dados do contrato.")
+@Operation(summary = "Atualizar endereço de um associado", description = "Realiza a atualização de endereço do associado.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Contrato criado e assinado com sucesso!",
+        @ApiResponse(responseCode = "200", description = "Endereço atualizado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                schema = @Schema(implementation = ListContractResponse.class))),
+                schema = @Schema(implementation = AddressResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
+        @ApiResponse(responseCode = "404", description = "Endereço ou Associado não encontrado.",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
-public @interface HireContractStandard {
+public @interface UpdateAssociateAddressStandard {
 }

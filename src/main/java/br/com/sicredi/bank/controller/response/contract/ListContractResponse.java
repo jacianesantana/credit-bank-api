@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListContractsResponse {
+public class ListContractResponse {
 
     @Schema(example = "1")
     private Long id;

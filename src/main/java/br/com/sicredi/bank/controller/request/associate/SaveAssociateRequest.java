@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -33,6 +34,17 @@ public class SaveAssociateRequest {
     @NotNull(message = "Data de nascimento não pode ser nula.")
     @Schema(example = "1993-10-19")
     private LocalDate birthDate;
+
+    @NotNull(message = "Telefone não pode ser nulo.")
+    @NotBlank(message = "Telefone não pode ficar em branco.")
+    @Schema(example = "71999999999")
+    private String phone;
+
+    @NotNull(message = "Email não pode ser nulo.")
+    @NotBlank(message = "Email não pode ficar em branco.")
+    @Email(message = "Email inválido.")
+    @Schema(example = "nome.sobrenome@mail.com")
+    private String email;
 
     @NotNull(message = "Profissão não pode ser nulo.")
     @NotBlank(message = "Profissão não pode ficar em branco.")

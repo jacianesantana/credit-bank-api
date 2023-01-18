@@ -3,7 +3,6 @@ package br.com.sicredi.bank.service;
 import br.com.sicredi.bank.builder.AssociateBuilder;
 import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.ContractEntity;
@@ -119,11 +118,11 @@ class AssociateServiceTest {
     }
 
     @Test
-    void updateSuccess() {
-        var request = buildUpdateAssociateRequest();
+    void updatePaycheckSuccess() {
+        var request = buildUpdateAssociatePaycheckRequest();
         var associate = buildAssociate();
         var findAssociateResponse = buildFindAssociateResponse();
-        var updateAssociateResponse = buildUpdateAssociateResponse();
+        var updateAssociateResponse = buildUpdateAssociatePaycheckResponse();
 
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(findAssociateResponse);
@@ -140,8 +139,8 @@ class AssociateServiceTest {
     }
 
     @Test
-    void updateShouldReturnUpdateEntityException() {
-        var request = buildUpdateAssociateRequest();
+    void updatePaycheckShouldReturnUpdateEntityException() {
+        var request = buildUpdateAssociatePaycheckRequest();
         var associate = buildAssociate();
         var findAssociateResponse = buildFindAssociateResponse();
 
@@ -154,8 +153,8 @@ class AssociateServiceTest {
     }
 
     @Test
-    void updateShouldReturnBusinessRulesException() {
-        var request = buildUpdateAssociateRequest();
+    void updatePaycheckShouldReturnBusinessRulesException() {
+        var request = buildUpdateAssociatePaycheckRequest();
         var associate = buildAssociate();
         associate.setLastPaycheck(LocalDate.now().minusMonths(2));
         var findAssociateResponse = buildFindAssociateResponse();

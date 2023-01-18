@@ -29,6 +29,12 @@ public class SaveAssociateResponse {
     @Schema(example = "1993-10-19")
     private LocalDate birthDate;
 
+    @Schema(example = "71999999999")
+    private String phone;
+
+    @Schema(example = "nome.sobrenome@mail.com")
+    private String email;
+
     @Schema(example = "Engenheiro de Software")
     private String profession;
 

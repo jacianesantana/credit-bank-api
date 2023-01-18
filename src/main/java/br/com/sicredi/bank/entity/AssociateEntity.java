@@ -29,8 +29,14 @@ public class AssociateEntity {
     @Column(name = "cpf")
     private String cpf;
 
-    @Column(name = "birthdate")
+    @Column(name = "birth_date")
     private LocalDate birthDate;
+
+    @Column(name = "phone")
+    private String phone;
+
+    @Column(name = "email")
+    private String email;
 
     @Column(name = "profession")
     private String profession;
@@ -38,8 +44,12 @@ public class AssociateEntity {
     @Column(name = "salary")
     private BigDecimal salary;
 
-    @Column(name = "lastpaycheck")
+    @Column(name = "last_paycheck")
     private LocalDate lastPaycheck;
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = CascadeType.ALL)
+    private Set<AddressEntity> addressSet;
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "associate", cascade = CascadeType.ALL)

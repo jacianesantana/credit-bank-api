@@ -32,15 +32,15 @@ public class TransactionEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idcreditaccount", referencedColumnName = "id")
+    @JoinColumn(name = "id_credit_account", referencedColumnName = "id")
     private AccountEntity creditAccount;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "iddebitaccount", referencedColumnName = "id")
+    @JoinColumn(name = "id_debit_account", referencedColumnName = "id")
     private AccountEntity debitAccount;
 
-    @Column(name = "createdat")
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
 }

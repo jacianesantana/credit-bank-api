@@ -1,7 +1,8 @@
 package br.com.sicredi.bank.controller.response.associate;
 
 import br.com.sicredi.bank.controller.response.account.AccountResponse;
-import br.com.sicredi.bank.controller.response.contract.ListContractsResponse;
+import br.com.sicredi.bank.controller.response.address.AddressResponse;
+import br.com.sicredi.bank.controller.response.contract.ListContractResponse;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,12 @@ public class FindAssociateResponse {
     @Schema(example = "1993-10-19")
     private LocalDate birthDate;
 
+    @Schema(example = "71999999999")
+    private String phone;
+
+    @Schema(example = "nome.sobrenome@mail.com")
+    private String email;
+
     @Schema(example = "Engenheiro de Software")
     private String profession;
 
@@ -39,8 +46,10 @@ public class FindAssociateResponse {
     @Schema(example = "2022-01-10")
     private LocalDate lastPaycheck;
 
+    private List<AddressResponse> address;
+
     private List<AccountResponse> accounts;
 
-    private List<ListContractsResponse> contracts;
+    private List<ListContractResponse> contracts;
 
 }
