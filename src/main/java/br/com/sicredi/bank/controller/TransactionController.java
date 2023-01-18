@@ -9,11 +9,9 @@ import br.com.sicredi.bank.controller.request.transaction.WithdrawTransactionReq
 import br.com.sicredi.bank.controller.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.service.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,22 +22,22 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-    @PatchMapping("/withdraw")
+    @PostMapping("/withdraw")
     @WithdrawTransactionStandard
     public ResponseEntity<TransactionResponse> withdraw(@Valid @RequestBody WithdrawTransactionRequest request) {
-        return ResponseEntity.ok().body(transactionService.withdraw(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.withdraw(request));
     }
 
-    @PatchMapping("/deposit")
+    @PostMapping("/deposit")
     @DepositTransactionStandard
     public ResponseEntity<TransactionResponse> deposit(@Valid @RequestBody DepositTransactionRequest request) {
-        return ResponseEntity.ok().body(transactionService.deposit(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.deposit(request));
     }
 
-    @PatchMapping("/transfer")
+    @PostMapping("/transfer")
     @TransferTransactionStandard
     public ResponseEntity<TransactionResponse> transfer(@Valid @RequestBody TransferTransactionRequest request) {
-        return ResponseEntity.ok().body(transactionService.transfer(request));
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.transfer(request));
     }
 
 }

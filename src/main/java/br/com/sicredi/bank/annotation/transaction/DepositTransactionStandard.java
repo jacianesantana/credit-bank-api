@@ -17,7 +17,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Operation(summary = "Realizar depósito em uma conta", description = "Realiza depósito em uma conta.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Depósito realizado com sucesso!",
+        @ApiResponse(responseCode = "201", description = "Depósito realizado com sucesso!",
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = TransactionResponse.class))),
         @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",

@@ -54,7 +54,7 @@ class TransactionServiceTest {
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
@@ -83,7 +83,7 @@ class TransactionServiceTest {
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
@@ -101,7 +101,7 @@ class TransactionServiceTest {
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenThrow(new RuntimeException());
 
@@ -138,7 +138,7 @@ class TransactionServiceTest {
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.requestToTransaction(any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);

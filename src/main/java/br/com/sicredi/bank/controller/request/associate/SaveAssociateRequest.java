@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.br.CPF;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -25,6 +26,7 @@ public class SaveAssociateRequest {
 
     @NotNull(message = "CPF não pode ser nulo.")
     @NotBlank(message = "CPF não pode ficar em branco.")
+    @CPF(message = "CPF inválido.")
     @Schema(example = "01234567890")
     private String cpf;
 

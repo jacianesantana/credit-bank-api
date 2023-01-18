@@ -4,6 +4,7 @@ import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.enums.AccountType;
+import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +42,11 @@ public class AccountService {
     }
 
     public AccountEntity findByAgencyAndNumber(Integer agency, Integer number) {
-        return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
+        try {
+            return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
+        } catch (Exception e) {
+            throw new FindEntityException("Conta não encontrada!");
+        }
     }
 
     public BalanceAccountResponse findBalance(Long id) {
