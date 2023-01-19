@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.contract;
 
 import br.com.sicredi.bank.controller.request.contract.ContractRequest;
 import br.com.sicredi.bank.controller.response.contract.SaveContractResponse;
@@ -6,6 +6,8 @@ import br.com.sicredi.bank.entity.ContractEntity;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.ContractRepository;
+import br.com.sicredi.bank.service.product.ProductService;
+import br.com.sicredi.bank.service.associate.AssociateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

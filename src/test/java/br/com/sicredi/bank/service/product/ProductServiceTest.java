@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.product;
 
 import br.com.sicredi.bank.entity.enums.ProductType;
 import br.com.sicredi.bank.exception.BusinessRulesException;

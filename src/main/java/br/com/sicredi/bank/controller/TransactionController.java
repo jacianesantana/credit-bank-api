@@ -7,7 +7,7 @@ import br.com.sicredi.bank.controller.request.transaction.DepositTransactionRequ
 import br.com.sicredi.bank.controller.request.transaction.TransferTransactionRequest;
 import br.com.sicredi.bank.controller.request.transaction.WithdrawTransactionRequest;
 import br.com.sicredi.bank.controller.response.transaction.TransactionResponse;
-import br.com.sicredi.bank.service.TransactionService;
+import br.com.sicredi.bank.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

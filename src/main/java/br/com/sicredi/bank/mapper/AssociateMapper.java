@@ -49,6 +49,7 @@ public class AssociateMapper {
                 .email(associate.getEmail())
                 .profession(associate.getProfession())
                 .salary(associate.getSalary())
+                .lastPaycheck(associate.getLastPaycheck())
                 .accounts(accountResponse)
                 .build();
     }

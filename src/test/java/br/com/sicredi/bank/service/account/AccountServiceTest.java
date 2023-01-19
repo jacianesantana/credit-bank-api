@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.account;
 
 import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.entity.AccountEntity;
@@ -55,6 +55,15 @@ class AccountServiceTest {
         assertEquals(account.getId(), response.getId());
         assertEquals(account.getAgency(), response.getAgency());
         assertEquals(account.getNumber(), response.getNumber());
+    }
+
+    @Test
+    void findByIdShouldReturnFindEntityException() {
+        var account = buildAccount();
+
+        when(accountRepository.findById(anyLong())).thenThrow(new RuntimeException());
+
+        assertThrows(FindEntityException.class, () -> accountService.findById(account.getId()));
     }
 
     @Test

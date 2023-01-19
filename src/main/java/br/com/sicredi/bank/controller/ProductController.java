@@ -2,7 +2,7 @@ package br.com.sicredi.bank.controller;
 
 import br.com.sicredi.bank.annotation.product.ProductStandard;
 import br.com.sicredi.bank.controller.response.product.ProductResponse;
-import br.com.sicredi.bank.service.ProductService;
+import br.com.sicredi.bank.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

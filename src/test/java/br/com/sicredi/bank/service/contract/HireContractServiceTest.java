@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.contract;
 
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.entity.ContractEntity;
@@ -6,6 +6,8 @@ import br.com.sicredi.bank.entity.enums.ProductType;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.ContractRepository;
+import br.com.sicredi.bank.service.associate.AssociateService;
+import br.com.sicredi.bank.service.product.ProductService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

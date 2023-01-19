@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.address;
 
 import br.com.sicredi.bank.controller.request.address.AddressRequest;
 import br.com.sicredi.bank.controller.response.address.AddressResponse;
@@ -7,6 +7,7 @@ import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AddressMapper;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.AddressRepository;
+import br.com.sicredi.bank.service.associate.AssociateService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
