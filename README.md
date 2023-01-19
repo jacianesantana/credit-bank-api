@@ -28,6 +28,9 @@ Desenvolver uma aplicação que disponibiliza serviços bancários ao associado:
 - Deletar cadastro
   - Não é permitido excluir se tiver contrato ativo
   - Excluir endereços, contas e contratos vinculados ao associado
+  
+## Database PostgreSQL
+- O script para criar as tabelas encontra-se no caminho de pastas: /src/main/resources/db
 
 ## Stack
 
