@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
+import static br.com.sicredi.bank.builder.AccountBuilder.buildOtherAccount;
 
 public class TransactionBuilder {
 
@@ -42,8 +43,8 @@ public class TransactionBuilder {
 
     public static CreditAccountRequest buildCreditAccountRequest() {
         return CreditAccountRequest.builder()
-                .agency(1000)
-                .number(12345678)
+                .agency(1234)
+                .number(87654321)
                 .build();
     }
 
@@ -53,18 +54,18 @@ public class TransactionBuilder {
                 .type(TransactionType.DEPOSITO)
                 .value(BigDecimal.valueOf(100))
                 .debitAccount(buildAccount())
-                .creditAccount(buildAccount())
+                .creditAccount(buildOtherAccount())
                 .createdAt(LocalDateTime.now())
                 .build();
     }
 
-    public static TransactionEntity buildTransactionWithdraw() {
+    public static TransactionEntity buildTransaction(TransactionType type) {
         return TransactionEntity.builder()
                 .id(1L)
-                .type(TransactionType.SAQUE)
+                .type(type)
                 .value(BigDecimal.valueOf(100))
                 .debitAccount(buildAccount())
-                .creditAccount(buildAccount())
+                .creditAccount(buildOtherAccount())
                 .createdAt(LocalDateTime.now())
                 .build();
     }

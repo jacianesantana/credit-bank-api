@@ -1,5 +1,6 @@
 package br.com.sicredi.bank.mapper;
 
+import br.com.sicredi.bank.controller.response.transaction.StatementTransaction;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.entity.enums.TransactionType;
@@ -32,4 +33,19 @@ public class TransactionMapper {
         return transaction.build();
     }
 
+    public StatementTransaction transactionToStatementTransaction(AccountEntity account, TransactionEntity transaction) {
+        var isDebit = false;
+
+        if (transaction.getDebitAccount() != null) {
+            isDebit = account.getId().equals(transaction.getDebitAccount().getId());
+        }
+
+        var value = transaction.getValue();
+
+        return StatementTransaction.builder()
+                .type(transaction.getType())
+                .value(isDebit ? value.multiply(BigDecimal.valueOf(-1)) : value)
+                .createdAt(transaction.getCreatedAt())
+                .build();
+    }
 }

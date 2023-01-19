@@ -19,6 +19,17 @@ public class AccountBuilder {
                 .build();
     }
 
+    public static AccountEntity buildOtherAccount() {
+        return AccountEntity.builder()
+                .id(2L)
+                .associate(AssociateBuilder.buildAssociate())
+                .type(AccountType.POUPANCA)
+                .agency(1234)
+                .number(87654321)
+                .balance(BigDecimal.valueOf(1000))
+                .build();
+    }
+
     public static AccountResponse buildAccountResponse() {
         return AccountResponse.builder()
                 .type(AccountType.CORRENTE)

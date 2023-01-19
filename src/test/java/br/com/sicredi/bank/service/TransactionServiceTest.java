@@ -16,13 +16,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.util.NoSuchElementException;
 
-import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
-import static br.com.sicredi.bank.builder.AccountBuilder.buildAccountResponse;
+import static br.com.sicredi.bank.builder.AccountBuilder.*;
 import static br.com.sicredi.bank.builder.TransactionBuilder.*;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
@@ -54,7 +54,7 @@ class TransactionServiceTest {
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
@@ -68,7 +68,7 @@ class TransactionServiceTest {
     void depositShouldReturnFindEntityException() {
         var transactionRequest = buildDepositTransactionRequest();
 
-        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new RuntimeException());
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new FindEntityException("anyMessage"));
 
         assertThrows(FindEntityException.class, () -> transactionService.deposit(transactionRequest));
     }
@@ -77,13 +77,13 @@ class TransactionServiceTest {
     void withdrawSuccess() {
         var account = buildAccount();
         var transactionRequest = buildWithdrawTransactionRequest();
-        var transaction = buildTransactionWithdraw();
+        var transaction = buildTransaction(TransactionType.SAQUE);
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().subtract(transactionRequest.getValue());
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
-        when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
+        when(transactionMapper.toTransaction(any(AccountEntity.class), any(), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
@@ -97,7 +97,7 @@ class TransactionServiceTest {
     void withdrawShouldReturnSaveEntityException() {
         var account = buildAccount();
         var transactionRequest = buildWithdrawTransactionRequest();
-        var transaction = buildTransactionWithdraw();
+        var transaction = buildTransaction(TransactionType.SAQUE);
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
@@ -123,25 +123,29 @@ class TransactionServiceTest {
     void withdrawShouldReturnFindEntityException() {
         var transactionRequest = buildWithdrawTransactionRequest();
 
-        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new NoSuchElementException());
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new FindEntityException("anyMessage"));
 
         assertThrows(FindEntityException.class, () -> transactionService.withdraw(transactionRequest));
     }
 
     @Test
     void transferSuccess() {
-        var account = buildAccount();
+        var debitAccount = buildAccount();
+        var creditAccount = buildOtherAccount();
         var transactionRequest = buildTransactionRequest();
-        var transaction = buildTransactionWithdraw();
-        var accountResponse = buildAccountResponse();
-        var newBalance = account.getBalance().subtract(transactionRequest.getValue());
+        var transaction = buildTransaction(TransactionType.TRANSFERENCIA);
+        var debitAccountResponse = buildAccountResponse();
+        var newBalance = debitAccount.getBalance().subtract(transactionRequest.getValue());
 
-        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
+        when(accountService.findByAgencyAndNumber(debitAccount.getAgency(), debitAccount.getNumber()))
+                .thenReturn(debitAccount);
+        when(accountService.findByAgencyAndNumber(creditAccount.getAgency(), creditAccount.getNumber()))
+                .thenReturn(creditAccount);
         doNothing().when(accountService).save(any(AccountEntity.class));
         when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
-        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
+        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(debitAccountResponse);
 
         var response = transactionService.transfer(transactionRequest);
 
@@ -150,10 +154,9 @@ class TransactionServiceTest {
 
     @Test
     void transferShouldReturnFindEntityException() {
-        var account = buildAccount();
         var transactionRequest = buildTransactionRequest();
 
-        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new NoSuchElementException());
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenThrow(new FindEntityException("any"));
 
         assertThrows(FindEntityException.class, () -> transactionService.transfer(transactionRequest));
     }
