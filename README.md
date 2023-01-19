@@ -30,7 +30,7 @@ Desenvolver uma aplicação que disponibiliza serviços bancários ao associado:
   - Excluir endereços, contas e contratos vinculados ao associado
   
 ## Database PostgreSQL
-- O script para criar as tabelas encontra-se no caminho de pastas: /src/main/resources/db
+- Os scripts para criar o banco de dados e as tabelas encontram-se no caminho de pastas: /src/main/resources/db
 
 ## Stack
 
