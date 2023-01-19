@@ -4,14 +4,19 @@ import br.com.sicredi.bank.controller.request.transaction.DepositTransactionRequ
 import br.com.sicredi.bank.controller.request.transaction.TransferTransactionRequest;
 import br.com.sicredi.bank.controller.request.transaction.WithdrawTransactionRequest;
 import br.com.sicredi.bank.controller.response.transaction.TransactionResponse;
+import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
+import br.com.sicredi.bank.repository.ContractRepository;
 import br.com.sicredi.bank.repository.TransactionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 import static br.com.sicredi.bank.entity.enums.TransactionType.*;
 
@@ -109,4 +114,11 @@ public class TransactionService {
         }
     }
 
+    public List<TransactionEntity> findAllByAccountId(AccountEntity account) {
+        var debits = transactionRepository.findByDebitAccount(account);
+        var credits = transactionRepository.findByCreditAccount(account);
+        debits.addAll(credits);
+
+        return debits;
+    }
 }

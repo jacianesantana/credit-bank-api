@@ -1,7 +1,6 @@
 package br.com.sicredi.bank.service;
 
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.entity.ContractEntity;
 import br.com.sicredi.bank.entity.enums.ProductType;
 import br.com.sicredi.bank.exception.SaveEntityException;
@@ -13,7 +12,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static br.com.sicredi.bank.builder.AssociateBuilder.*;
+import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
+import static br.com.sicredi.bank.builder.AssociateBuilder.buildFindAssociateResponse;
 import static br.com.sicredi.bank.builder.ContractBuilder.buildContractEntity;
 import static br.com.sicredi.bank.builder.ContractBuilder.buildContractRequest;
 import static br.com.sicredi.bank.builder.ProductBuilder.buildProductEntity;
