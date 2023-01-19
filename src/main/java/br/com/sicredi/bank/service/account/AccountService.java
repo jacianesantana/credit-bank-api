@@ -1,24 +1,18 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.account;
 
-import br.com.sicredi.bank.controller.response.account.AccountStatementResponse;
 import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
-import br.com.sicredi.bank.controller.response.transaction.StatementTransaction;
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.entity.enums.AccountType;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
-import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -79,4 +73,5 @@ public class AccountService {
 
         return Integer.parseInt(builder.toString());
     }
+
 }

@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.transaction;
 
 import br.com.sicredi.bank.entity.AccountEntity;
 import br.com.sicredi.bank.entity.TransactionEntity;
@@ -9,6 +9,7 @@ import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.repository.TransactionRepository;
+import br.com.sicredi.bank.service.account.AccountService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

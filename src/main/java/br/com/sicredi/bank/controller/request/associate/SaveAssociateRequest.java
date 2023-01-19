@@ -42,7 +42,7 @@ public class SaveAssociateRequest {
 
     @NotNull(message = "Email não pode ser nulo.")
     @NotBlank(message = "Email não pode ser vazio.")
-    @Email(message = "Email inválido.")
+    @Email(message = "Email inválido.", regexp = ".+[@].+[\\.].+")
     @Schema(example = "nome.sobrenome@mail.com")
     private String email;
 
@@ -52,7 +52,7 @@ public class SaveAssociateRequest {
     private String profession;
 
     @NotNull(message = "Salário não pode ser nulo.")
-    @Min(value = 1)
+    @Min(value = 1, message = "Salário inválido.")
     @Schema(example = "4000.00")
     private BigDecimal salary;
 

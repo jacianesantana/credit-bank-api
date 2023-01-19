@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.address;
 
 import br.com.sicredi.bank.controller.request.address.AddressRequest;
 import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
@@ -7,6 +7,7 @@ import br.com.sicredi.bank.entity.AssociateEntity;
 import br.com.sicredi.bank.mapper.AddressMapper;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.AddressRepository;
+import br.com.sicredi.bank.service.associate.AssociateService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

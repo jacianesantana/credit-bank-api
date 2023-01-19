@@ -25,6 +25,10 @@ public class AccountStatementResponse {
 
     @Schema(example = "12345678")
     private Integer number;
+
+    @Schema(example = "100.00")
     private BigDecimal balance;
+
     private List<StatementTransaction> transactions;
+
 }

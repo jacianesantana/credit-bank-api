@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.contract;
 
 import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
 import br.com.sicredi.bank.entity.AssociateEntity;

@@ -1,4 +1,4 @@
-package br.com.sicredi.bank.service;
+package br.com.sicredi.bank.service.transaction;
 
 import br.com.sicredi.bank.controller.request.transaction.DepositTransactionRequest;
 import br.com.sicredi.bank.controller.request.transaction.TransferTransactionRequest;
@@ -10,8 +10,8 @@ import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
-import br.com.sicredi.bank.repository.ContractRepository;
 import br.com.sicredi.bank.repository.TransactionRepository;
+import br.com.sicredi.bank.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
