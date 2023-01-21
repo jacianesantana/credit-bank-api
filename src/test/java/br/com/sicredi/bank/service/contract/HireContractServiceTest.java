@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.service.contract;
 
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.entity.ContractEntity;
-import br.com.sicredi.bank.entity.enums.ProductType;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.entity.ContractEntity;
+import br.com.sicredi.bank.model.enums.ProductType;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.ContractRepository;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildFindAssociateResponse;
@@ -45,7 +46,7 @@ class HireContractServiceTest {
     @Test
     void hireSuccess() {
         var associate = buildAssociate();
-        var findAssociateResponse = buildFindAssociateResponse();
+        var findAssociateResponse = ResponseEntity.ok(buildFindAssociateResponse());
         var product = buildProductEntity();
         var request = buildContractRequest();
         var contract = buildContractEntity();
@@ -55,8 +56,9 @@ class HireContractServiceTest {
         when(productService.findByType(any(ProductType.class))).thenReturn(product);
         when(contractRepository.save(any(ContractEntity.class))).thenReturn(contract);
 
-        var response = hireContractService.hire(request);
+        var response = hireContractService.hire(request).getBody();
 
+        assertNotNull(response);
         assertNotNull(response.getId());
         assertFalse(response.getPaidOff());
     }
@@ -64,7 +66,7 @@ class HireContractServiceTest {
     @Test
     void hireShouldReturnEntityException() {
         var associate = buildAssociate();
-        var findAssociateResponse = buildFindAssociateResponse();
+        var findAssociateResponse = ResponseEntity.ok(buildFindAssociateResponse());
         var product = buildProductEntity();
         var request = buildContractRequest();
 

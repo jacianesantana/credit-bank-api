@@ -10,9 +10,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "Api Instituição Bancária", description = "Instituição Bancária",
+@OpenAPIDefinition(info = @Info(title = "Credit Bank", description = "Instituição Bancária",
         contact = @Contact(name = "Jaciane Santana", email = ""), version = "1.0.0"),
-        servers = @Server(url = "http://localhost:8080/api/v1")
+        servers = @Server(url = "http://localhost:8080/bank-api/v1")
 )
 public class SwaggerConfig {
 

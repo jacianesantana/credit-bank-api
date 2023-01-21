@@ -2,9 +2,9 @@ package br.com.sicredi.bank.controller;
 
 import br.com.sicredi.bank.annotation.contract.FindContractStandard;
 import br.com.sicredi.bank.annotation.contract.HireContractStandard;
-import br.com.sicredi.bank.controller.request.contract.ContractRequest;
-import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.controller.response.contract.SaveContractResponse;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.response.contract.FindContractResponse;
+import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
 import br.com.sicredi.bank.service.contract.ContractService;
 import br.com.sicredi.bank.service.contract.HireContractService;
 import lombok.RequiredArgsConstructor;
@@ -24,13 +24,13 @@ public class ContractController {
     @PostMapping("/hire")
     @HireContractStandard
     public ResponseEntity<SaveContractResponse> hire(@Valid @RequestBody ContractRequest request) {
-        return ResponseEntity.ok().body(hireContractService.hire(request));
+        return hireContractService.hire(request);
     }
 
     @GetMapping("/find/{id}")
     @FindContractStandard
     public ResponseEntity<FindContractResponse> findById(@PathVariable Long id) {
-        return ResponseEntity.ok(contractService.findById(id));
+        return contractService.findById(id);
     }
 
 }

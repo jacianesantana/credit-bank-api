@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.service.account;
 
-import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
+import br.com.sicredi.bank.model.entity.AccountEntity;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.repository.AccountRepository;

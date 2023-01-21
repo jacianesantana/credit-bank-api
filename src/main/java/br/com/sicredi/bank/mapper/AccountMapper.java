@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.response.account.AccountResponse;
-import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.model.response.account.AccountResponse;
+import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
+import br.com.sicredi.bank.model.entity.AccountEntity;
 import org.springframework.stereotype.Component;
 
 @Component

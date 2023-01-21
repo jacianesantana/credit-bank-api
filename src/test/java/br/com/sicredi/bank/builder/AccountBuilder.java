@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.response.account.AccountResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.enums.AccountType;
+import br.com.sicredi.bank.model.response.account.AccountResponse;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.enums.AccountType;
 
 import java.math.BigDecimal;
 

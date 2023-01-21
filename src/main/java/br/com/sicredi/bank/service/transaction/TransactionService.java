@@ -1,24 +1,26 @@
 package br.com.sicredi.bank.service.transaction;
 
-import br.com.sicredi.bank.controller.request.transaction.DepositTransactionRequest;
-import br.com.sicredi.bank.controller.request.transaction.TransferTransactionRequest;
-import br.com.sicredi.bank.controller.request.transaction.WithdrawTransactionRequest;
-import br.com.sicredi.bank.controller.response.transaction.TransactionResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.TransactionEntity;
 import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.TransactionEntity;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.WithdrawTransactionRequest;
+import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.repository.TransactionRepository;
 import br.com.sicredi.bank.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static br.com.sicredi.bank.entity.enums.TransactionType.*;
+import static br.com.sicredi.bank.model.enums.TransactionType.*;
 
 @Slf4j
 @Service
@@ -29,7 +31,7 @@ public class TransactionService {
     private final AccountService accountService;
     private final AccountMapper accountMapper;
 
-    public TransactionResponse deposit(DepositTransactionRequest request) {
+    public ResponseEntity<TransactionResponse> deposit(DepositTransactionRequest request) {
         var account = accountService.findByAgencyAndNumber(request.getCreditAccount().getAgency(),
                 request.getCreditAccount().getNumber());
         var newBalance = account.getBalance().add(request.getValue());
@@ -43,16 +45,18 @@ public class TransactionService {
 
             transactionRepository.save(transaction);
 
-            return TransactionResponse.builder()
+            var response = TransactionResponse.builder()
                     .account(accountMapper.accountToAccountResponse(account))
                     .newBalance(account.getBalance())
                     .build();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             throw new SaveEntityException("Falha interna ao finalizar a transação.");
         }
     }
 
-    public TransactionResponse withdraw(WithdrawTransactionRequest request) {
+    public ResponseEntity<TransactionResponse> withdraw(WithdrawTransactionRequest request) {
         var account = accountService.findByAgencyAndNumber(request.getDebitAccount().getAgency(),
                 request.getDebitAccount().getNumber());
 
@@ -71,16 +75,18 @@ public class TransactionService {
                 throw new SaveEntityException("Falha interna ao finalizar a transação.");
             }
 
-            return TransactionResponse.builder()
+            var response = TransactionResponse.builder()
                     .account(accountMapper.accountToAccountResponse(account))
                     .newBalance(account.getBalance())
                     .build();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
             throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação");
         }
     }
 
-    public TransactionResponse transfer(TransferTransactionRequest request) {
+    public ResponseEntity<TransactionResponse> transfer(TransferTransactionRequest request) {
         var debitAccount = accountService.findByAgencyAndNumber(request.getDebitAccount().getAgency(),
                 request.getDebitAccount().getNumber());
         var creditAccount = accountService.findByAgencyAndNumber(request.getCreditAccount().getAgency(),
@@ -105,10 +111,12 @@ public class TransactionService {
                 throw new SaveEntityException("Falha interna ao finalizar a transação.");
             }
 
-            return TransactionResponse.builder()
+            var response = TransactionResponse.builder()
                     .account(accountMapper.accountToAccountResponse(debitAccount))
                     .newBalance(debitAccount.getBalance())
                     .build();
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
             throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação");
         }

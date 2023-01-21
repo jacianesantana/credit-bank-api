@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.controller;
 
 import br.com.sicredi.bank.annotation.product.ProductStandard;
-import br.com.sicredi.bank.controller.response.product.ProductResponse;
+import br.com.sicredi.bank.model.response.product.ProductResponse;
 import br.com.sicredi.bank.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class ProductController {
     @GetMapping("/products")
     @ProductStandard
     public ResponseEntity<List<ProductResponse>> listProducts(@RequestParam BigDecimal salary) {
-        return ResponseEntity.ok().body(productService.listProducts(salary));
+        return productService.listProducts(salary);
     }
 
 }

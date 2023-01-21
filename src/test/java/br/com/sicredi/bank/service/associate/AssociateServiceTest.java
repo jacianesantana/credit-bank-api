@@ -1,12 +1,12 @@
 package br.com.sicredi.bank.service.associate;
 
 import br.com.sicredi.bank.builder.AssociateBuilder;
-import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.AssociateEntity;
-import br.com.sicredi.bank.entity.ContractEntity;
-import br.com.sicredi.bank.entity.enums.AccountType;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
+import br.com.sicredi.bank.model.entity.ContractEntity;
+import br.com.sicredi.bank.model.enums.AccountType;
 import br.com.sicredi.bank.exception.*;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.AssociateRepository;
@@ -58,8 +58,9 @@ class AssociateServiceTest {
         when(accountService.create(any(AssociateEntity.class), any(AccountType.class))).thenReturn(account);
         when(associateMapper.associateToSaveAssociateResponse(any(AssociateEntity.class), anyList())).thenReturn(saveResponse);
 
-        var response = associateService.save(request);
+        var response = associateService.save(request).getBody();
 
+        assertNotNull(response);
         assertNotNull(response.getAccounts());
         assertNotNull(response.getLastPaycheck());
     }
@@ -104,8 +105,9 @@ class AssociateServiceTest {
         when(associateRepository.findById(anyLong())).thenReturn(Optional.of(associate));
         when(associateMapper.associateToFindAssociateResponse(any(AssociateEntity.class))).thenReturn(associateResponse);
 
-        var response = associateService.findById(associate.getId());
+        var response = associateService.findById(associate.getId()).getBody();
 
+        assertNotNull(response);
         assertEquals(associate.getId(), response.getId());
         assertEquals(associate.getCpf(), response.getCpf());
     }
@@ -132,8 +134,9 @@ class AssociateServiceTest {
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
         when(associateMapper.associateToUpdateAssociateContactResponse(any(AssociateEntity.class))).thenReturn(updateAssociateResponse);
 
-        var response = associateService.updateContact(associate.getId(), request);
+        var response = associateService.updateContact(associate.getId(), request).getBody();
 
+        assertNotNull(response);
         assertEquals(associate.getId(), response.getId());
         assertEquals(request.getPhone(), response.getPhone());
         assertEquals(request.getEmail(), response.getEmail());
@@ -166,8 +169,9 @@ class AssociateServiceTest {
         when(associateRepository.save(any(AssociateEntity.class))).thenReturn(associate);
         when(associateMapper.associateToUpdateAssociatePaycheckResponse(any(AssociateEntity.class))).thenReturn(updateAssociateResponse);
 
-        var response = associateService.updatePaycheck(associate.getId(), request);
+        var response = associateService.updatePaycheck(associate.getId(), request).getBody();
 
+        assertNotNull(response);
         assertNotNull(response.getId());
         assertEquals(request.getProfession(), response.getProfession());
         assertEquals(request.getSalary(), response.getSalary());

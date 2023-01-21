@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.service.product;
 
-import br.com.sicredi.bank.entity.enums.ProductType;
+import br.com.sicredi.bank.model.enums.ProductType;
 import br.com.sicredi.bank.exception.BusinessRulesException;
 import br.com.sicredi.bank.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -13,8 +13,7 @@ import java.math.BigDecimal;
 import java.util.Optional;
 
 import static br.com.sicredi.bank.builder.ProductBuilder.buildProductEntity;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,8 +41,9 @@ class ProductServiceTest {
     void listProductsWithSalary1500Success() {
         var salary = BigDecimal.valueOf(1500);
 
-        var response = productService.listProducts(salary);
+        var response = productService.listProducts(salary).getBody();
 
+        assertNotNull(response);
         assertEquals(1, response.size());
     }
 
@@ -51,8 +51,9 @@ class ProductServiceTest {
     void listProductsWithSalary3000Success() {
         var salary = BigDecimal.valueOf(3000);
 
-        var response = productService.listProducts(salary);
+        var response = productService.listProducts(salary).getBody();
 
+        assertNotNull(response);
         assertEquals(2, response.size());
     }
 
@@ -60,8 +61,9 @@ class ProductServiceTest {
     void listProductsWithSalary5000Success() {
         var salary = BigDecimal.valueOf(5000);
 
-        var response = productService.listProducts(salary);
+        var response = productService.listProducts(salary).getBody();
 
+        assertNotNull(response);
         assertEquals(3, response.size());
     }
 

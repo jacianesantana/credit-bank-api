@@ -1,15 +1,15 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.response.transaction.StatementTransaction;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.TransactionEntity;
-import br.com.sicredi.bank.entity.enums.TransactionType;
+import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.TransactionEntity;
+import br.com.sicredi.bank.model.enums.TransactionType;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import static br.com.sicredi.bank.entity.enums.TransactionType.*;
+import static br.com.sicredi.bank.model.enums.TransactionType.*;
 
 @Component
 public class TransactionMapper {

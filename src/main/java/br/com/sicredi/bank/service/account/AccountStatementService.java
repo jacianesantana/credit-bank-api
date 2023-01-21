@@ -1,10 +1,11 @@
 package br.com.sicredi.bank.service.account;
 
-import br.com.sicredi.bank.controller.response.account.AccountStatementResponse;
-import br.com.sicredi.bank.controller.response.transaction.StatementTransaction;
+import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
+import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -18,20 +19,22 @@ public class AccountStatementService {
     private final TransactionMapper transactionMapper;
     private final AccountService accountService;
 
-    public AccountStatementResponse statement(Long id) {
+    public ResponseEntity<StatementAccountResponse> statement(Long id) {
         var account = accountService.findById(id);
         var transactions = transactionService.findAllByAccountId(account).stream()
                 .map(transaction -> transactionMapper.transactionToStatementTransaction(account, transaction))
                 .sorted(Comparator.comparing(StatementTransaction::getCreatedAt))
                 .collect(Collectors.toList());
 
-        return AccountStatementResponse.builder()
+        var response = StatementAccountResponse.builder()
                 .type(account.getType())
                 .agency(account.getAgency())
                 .number(account.getNumber())
                 .balance(account.getBalance())
                 .transactions(transactions)
                 .build();
+
+        return ResponseEntity.ok(response);
     }
 
 }

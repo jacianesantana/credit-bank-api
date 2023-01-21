@@ -1,12 +1,12 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.UpdateAssociateContactResponse;
-import br.com.sicredi.bank.controller.response.associate.UpdateAssociatePaycheckResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.AssociateEntity;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociateContactResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociatePaycheckResponse;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -77,7 +77,7 @@ public class AssociateMapper {
                 .profession(associate.getProfession())
                 .salary(associate.getSalary())
                 .lastPaycheck(associate.getLastPaycheck())
-                .address(address)
+                .addresses(address)
                 .accounts(accounts)
                 .contracts(contracts)
                 .build();

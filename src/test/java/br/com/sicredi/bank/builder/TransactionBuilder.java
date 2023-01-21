@@ -1,10 +1,9 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.request.transaction.*;
-import br.com.sicredi.bank.controller.response.transaction.StatementTransaction;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.TransactionEntity;
-import br.com.sicredi.bank.entity.enums.TransactionType;
+import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
+import br.com.sicredi.bank.model.entity.TransactionEntity;
+import br.com.sicredi.bank.model.enums.TransactionType;
+import br.com.sicredi.bank.model.request.transaction.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

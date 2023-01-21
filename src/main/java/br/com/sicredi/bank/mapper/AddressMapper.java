@@ -1,14 +1,13 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.request.address.AddressRequest;
-import br.com.sicredi.bank.controller.response.address.AddressResponse;
-import br.com.sicredi.bank.entity.AddressEntity;
-import br.com.sicredi.bank.entity.AssociateEntity;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.response.address.AddressResponse;
+import br.com.sicredi.bank.model.entity.AddressEntity;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
 public class AddressMapper {
 
     public AddressEntity addressRequestToAddress(AssociateEntity associate, AddressRequest request) {
