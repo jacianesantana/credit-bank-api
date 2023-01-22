@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.service.account;
 
+import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
 import br.com.sicredi.bank.model.response.transaction.StatementTransactionResponse;
-import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
