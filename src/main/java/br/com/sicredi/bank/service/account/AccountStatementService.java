@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
@@ -21,17 +22,23 @@ public class AccountStatementService {
 
     public ResponseEntity<StatementAccountResponse> statement(Long id) {
         var account = accountService.findById(id);
-        var transactions = transactionService.findAllByAccountId(account).stream()
-                .map(transaction -> transactionMapper.transactionToStatementTransaction(account, transaction))
-                .sorted(Comparator.comparing(StatementTransactionResponse::getCreatedAt))
-                .collect(Collectors.toList());
+        var transactions = transactionService.findAllByAccountId(account);
+        var sortedList = new ArrayList<StatementTransactionResponse>();
+
+        if (!transactions.isEmpty()) {
+            sortedList = (ArrayList<StatementTransactionResponse>) transactions.stream()
+                    .map(transaction -> transactionMapper.transactionToStatementTransaction(account, transaction))
+                    .sorted(Comparator.comparing(StatementTransactionResponse::getCreatedAt))
+                    .collect(Collectors.toList());
+        }
+
 
         var response = StatementAccountResponse.builder()
                 .type(account.getType())
                 .agency(account.getAgency())
                 .number(account.getNumber())
                 .balance(account.getBalance())
-                .transactions(transactions)
+                .transactions(sortedList)
                 .build();
 
         return ResponseEntity.ok(response);
