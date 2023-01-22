@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.request.address.AddressRequest;
-import br.com.sicredi.bank.controller.response.address.AddressResponse;
-import br.com.sicredi.bank.entity.AddressEntity;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.response.address.AddressResponse;
+import br.com.sicredi.bank.model.entity.AddressEntity;
 
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
 

@@ -1,26 +1,26 @@
 package br.com.sicredi.bank.service.account;
 
-import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.AssociateEntity;
-import br.com.sicredi.bank.entity.enums.AccountType;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.AccountMapper;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
+import br.com.sicredi.bank.model.enums.AccountType;
+import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Random;
 
+import static br.com.sicredi.bank.model.Message.*;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountService {
-
-    private static final Integer AGENCY = 1000;
-    private static final Integer ACCOUNT_DIGITS = 8;
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
@@ -30,7 +30,7 @@ public class AccountService {
         var account = AccountEntity.builder()
                 .associate(associateEntity)
                 .type(type)
-                .agency(AGENCY)
+                .agency(ACCOUNT_AGENCY)
                 .number(generateAccountNumber())
                 .balance(BigDecimal.ZERO)
                 .build();
@@ -41,7 +41,7 @@ public class AccountService {
         try {
             return accountRepository.findById(id).orElseThrow();
         } catch (Exception e) {
-            throw new FindEntityException("Conta não encontrada!");
+            throw new FindEntityException(ACCOUNT_ERROR);
         }
     }
 
@@ -49,14 +49,14 @@ public class AccountService {
         try {
             return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
         } catch (Exception e) {
-            throw new FindEntityException("Conta não encontrada!");
+            throw new FindEntityException(ACCOUNT_ERROR);
         }
     }
 
-    public BalanceAccountResponse findBalance(Long id) {
+    public ResponseEntity<BalanceAccountResponse> findBalance(Long id) {
         var account = findById(id);
 
-        return accountMapper.accountToBalanceAccountResponse(account);
+        return ResponseEntity.ok(accountMapper.accountToBalanceAccountResponse(account));
     }
 
     public void save(AccountEntity account) {

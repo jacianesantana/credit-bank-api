@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.repository;
 
-import br.com.sicredi.bank.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.AccountEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

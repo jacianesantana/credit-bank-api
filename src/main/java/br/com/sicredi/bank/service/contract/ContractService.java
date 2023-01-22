@@ -1,13 +1,14 @@
 package br.com.sicredi.bank.service.contract;
 
-import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.entity.AssociateEntity;
-import br.com.sicredi.bank.entity.ContractEntity;
+import br.com.sicredi.bank.model.response.contract.FindContractResponse;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
+import br.com.sicredi.bank.model.entity.ContractEntity;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.ContractMapper;
 import br.com.sicredi.bank.repository.ContractRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,11 +26,13 @@ public class ContractService {
         return contractRepository.findByAssociate(associate);
     }
 
-    public FindContractResponse findById(Long id) {
+    public ResponseEntity<FindContractResponse> findById(Long id) {
         log.info("Buscando contrato com id: {}", id);
         try {
             var contractEntity = contractRepository.findById(id).orElseThrow();
-            return contractMapper.contractToFindContractResponse(contractEntity);
+            var response = contractMapper.contractToFindContractResponse(contractEntity);
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Contrato não encontrado com o id: {}", id);
             throw new FindEntityException("Contrato não encontrado.");

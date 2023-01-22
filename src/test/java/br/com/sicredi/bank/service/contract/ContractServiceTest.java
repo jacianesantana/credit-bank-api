@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.service.contract;
 
-import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.entity.AssociateEntity;
-import br.com.sicredi.bank.entity.ContractEntity;
+import br.com.sicredi.bank.model.response.contract.FindContractResponse;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
+import br.com.sicredi.bank.model.entity.ContractEntity;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.mapper.ContractMapper;
 import br.com.sicredi.bank.repository.ContractRepository;

@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.request.contract.ContractRequest;
-import br.com.sicredi.bank.entity.ContractEntity;
-import br.com.sicredi.bank.entity.enums.ProductType;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.entity.ContractEntity;
+import br.com.sicredi.bank.model.enums.ProductType;
 
 import java.math.BigDecimal;
 

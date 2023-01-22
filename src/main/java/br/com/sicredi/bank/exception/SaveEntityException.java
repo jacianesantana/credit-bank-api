@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.BAD_REQUEST)
 public class SaveEntityException extends RuntimeException {
+
     public SaveEntityException(String message) {
         super(message);
     }
+
 }

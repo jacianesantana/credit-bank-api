@@ -1,8 +1,9 @@
 package br.com.sicredi.bank.controller;
 
-import br.com.sicredi.bank.annotation.account.BalanceAccountStandard;
-import br.com.sicredi.bank.controller.response.account.AccountStatementResponse;
-import br.com.sicredi.bank.controller.response.account.BalanceAccountResponse;
+import br.com.sicredi.bank.annotation.account.AccountBalanceStandard;
+import br.com.sicredi.bank.annotation.account.AccountStatementStandard;
+import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
+import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.service.account.AccountService;
 import br.com.sicredi.bank.service.account.AccountStatementService;
 import lombok.RequiredArgsConstructor;
@@ -21,15 +22,14 @@ public class AccountController {
     private final AccountStatementService statementService;
 
     @GetMapping("/balance/{id}")
-    @BalanceAccountStandard
+    @AccountBalanceStandard
     public ResponseEntity<BalanceAccountResponse> balance(@PathVariable Long id) {
-        return ResponseEntity.ok(accountService.findBalance(id));
+        return accountService.findBalance(id);
     }
 
     @GetMapping("/statement/{id}")
-    @BalanceAccountStandard
-    public ResponseEntity<AccountStatementResponse> statement(@PathVariable Long id) {
-        return ResponseEntity.ok(statementService.statement(id));
+    @AccountStatementStandard
+    public ResponseEntity<StatementAccountResponse> statement(@PathVariable Long id) {
+        return statementService.statement(id);
     }
-
 }

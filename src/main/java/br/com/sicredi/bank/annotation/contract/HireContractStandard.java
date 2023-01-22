@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.annotation.contract;
 
-import br.com.sicredi.bank.controller.response.contract.ListContractResponse;
+import br.com.sicredi.bank.model.response.contract.ListContractResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -13,18 +13,20 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static br.com.sicredi.bank.model.Message.*;
+
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Assinar e cadastrar um contrato", description = "Realiza a assinatura e o cadastramento de dados do contrato.")
+@Operation(summary = "To sign a contract", description = "Performs the signing of a contract.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "Contrato criado e assinado com sucesso!",
+        @ApiResponse(responseCode = "201", description = CONTRACT_SAVE_SUCCESS,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = ListContractResponse.class))),
-        @ApiResponse(responseCode = "400", description = "Campo nulo, ou preenchido de forma incorreta, tente de novo.",
+        @ApiResponse(responseCode = "400", description = BAD_REQUEST_ERROR,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
+        @ApiResponse(responseCode = "404", description = ASSOCIATE_ERROR,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
+        @ApiResponse(responseCode = "500", description = SERVER_ERROR,
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
     })
 public @interface HireContractStandard {

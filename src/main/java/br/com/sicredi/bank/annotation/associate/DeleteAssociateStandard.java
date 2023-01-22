@@ -11,15 +11,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import static br.com.sicredi.bank.model.Message.*;
+
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-@Operation(summary = "Deletar um associado", description = "Realiza a exclusão de dados do associado.")
+@Operation(summary = "Delete a associate", description = "Performs deletion of associate data.")
 @ApiResponses(value = {
-        @ApiResponse(responseCode = "204", description = "Associado deletado com sucesso!",
+        @ApiResponse(responseCode = "204", description = ASSOCIATE_DELETE_SUCCESS,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "404", description = "Associado não encontrado.",
+        @ApiResponse(responseCode = "404", description = ASSOCIATE_ERROR,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
-        @ApiResponse(responseCode = "500", description = "Sistema indisponível.",
+        @ApiResponse(responseCode = "500", description = SERVER_ERROR,
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
 })
 public @interface DeleteAssociateStandard {

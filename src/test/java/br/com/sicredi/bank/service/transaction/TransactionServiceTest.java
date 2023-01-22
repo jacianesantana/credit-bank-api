@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.service.transaction;
 
-import br.com.sicredi.bank.entity.AccountEntity;
-import br.com.sicredi.bank.entity.TransactionEntity;
-import br.com.sicredi.bank.entity.enums.TransactionType;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.TransactionEntity;
+import br.com.sicredi.bank.model.enums.TransactionType;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
@@ -20,8 +20,7 @@ import java.math.BigDecimal;
 
 import static br.com.sicredi.bank.builder.AccountBuilder.*;
 import static br.com.sicredi.bank.builder.TransactionBuilder.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doNothing;
@@ -60,8 +59,9 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
 
-        var response = transactionService.deposit(transactionRequest);
+        var response = transactionService.deposit(transactionRequest).getBody();
 
+        assertNotNull(response);
         assertEquals(newBalance, response.getNewBalance());
     }
 
@@ -89,8 +89,9 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
 
-        var response = transactionService.withdraw(transactionRequest);
+        var response = transactionService.withdraw(transactionRequest).getBody();
 
+        assertNotNull(response);
         assertEquals(newBalance, response.getNewBalance());
     }
 
@@ -148,8 +149,9 @@ class TransactionServiceTest {
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
         when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(debitAccountResponse);
 
-        var response = transactionService.transfer(transactionRequest);
+        var response = transactionService.transfer(transactionRequest).getBody();
 
+        assertNotNull(response);
         assertEquals(newBalance, response.getNewBalance());
     }
 

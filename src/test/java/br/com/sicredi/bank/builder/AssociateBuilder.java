@@ -1,13 +1,13 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.controller.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.controller.request.associate.UpdateAssociateContactRequest;
-import br.com.sicredi.bank.controller.request.associate.UpdateAssociatePaycheckRequest;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.controller.response.associate.UpdateAssociateContactResponse;
-import br.com.sicredi.bank.controller.response.associate.UpdateAssociatePaycheckResponse;
-import br.com.sicredi.bank.entity.AssociateEntity;
+import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociateContactRequest;
+import br.com.sicredi.bank.model.request.associate.UpdateAssociatePaycheckRequest;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociateContactResponse;
+import br.com.sicredi.bank.model.response.associate.UpdateAssociatePaycheckResponse;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

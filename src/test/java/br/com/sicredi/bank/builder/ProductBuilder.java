@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.entity.ProductEntity;
-import br.com.sicredi.bank.entity.enums.ProductType;
+import br.com.sicredi.bank.model.entity.ProductEntity;
+import br.com.sicredi.bank.model.enums.ProductType;
 
 public class ProductBuilder {
 

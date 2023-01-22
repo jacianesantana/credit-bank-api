@@ -1,14 +1,13 @@
 package br.com.sicredi.bank.service.product;
 
-import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.controller.response.product.ProductResponse;
-import br.com.sicredi.bank.entity.ProductEntity;
-import br.com.sicredi.bank.entity.enums.ProductType;
+import br.com.sicredi.bank.model.response.product.ProductResponse;
+import br.com.sicredi.bank.model.entity.ProductEntity;
+import br.com.sicredi.bank.model.enums.ProductType;
 import br.com.sicredi.bank.exception.BusinessRulesException;
-import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,7 +26,7 @@ public class ProductService {
         return productRepository.findByType(productType).orElseThrow();
     }
 
-    public List<ProductResponse> listProducts(BigDecimal salary) {
+    public ResponseEntity<List<ProductResponse>> listProducts(BigDecimal salary) {
         log.info("Buscando produtos para o salário: {}", salary);
         var products = new ArrayList<ProductResponse>();
 
@@ -44,7 +43,7 @@ public class ProductService {
             products.add(financing());
         }
 
-        return products;
+        return ResponseEntity.ok(products);
     }
 
     private ProductResponse personal() {

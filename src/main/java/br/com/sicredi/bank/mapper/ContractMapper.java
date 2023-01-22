@@ -1,8 +1,8 @@
 package br.com.sicredi.bank.mapper;
 
-import br.com.sicredi.bank.controller.response.contract.FindContractResponse;
-import br.com.sicredi.bank.controller.response.contract.ListContractResponse;
-import br.com.sicredi.bank.entity.ContractEntity;
+import br.com.sicredi.bank.model.response.contract.FindContractResponse;
+import br.com.sicredi.bank.model.response.contract.ListContractResponse;
+import br.com.sicredi.bank.model.entity.ContractEntity;
 import org.springframework.stereotype.Component;
 
 @Component

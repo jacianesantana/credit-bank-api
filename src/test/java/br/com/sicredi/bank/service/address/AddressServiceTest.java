@@ -1,9 +1,9 @@
 package br.com.sicredi.bank.service.address;
 
-import br.com.sicredi.bank.controller.request.address.AddressRequest;
-import br.com.sicredi.bank.controller.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.entity.AddressEntity;
-import br.com.sicredi.bank.entity.AssociateEntity;
+import br.com.sicredi.bank.model.request.address.AddressRequest;
+import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
+import br.com.sicredi.bank.model.entity.AddressEntity;
+import br.com.sicredi.bank.model.entity.AssociateEntity;
 import br.com.sicredi.bank.mapper.AddressMapper;
 import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.AddressRepository;
@@ -13,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ import static br.com.sicredi.bank.builder.AddressBuilder.*;
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildFindAssociateResponse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -44,7 +46,7 @@ class AddressServiceTest {
 
     @Test
     void saveSuccess() {
-        var findAssociateResponse = buildFindAssociateResponse();
+        var findAssociateResponse = ResponseEntity.ok(buildFindAssociateResponse());
         var associate = buildAssociate();
         var addressRequest = buildAddressRequest();
         var address = buildAddress();
@@ -56,16 +58,18 @@ class AddressServiceTest {
         when(addressRepository.save(any(AddressEntity.class))).thenReturn(address);
         when(addressMapper.addressToAddressResponse(any(AddressEntity.class))).thenReturn(addressResponse);
 
-        var response = addressService.save(associate.getId(), addressRequest);
+        var response = addressService.save(associate.getId(), addressRequest).getBody();
 
-        assertEquals(findAssociateResponse.getId(), associate.getId());
+        assertNotNull(response);
+        assertNotNull(findAssociateResponse.getBody());
+        assertEquals(findAssociateResponse.getBody().getId(), associate.getId());
         assertEquals(addressRequest.getStreetName(), response.getStreetName());
         assertEquals(addressRequest.getCity(), response.getCity());
     }
 
     @Test
     void updateSuccess() {
-        var findAssociateResponse = buildFindAssociateResponse();
+        var findAssociateResponse = ResponseEntity.ok(buildFindAssociateResponse());
         var associate = buildAssociate();
         var addressRequest = buildAddressRequest();
         var address = buildAddress();
@@ -78,9 +82,11 @@ class AddressServiceTest {
         when(addressRepository.save(any(AddressEntity.class))).thenReturn(address);
         when(addressMapper.addressToAddressResponse(any(AddressEntity.class))).thenReturn(addressResponse);
 
-        var response = addressService.update(address.getId(), associate.getId(), addressRequest);
+        var response = addressService.update(address.getId(), associate.getId(), addressRequest).getBody();
 
-        assertEquals(findAssociateResponse.getId(), associate.getId());
+        assertNotNull(response);
+        assertNotNull(findAssociateResponse.getBody());
+        assertEquals(findAssociateResponse.getBody().getId(), associate.getId());
         assertEquals(address.getId(), response.getId());
         assertEquals(addressRequest.getStreetName(), response.getStreetName());
         assertEquals(addressRequest.getCity(), response.getCity());
