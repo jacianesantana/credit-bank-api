@@ -82,7 +82,7 @@ public class TransactionService {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
-            throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação");
+            throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação.");
         }
     }
 
@@ -129,4 +129,5 @@ public class TransactionService {
 
         return debits;
     }
+
 }

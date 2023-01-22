@@ -26,10 +26,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class HireContractServiceTest {
+class SignContractServiceTest {
 
     @InjectMocks
-    private HireContractService hireContractService;
+    private SignContractService signContractService;
 
     @Mock
     private ContractRepository contractRepository;
@@ -56,7 +56,7 @@ class HireContractServiceTest {
         when(productService.findByType(any(ProductType.class))).thenReturn(product);
         when(contractRepository.save(any(ContractEntity.class))).thenReturn(contract);
 
-        var response = hireContractService.hire(request).getBody();
+        var response = signContractService.sign(request).getBody();
 
         assertNotNull(response);
         assertNotNull(response.getId());
@@ -75,7 +75,7 @@ class HireContractServiceTest {
         when(productService.findByType(any(ProductType.class))).thenReturn(product);
         when(contractRepository.save(any(ContractEntity.class))).thenThrow(new RuntimeException());
 
-        assertThrows(SaveEntityException.class, () -> hireContractService.hire(request));
+        assertThrows(SaveEntityException.class, () -> signContractService.sign(request));
     }
 
 }

@@ -1,6 +1,6 @@
 package br.com.sicredi.bank.model.response.account;
 
-import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
+import br.com.sicredi.bank.model.response.transaction.StatementTransactionResponse;
 import br.com.sicredi.bank.model.enums.AccountType;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -29,6 +29,6 @@ public class StatementAccountResponse {
     @Schema(example = "100.00")
     private BigDecimal balance;
 
-    private List<StatementTransaction> transactions;
+    private List<StatementTransactionResponse> transactions;
 
 }

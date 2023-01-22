@@ -3,6 +3,7 @@ package br.com.sicredi.bank.mapper;
 import br.com.sicredi.bank.model.response.contract.FindContractResponse;
 import br.com.sicredi.bank.model.response.contract.ListContractResponse;
 import br.com.sicredi.bank.model.entity.ContractEntity;
+import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,4 +31,17 @@ public class ContractMapper {
                 .build();
     }
 
+    public SaveContractResponse contractToSaveContractResponse(ContractEntity contract) {
+        return SaveContractResponse.builder()
+                .id(contract.getId())
+                .productType(contract.getProduct().getType())
+                .value(contract.getValue())
+                .paidOff(contract.getPaidOff())
+                .hireDate(contract.getHireDate())
+                .expirationDate(contract.getExpirationDate())
+                .installmentsPaid(contract.getInstallmentsPaid())
+                .installmentsRemaining(contract.getInstallmentsRemaining())
+                .firstPaymentDate(contract.getFirstPaymentDate())
+                .build();
+    }
 }

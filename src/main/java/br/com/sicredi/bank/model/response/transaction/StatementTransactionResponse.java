@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StatementTransaction {
+public class StatementTransactionResponse {
 
     @Schema(example = "SAQUE")
     private TransactionType type;

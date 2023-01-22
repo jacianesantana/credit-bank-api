@@ -1,5 +1,8 @@
 package br.com.sicredi.bank.service.associate;
 
+import br.com.sicredi.bank.exception.*;
+import br.com.sicredi.bank.mapper.AssociateMapper;
+import br.com.sicredi.bank.model.enums.AccountType;
 import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
 import br.com.sicredi.bank.model.request.associate.UpdateAssociateContactRequest;
 import br.com.sicredi.bank.model.request.associate.UpdateAssociatePaycheckRequest;
@@ -7,12 +10,9 @@ import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
 import br.com.sicredi.bank.model.response.associate.UpdateAssociateContactResponse;
 import br.com.sicredi.bank.model.response.associate.UpdateAssociatePaycheckResponse;
-import br.com.sicredi.bank.model.enums.AccountType;
-import br.com.sicredi.bank.exception.*;
-import br.com.sicredi.bank.mapper.AssociateMapper;
 import br.com.sicredi.bank.repository.AssociateRepository;
-import br.com.sicredi.bank.service.contract.ContractService;
 import br.com.sicredi.bank.service.account.AccountService;
+import br.com.sicredi.bank.service.contract.ContractService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import static br.com.sicredi.bank.model.Message.ASSOCIATE_ERROR;
 
 @Slf4j
 @Service
@@ -73,7 +75,7 @@ public class AssociateService {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Associdado não encontrado com o id: {}", id);
-            throw new FindEntityException("Associdado não encontrado.");
+            throw new FindEntityException(ASSOCIATE_ERROR);
         }
     }
 

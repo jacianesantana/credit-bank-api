@@ -1,7 +1,7 @@
 package br.com.sicredi.bank.service.account;
 
 import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
-import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
+import br.com.sicredi.bank.model.response.transaction.StatementTransactionResponse;
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.service.transaction.TransactionService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AccountStatementService {
         var account = accountService.findById(id);
         var transactions = transactionService.findAllByAccountId(account).stream()
                 .map(transaction -> transactionMapper.transactionToStatementTransaction(account, transaction))
-                .sorted(Comparator.comparing(StatementTransaction::getCreatedAt))
+                .sorted(Comparator.comparing(StatementTransactionResponse::getCreatedAt))
                 .collect(Collectors.toList());
 
         var response = StatementAccountResponse.builder()
