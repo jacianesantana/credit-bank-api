@@ -1,9 +1,10 @@
 # Credit Bank - API
-Disponibiliza ao associado serviços bancários​
+Instituição Bancária​
 
-### Desafio para empresa Sicredi
-Desenvolver uma aplicação que disponibiliza serviços bancários ao associado:
+## Desafio para empresa Sicredi
+Desenvolver uma aplicação que disponibiliza serviços bancários ao associado
 
+## Regras de negócio
 - Criar cadastro / conta
   - Somente maiores de idade
   - Não é permitido cadastrar associado com cpf já cadastrado
@@ -29,13 +30,13 @@ Desenvolver uma aplicação que disponibiliza serviços bancários ao associado:
   - Não é permitido excluir se tiver contrato ativo
   - Excluir endereços, contas e contratos vinculados ao associado
   
-## Database PostgreSQL
-- Os scripts para criar o banco de dados e as tabelas encontram-se no caminho de pastas: /src/main/resources/db
-
-## Stack
+## Pré-requisitos
 
 - Java 11
-- Spring Boot
-- Lombok
-- Junit
-- Swagger
+- Spring 2.3.3.RELEASE
+- Maven
+- PostgreSQL 15
+  
+## Caminho do banco de dados
+- DDL create database: /src/main/resources/db/1-script-create-database.sql
+- DDL create tables: /src/main/resources/db/2-script-create-table.sql
