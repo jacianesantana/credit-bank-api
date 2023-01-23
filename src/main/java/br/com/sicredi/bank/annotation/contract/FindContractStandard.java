@@ -13,7 +13,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import static br.com.sicredi.bank.model.Message.*;
+import static br.com.sicredi.bank.utils.Message.*;
 
 @Target({ ElementType.METHOD, ElementType.ANNOTATION_TYPE, ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
@@ -22,7 +22,7 @@ import static br.com.sicredi.bank.model.Message.*;
         @ApiResponse(responseCode = "200", description = CONTRACT_FIND_SUCCESS,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                 schema = @Schema(implementation = FindContractResponse.class))),
-        @ApiResponse(responseCode = "404", description = CONTRACT_ERROR,
+        @ApiResponse(responseCode = "404", description = CONTRACT_FIND_ERROR,
                 content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)),
         @ApiResponse(responseCode = "500", description = SERVER_ERROR,
                 content=@Content(mediaType = MediaType.APPLICATION_JSON_VALUE))

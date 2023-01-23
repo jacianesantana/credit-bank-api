@@ -8,8 +8,8 @@ public class ProductBuilder {
     public static ProductEntity buildProductEntity() {
         return ProductEntity.builder()
                 .id(1L)
-                .type(ProductType.PESSOAL)
-                .taxes(ProductType.PESSOAL.getTaxes())
+                .type(ProductType.PERSONAL)
+                .taxes(ProductType.PERSONAL.getTaxes())
                 .build();
     }
 

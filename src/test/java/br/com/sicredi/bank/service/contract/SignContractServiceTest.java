@@ -1,5 +1,6 @@
 package br.com.sicredi.bank.service.contract;
 
+import br.com.sicredi.bank.mapper.ContractMapper;
 import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
 import br.com.sicredi.bank.model.entity.ContractEntity;
 import br.com.sicredi.bank.model.enums.ProductType;
@@ -17,8 +18,7 @@ import org.springframework.http.ResponseEntity;
 
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildAssociate;
 import static br.com.sicredi.bank.builder.AssociateBuilder.buildFindAssociateResponse;
-import static br.com.sicredi.bank.builder.ContractBuilder.buildContractEntity;
-import static br.com.sicredi.bank.builder.ContractBuilder.buildContractRequest;
+import static br.com.sicredi.bank.builder.ContractBuilder.*;
 import static br.com.sicredi.bank.builder.ProductBuilder.buildProductEntity;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -43,6 +43,9 @@ class SignContractServiceTest {
     @Mock
     private AssociateMapper associateMapper;
 
+    @Mock
+    private ContractMapper contractMapper;
+
     @Test
     void hireSuccess() {
         var associate = buildAssociate();
@@ -50,11 +53,13 @@ class SignContractServiceTest {
         var product = buildProductEntity();
         var request = buildContractRequest();
         var contract = buildContractEntity();
+        var contractResponse = buildSaveContractResponse();
 
         when(associateService.findById(anyLong())).thenReturn(findAssociateResponse);
         when(associateMapper.findAssociateResponseToAssociate(any(FindAssociateResponse.class))).thenReturn(associate);
         when(productService.findByType(any(ProductType.class))).thenReturn(product);
         when(contractRepository.save(any(ContractEntity.class))).thenReturn(contract);
+        when(contractMapper.contractToSaveContractResponse(any(ContractEntity.class))).thenReturn(contractResponse);
 
         var response = signContractService.sign(request).getBody();
 

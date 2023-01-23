@@ -55,7 +55,7 @@ public class TransactionBuilder {
     public static TransactionEntity buildTransactionDeposit() {
         return TransactionEntity.builder()
                 .id(1L)
-                .type(TransactionType.DEPOSITO)
+                .type(TransactionType.DEPOSIT)
                 .value(BigDecimal.valueOf(100))
                 .debitAccount(buildAccount())
                 .creditAccount(buildOtherAccount())
@@ -76,7 +76,7 @@ public class TransactionBuilder {
 
     public static StatementTransactionResponse buildStatementTransaction() {
         return StatementTransactionResponse.builder()
-                .type(TransactionType.TRANSFERENCIA)
+                .type(TransactionType.TRANSFER)
                 .value(BigDecimal.valueOf(100))
                 .createdAt(LocalDateTime.now())
                 .build();

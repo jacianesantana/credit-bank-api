@@ -32,9 +32,9 @@ class ProductServiceTest {
 
         when(productRepository.findByType(any(ProductType.class))).thenReturn(Optional.of(product));
 
-        var response = productService.findByType(ProductType.PESSOAL);
+        var response = productService.findByType(ProductType.PERSONAL);
 
-        assertEquals(ProductType.PESSOAL.getTaxes(), response.getTaxes());
+        assertEquals(ProductType.PERSONAL.getTaxes(), response.getTaxes());
     }
 
     @Test

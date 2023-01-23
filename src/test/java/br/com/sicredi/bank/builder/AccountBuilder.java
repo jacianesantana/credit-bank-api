@@ -12,7 +12,7 @@ public class AccountBuilder {
         return AccountEntity.builder()
                 .id(1L)
                 .associate(AssociateBuilder.buildAssociate())
-                .type(AccountType.CORRENTE)
+                .type(AccountType.CURRENT)
                 .agency(1000)
                 .number(12345678)
                 .balance(BigDecimal.valueOf(1000))
@@ -23,7 +23,7 @@ public class AccountBuilder {
         return AccountEntity.builder()
                 .id(2L)
                 .associate(AssociateBuilder.buildAssociate())
-                .type(AccountType.POUPANCA)
+                .type(AccountType.SAVINGS)
                 .agency(1234)
                 .number(87654321)
                 .balance(BigDecimal.valueOf(1000))
@@ -32,7 +32,7 @@ public class AccountBuilder {
 
     public static AccountResponse buildAccountResponse() {
         return AccountResponse.builder()
-                .type(AccountType.CORRENTE)
+                .type(AccountType.CURRENT)
                 .agency(1000)
                 .number(12345678)
                 .build();

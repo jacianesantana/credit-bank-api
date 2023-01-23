@@ -11,6 +11,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+import static br.com.sicredi.bank.utils.MessageValidation.TRANSACTION_VALUE_INVALID;
+import static br.com.sicredi.bank.utils.MessageValidation.TRANSACTION_VALUE_NOT_NULL;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,9 +24,9 @@ public class TransferTransactionRequest {
 
     private AccountRequest creditAccount;
 
-    @NotNull(message = "Valor não pode ser nulo.")
+    @NotNull(message = TRANSACTION_VALUE_NOT_NULL)
+    @Min(value = 1, message = TRANSACTION_VALUE_INVALID)
     @Schema(example = "1000.00")
-    @Min(value = 1, message = "Valor inválido.")
     private BigDecimal value;
 
 }

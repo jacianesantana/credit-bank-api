@@ -9,42 +9,44 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import static br.com.sicredi.bank.utils.MessageValidation.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AddressRequest {
 
-    @NotNull(message = "CEP não pode ser nulo.")
-    @NotBlank(message = "CEP não pode ser vazio.")
+    @NotNull(message = ADDRESS_CEP_NOT_NULL)
+    @NotBlank(message = ADDRESS_CEP_NOT_BLANK)
     @Schema(example = "41999999")
     private String zipCode;
 
-    @NotNull(message = "Rua não pode ser nulo.")
-    @NotBlank(message = "Rua não pode ser vazio.")
+    @NotNull(message = ADDRESS_STREET_NAME_NOT_NULL)
+    @NotBlank(message = ADDRESS_STREET_NAME_NOT_BLANK)
     @Schema(example = "Rua Silveira Martins")
     private String streetName;
 
-    @NotNull(message = "Número não pode ser nulo.")
-    @NotBlank(message = "Número não pode ser vazio.")
+    @NotNull(message = ADDRESS_NUMBER_NOT_NULL)
+    @NotBlank(message = ADDRESS_NUMBER_NOT_BLANK)
     @Schema(example = "1010")
     private String number;
 
     @Schema(example = "Bloco 01, Apt 305")
     private String complement;
 
-    @NotNull(message = "Cidade não pode ser nulo.")
-    @NotBlank(message = "Cidade não pode ser vazio.")
+    @NotNull(message = ADDRESS_CITY_NOT_NULL)
+    @NotBlank(message = ADDRESS_CITY_NOT_BLANK)
     @Schema(example = "Aracaju")
     private String city;
 
-    @NotNull(message = "Estado não pode ser nulo.")
-    @NotBlank(message = "Estado não pode ser vazio.")
+    @NotNull(message = ADDRESS_STATE_NOT_NULL)
+    @NotBlank(message = ADDRESS_STATE_NOT_BLANK)
     @Schema(example = "Sergipe")
     private String state;
 
-    @NotNull(message = "País não pode ser nulo.")
-    @NotBlank(message = "País não pode ser vazio.")
+    @NotNull(message = ADDRESS_COUNTRY_NOT_NULL)
+    @NotBlank(message = ADDRESS_COUNTRY_NOT_BLANK)
     @Schema(example = "Brasil")
     private String country;
 

@@ -14,7 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import static br.com.sicredi.bank.model.Message.ADDRESS_ERROR;
+import static br.com.sicredi.bank.utils.Message.ADDRESS_FIND_ERROR;
+import static br.com.sicredi.bank.utils.Message.ADDRESS_SAVE_ERROR;
 
 @Slf4j
 @Service
@@ -39,7 +40,7 @@ public class AddressService {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             log.error("Não foi possivel salvar o endereço. Motivo: {}", e.getMessage());
-            throw new SaveEntityException("Não foi possível salvar o endereço.");
+            throw new SaveEntityException(ADDRESS_SAVE_ERROR);
         }
     }
 
@@ -61,13 +62,13 @@ public class AddressService {
                     return ResponseEntity.ok(response);
                 } catch (Exception e) {
                     log.error("Não foi possivel salvar o endereço. Motivo: {}", e.getMessage());
-                    throw new SaveEntityException("Não foi possível salvar o endereço.");
+                    throw new SaveEntityException(ADDRESS_SAVE_ERROR);
                 }
             }
         }
 
         log.error("Endereço não encontrado com o id: {}", id);
-        throw new FindEntityException(ADDRESS_ERROR);
+        throw new FindEntityException(ADDRESS_FIND_ERROR);
     }
 
 }

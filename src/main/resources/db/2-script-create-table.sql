@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.transaction
     "id" serial NOT NULL,
     "type" character varying(30) NOT NULL,
     "value" numeric(10, 2) NOT NULL,
-    "created_at" date NOT NULL,
+    "created_at" time with time zone NOT NULL,
     "id_credit_account" integer,
     "id_debit_account" integer,
     CONSTRAINT pk_transaction PRIMARY KEY (id)

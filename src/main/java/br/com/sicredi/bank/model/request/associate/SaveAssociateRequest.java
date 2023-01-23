@@ -14,45 +14,45 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+import static br.com.sicredi.bank.utils.MessageValidation.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class SaveAssociateRequest {
 
-    @NotNull(message = "Nome não pode ser nulo.")
-    @NotBlank(message = "Nome não pode ser vazio.")
+    @NotNull(message = ASSOCIATE_NAME_NOT_NULL)
+    @NotBlank(message = ASSOCIATE_NAME_NOT_BLANK)
     @Schema(example = "Jaciane Santana")
     private String name;
 
-    @NotNull(message = "CPF não pode ser nulo.")
-    @NotBlank(message = "CPF não pode ser vazio.")
-    @CPF(message = "CPF inválido.")
+    @NotNull(message = ASSOCIATE_CPF_NOT_NULL)
+    @CPF(message = ASSOCIATE_CPF_INVALID)
     @Schema(example = "01234567890")
     private String cpf;
 
-    @NotNull(message = "Data de nascimento não pode ser nula.")
+    @NotNull(message = ASSOCIATE_BIRTH_DATE_NOT_NULL)
     @Schema(example = "1993-10-19")
     private LocalDate birthDate;
 
-    @NotNull(message = "Telefone não pode ser nulo.")
-    @NotBlank(message = "Telefone não pode ser vazio.")
+    @NotNull(message = ASSOCIATE_PHONE_NOT_NULL)
+    @NotBlank(message = ASSOCIATE_PHONE_NOT_BLANK)
     @Schema(example = "71999999999")
     private String phone;
 
-    @NotNull(message = "Email não pode ser nulo.")
-    @NotBlank(message = "Email não pode ser vazio.")
-    @Email(message = "Email inválido.", regexp = ".+[@].+[\\.].+")
+    @NotNull(message = ASSOCIATE_EMAIL_NOT_NULL)
+    @Email(message = ASSOCIATE_EMAIL_INVALID, regexp = ".+[@].+[\\.].+")
     @Schema(example = "nome.sobrenome@mail.com")
     private String email;
 
-    @NotNull(message = "Profissão não pode ser nulo.")
-    @NotBlank(message = "Profissão não pode ser vazio.")
+    @NotNull(message = ASSOCIATE_PROFESSION_NOT_NULL)
+    @NotBlank(message = ASSOCIATE_PROFESSION_NOT_BLANK)
     @Schema(example = "Engenheiro de Software")
     private String profession;
 
-    @NotNull(message = "Salário não pode ser nulo.")
-    @Min(value = 1, message = "Salário inválido.")
+    @NotNull(message = ASSOCIATE_SALARY_NOT_NULL)
+    @Min(value = 1, message = ASSOCIATE_SALARY_INVALID)
     @Schema(example = "4000.00")
     private BigDecimal salary;
 

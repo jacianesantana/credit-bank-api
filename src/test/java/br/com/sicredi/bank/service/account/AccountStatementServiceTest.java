@@ -39,13 +39,13 @@ class AccountStatementServiceTest {
     @Test
     void statementSuccecss() {
         var account = buildAccount();
-        var transactionOne = buildTransaction(TransactionType.TRANSFERENCIA);
-        var transactionTwo = buildTransaction(TransactionType.DEPOSITO);
+        var transactionOne = buildTransaction(TransactionType.TRANSFER);
+        var transactionTwo = buildTransaction(TransactionType.DEPOSIT);
         transactionTwo.setId(2L);
         transactionTwo.setCreatedAt(LocalDateTime.now().minusHours(1));
         var statementTransaction = buildStatementTransaction();
         var statementTransactionTwo = buildStatementTransaction();
-        statementTransactionTwo.setType(TransactionType.DEPOSITO);
+        statementTransactionTwo.setType(TransactionType.DEPOSIT);
         statementTransactionTwo.setCreatedAt(transactionTwo.getCreatedAt());
 
         when(accountService.findById(anyLong())).thenReturn(account);

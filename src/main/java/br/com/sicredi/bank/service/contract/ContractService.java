@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static br.com.sicredi.bank.model.Message.CONTRACT_ERROR;
+import static br.com.sicredi.bank.utils.Message.CONTRACT_FIND_ERROR;
 
 @Slf4j
 @Service
@@ -37,7 +37,7 @@ public class ContractService {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Contrato não encontrado com o id: {}", id);
-            throw new FindEntityException(CONTRACT_ERROR);
+            throw new FindEntityException(CONTRACT_FIND_ERROR);
         }
     }
 
