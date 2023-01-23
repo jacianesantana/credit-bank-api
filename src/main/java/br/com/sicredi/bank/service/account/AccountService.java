@@ -8,16 +8,14 @@ import br.com.sicredi.bank.model.enums.AccountType;
 import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.repository.AccountRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Random;
 
-import static br.com.sicredi.bank.utils.Message.*;
+import static br.com.sicredi.bank.utils.Message.ACCOUNT_FIND_ERROR;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountService {
@@ -29,7 +27,6 @@ public class AccountService {
     private final AccountMapper accountMapper;
 
     public AccountEntity create(AssociateEntity associateEntity, AccountType type) {
-        log.info("Criando uma conta do tipo {} para o associado com o id {}", type, associateEntity.getId());
         var account = AccountEntity.builder()
                 .associate(associateEntity)
                 .type(type)
@@ -37,6 +34,7 @@ public class AccountService {
                 .number(generateAccountNumber())
                 .balance(BigDecimal.ZERO)
                 .build();
+
         return accountRepository.save(account);
     }
 

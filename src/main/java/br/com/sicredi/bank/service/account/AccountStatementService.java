@@ -32,7 +32,6 @@ public class AccountStatementService {
                     .collect(Collectors.toList());
         }
 
-
         var response = StatementAccountResponse.builder()
                 .type(account.getType())
                 .agency(account.getAgency())

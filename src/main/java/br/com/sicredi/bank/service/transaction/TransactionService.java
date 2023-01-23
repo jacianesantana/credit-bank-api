@@ -13,21 +13,20 @@ import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.repository.TransactionRepository;
 import br.com.sicredi.bank.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static br.com.sicredi.bank.model.enums.TransactionType.*;
 import static br.com.sicredi.bank.utils.Message.TRANSACTION_BUSINESS_BALANCE_ERROR;
 import static br.com.sicredi.bank.utils.Message.TRANSACTION_SAVE_ERROR;
-import static br.com.sicredi.bank.model.enums.TransactionType.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TransactionService {
+
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
     private final AccountService accountService;

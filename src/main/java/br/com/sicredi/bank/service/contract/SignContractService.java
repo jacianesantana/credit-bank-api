@@ -1,16 +1,15 @@
 package br.com.sicredi.bank.service.contract;
 
-import br.com.sicredi.bank.mapper.ContractMapper;
-import br.com.sicredi.bank.model.request.contract.ContractRequest;
-import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
-import br.com.sicredi.bank.model.entity.ContractEntity;
 import br.com.sicredi.bank.exception.SaveEntityException;
 import br.com.sicredi.bank.mapper.AssociateMapper;
+import br.com.sicredi.bank.mapper.ContractMapper;
+import br.com.sicredi.bank.model.entity.ContractEntity;
+import br.com.sicredi.bank.model.request.contract.ContractRequest;
+import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
 import br.com.sicredi.bank.repository.ContractRepository;
-import br.com.sicredi.bank.service.product.ProductService;
 import br.com.sicredi.bank.service.associate.AssociateService;
+import br.com.sicredi.bank.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ import java.time.LocalDate;
 
 import static br.com.sicredi.bank.utils.Message.CONTRACT_SAVE_ERROR;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SignContractService {
@@ -52,7 +50,6 @@ public class SignContractService {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            log.info("Não foi possivel salvar o cotrato no banco de dados. Motivo: {}", e.getMessage());
             throw new SaveEntityException(CONTRACT_SAVE_ERROR);
         }
     }
