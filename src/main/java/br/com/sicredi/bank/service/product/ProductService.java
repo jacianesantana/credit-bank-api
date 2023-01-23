@@ -1,12 +1,11 @@
 package br.com.sicredi.bank.service.product;
 
-import br.com.sicredi.bank.model.response.product.ProductResponse;
+import br.com.sicredi.bank.exception.BusinessRulesException;
 import br.com.sicredi.bank.model.entity.ProductEntity;
 import br.com.sicredi.bank.model.enums.ProductType;
-import br.com.sicredi.bank.exception.BusinessRulesException;
+import br.com.sicredi.bank.model.response.product.ProductResponse;
 import br.com.sicredi.bank.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +16,6 @@ import java.util.List;
 
 import static br.com.sicredi.bank.utils.Message.PRODUCT_BUSINESS_SALARY_ERROR;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -29,7 +27,6 @@ public class ProductService {
     }
 
     public ResponseEntity<List<ProductResponse>> listProducts(BigDecimal salary) {
-        log.info("Buscando produtos para o salário: {}", salary);
         var products = new ArrayList<ProductResponse>();
 
         if (salary.compareTo(BigDecimal.valueOf(1500)) < 0) {

@@ -14,7 +14,6 @@ import br.com.sicredi.bank.repository.AssociateRepository;
 import br.com.sicredi.bank.service.account.AccountService;
 import br.com.sicredi.bank.service.contract.ContractService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +23,6 @@ import java.util.List;
 
 import static br.com.sicredi.bank.utils.Message.*;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AssociateService {
@@ -41,12 +39,9 @@ public class AssociateService {
 
             if (saveAssociateRequest.getBirthDate().isEqual(LocalDate.now().minusYears(18)) ||
                     saveAssociateRequest.getBirthDate().isBefore(LocalDate.now().minusYears(18))) {
-                log.info("Tentando salvar o associado com cpf {}", saveAssociateRequest.getCpf().substring(0, 4).concat("..."));
                 try {
                     var associateEntity = associateMapper.saveRequestToAssociate(saveAssociateRequest);
                     associateRepository.save(associateEntity);
-
-                    log.info("Associado salvo com sucesso. Id gerado: {}", associateEntity.getId());
 
                     var checkingAccount = accountService.create(associateEntity, AccountType.CURRENT);
                     var savesAccount = accountService.create(associateEntity, AccountType.SAVINGS);
@@ -55,26 +50,23 @@ public class AssociateService {
                     var response = associateMapper.associateToSaveAssociateResponse(associateEntity, accounts);
                     return ResponseEntity.status(HttpStatus.CREATED).body(response);
                 } catch (Exception e) {
-                    log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
                     throw new SaveEntityException(ASSOCIATE_SAVE_ERROR);
                 }
             }
-            throw new BusinessRulesException(ASSOCIATE_BUSINESS_AGE_ERROR);
 
+            throw new BusinessRulesException(ASSOCIATE_BUSINESS_AGE_ERROR);
         }
 
         throw new BusinessRulesException(ASSOCIATE_BUSINESS_CPF_ERROR);
     }
 
     public ResponseEntity<FindAssociateResponse> findById(Long id) {
-        log.info("Buscando associado com o id: {}", id);
         try {
             var associateEntity = associateRepository.findById(id).orElseThrow();
             var response = associateMapper.associateToFindAssociateResponse(associateEntity);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Associdado não encontrado com o id: {}", id);
             throw new FindEntityException(ASSOCIATE_FIND_ERROR);
         }
     }
@@ -88,12 +80,10 @@ public class AssociateService {
             associateEntity.setEmail(request.getEmail());
             associateRepository.save(associateEntity);
 
-            log.info("Associado atualizado com sucesso para o id {}", id);
             var response = associateMapper.associateToUpdateAssociateContactResponse(associateEntity);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
-            log.error("Não foi possivel atualizar o associdado. Motivo: {}", e.getMessage());
             throw new UpdateEntityException(ASSOCIATE_UPDATE_ERROR);
         }
     }
@@ -102,27 +92,21 @@ public class AssociateService {
         var associateResponse = findById(id);
         var associateEntity = associateMapper.findAssociateResponseToAssociate(associateResponse.getBody());
 
-        log.info("Verificando data da ultima atualização para o id {}", id);
         if (associateEntity.getLastPaycheck().isBefore(LocalDate.now().minusMonths(3))) {
-            log.info("Tentando atualizar o associado com o id {}", id);
             try {
                 associateEntity.setProfession(request.getProfession());
                 associateEntity.setSalary(request.getSalary());
                 associateEntity.setLastPaycheck(LocalDate.now());
                 associateRepository.save(associateEntity);
 
-                log.info("Associado atualizado com sucesso para o id {}", id);
                 var response = associateMapper.associateToUpdateAssociatePaycheckResponse(associateEntity);
 
                 return ResponseEntity.ok(response);
             } catch (Exception e) {
-                log.error("Não foi possivel atualizar o associdado. Motivo: {}", e.getMessage());
                 throw new UpdateEntityException(ASSOCIATE_UPDATE_ERROR);
             }
         }
 
-        log.info("Associado com o id {} não pode ser atualizado, menos de três meses desde a ultima atualização: {}",
-                associateEntity.getId(), associateEntity.getLastPaycheck());
         throw new BusinessRulesException(ASSOCIATE_BUSINESS_PAYCHECK_ERROR);
     }
 
@@ -132,18 +116,14 @@ public class AssociateService {
         var contracts = contractService.findContracts(associateEntity);
 
         if (contracts.isEmpty()) {
-            log.info("Tentando excluir o associado com id: {}", associateEntity.getId());
             try {
                 associateRepository.deleteById(id);
-                log.info("Associado excluído com sucesso!");
 
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
-                log.error("Não foi possível deletar o associdado. Motivo: {}", e.getMessage());
                 throw new DeleteEntityException(ASSOCIATE_DELETE_ERROR);
             }
         } else {
-            log.info("Associado não pode ser excluído, pois contém contratos ativos!");
             throw new BusinessRulesException(ASSOCIATE_BUSINESS_CONTRACT_ERROR);
         }
     }
