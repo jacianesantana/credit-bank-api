@@ -21,11 +21,11 @@ public class TransactionMapper {
                 .value(value)
                 .createdAt(LocalDateTime.now());
 
-        if (type.equals(DEPOSITO)) {
+        if (type.equals(DEPOSIT)) {
             transaction.creditAccount(creditAccount);
-        } else if (type.equals(SAQUE)) {
+        } else if (type.equals(WITHDRAW)) {
             transaction.debitAccount(debitAccount);
-        } else if (type.equals(TRANSFERENCIA)) {
+        } else if (type.equals(TRANSFER)) {
             transaction.debitAccount(debitAccount);
             transaction.creditAccount(creditAccount);
         }

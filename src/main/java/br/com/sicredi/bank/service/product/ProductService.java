@@ -15,6 +15,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static br.com.sicredi.bank.utils.Message.PRODUCT_BUSINESS_SALARY_ERROR;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class ProductService {
         var products = new ArrayList<ProductResponse>();
 
         if (salary.compareTo(BigDecimal.valueOf(1500)) < 0) {
-            throw new BusinessRulesException("Salário abaixo do permitido para contratação de produtos.");
+            throw new BusinessRulesException(PRODUCT_BUSINESS_SALARY_ERROR);
         } else if ((salary.compareTo(BigDecimal.valueOf(1500)) >= 0) && (salary.compareTo(BigDecimal.valueOf(2999)) < 0)) {
             products.add(personal());
         } else if ((salary.compareTo(BigDecimal.valueOf(1500)) >= 0) && (salary.compareTo(BigDecimal.valueOf(4999)) < 0)) {
@@ -50,8 +52,8 @@ public class ProductService {
         var plotsAvailable = List.of(6, 12, 18, 24);
 
         return ProductResponse.builder()
-                .type(ProductType.PESSOAL)
-                .taxes(ProductType.PESSOAL.getTaxes())
+                .type(ProductType.PERSONAL)
+                .taxes(ProductType.PERSONAL.getTaxes())
                 .firstPaymentDate(LocalDate.now().plusMonths(1))
                 .plotsAvailable(plotsAvailable)
                 .minValue(BigDecimal.valueOf(1000))
@@ -63,8 +65,8 @@ public class ProductService {
         var plotsAvailable = List.of(6, 12, 18, 24, 36, 48);
 
         return ProductResponse.builder()
-                .type(ProductType.CONSIGNADO)
-                .taxes(ProductType.CONSIGNADO.getTaxes())
+                .type(ProductType.PAYROLL)
+                .taxes(ProductType.PAYROLL.getTaxes())
                 .firstPaymentDate(LocalDate.now().plusMonths(1))
                 .plotsAvailable(plotsAvailable)
                 .minValue(BigDecimal.valueOf(1000))
@@ -76,8 +78,8 @@ public class ProductService {
         var plotsAvailable = List.of(180, 240, 360);
 
         return ProductResponse.builder()
-                .type(ProductType.FINANCIAMENTO)
-                .taxes(ProductType.FINANCIAMENTO.getTaxes())
+                .type(ProductType.FINANCING)
+                .taxes(ProductType.FINANCING.getTaxes())
                 .firstPaymentDate(LocalDate.now().plusMonths(1))
                 .plotsAvailable(plotsAvailable)
                 .minValue(BigDecimal.valueOf(100000))

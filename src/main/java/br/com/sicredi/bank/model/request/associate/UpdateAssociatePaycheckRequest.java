@@ -11,19 +11,21 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
+import static br.com.sicredi.bank.utils.MessageValidation.*;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateAssociatePaycheckRequest {
 
-    @NotNull(message = "Profissão não pode ser nulo.")
-    @NotBlank(message = "Profissão não pode ser vazio.")
+    @NotNull(message = ASSOCIATE_PROFESSION_NOT_NULL)
+    @NotBlank(message = ASSOCIATE_PROFESSION_NOT_BLANK)
     @Schema(example = "Engenheiro de Software")
     private String profession;
 
-    @NotNull(message = "Salário não pode ser nulo.")
-    @Min(value = 1, message = "Salário inválido.")
+    @NotNull(message = ASSOCIATE_SALARY_NOT_NULL)
+    @Min(value = 1, message = ASSOCIATE_SALARY_INVALID)
     @Schema(example = "4000.00")
     private BigDecimal salary;
 

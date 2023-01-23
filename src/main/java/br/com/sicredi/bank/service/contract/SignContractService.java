@@ -17,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
+import static br.com.sicredi.bank.utils.Message.CONTRACT_SAVE_ERROR;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class SignContractService {
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             log.info("Não foi possivel salvar o cotrato no banco de dados. Motivo: {}", e.getMessage());
-            throw new SaveEntityException("Não foi possível salvar o contrato.");
+            throw new SaveEntityException(CONTRACT_SAVE_ERROR);
         }
     }
 

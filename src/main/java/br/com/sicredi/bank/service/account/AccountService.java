@@ -15,12 +15,15 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Random;
 
-import static br.com.sicredi.bank.model.Message.*;
+import static br.com.sicredi.bank.utils.Message.*;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class AccountService {
+
+    public static final Integer ACCOUNT_AGENCY = 1000;
+    public static final Integer ACCOUNT_DIGITS = 8;
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
@@ -41,7 +44,7 @@ public class AccountService {
         try {
             return accountRepository.findById(id).orElseThrow();
         } catch (Exception e) {
-            throw new FindEntityException(ACCOUNT_ERROR);
+            throw new FindEntityException(ACCOUNT_FIND_ERROR);
         }
     }
 
@@ -49,7 +52,7 @@ public class AccountService {
         try {
             return accountRepository.findByAgencyAndNumber(agency, number).orElseThrow();
         } catch (Exception e) {
-            throw new FindEntityException(ACCOUNT_ERROR);
+            throw new FindEntityException(ACCOUNT_FIND_ERROR);
         }
     }
 

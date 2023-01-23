@@ -8,17 +8,20 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
+import static br.com.sicredi.bank.utils.MessageValidation.ACCOUNT_AGENCY_NOT_NULL;
+import static br.com.sicredi.bank.utils.MessageValidation.ACCOUNT_NUMBER_NOT_NULL;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class AccountRequest {
 
-    @NotNull(message = "Agência não pode ser nula.")
+    @NotNull(message = ACCOUNT_AGENCY_NOT_NULL)
     @Schema(example = "1000")
     private Integer agency;
 
-    @NotNull(message = "Número da Conta não pode ser nulo.")
+    @NotNull(message = ACCOUNT_NUMBER_NOT_NULL)
     @Schema(example = "12345678")
     private Integer number;
 

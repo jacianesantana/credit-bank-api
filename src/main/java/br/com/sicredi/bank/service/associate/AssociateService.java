@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-import static br.com.sicredi.bank.model.Message.ASSOCIATE_ERROR;
+import static br.com.sicredi.bank.utils.Message.*;
 
 @Slf4j
 @Service
@@ -48,22 +48,22 @@ public class AssociateService {
 
                     log.info("Associado salvo com sucesso. Id gerado: {}", associateEntity.getId());
 
-                    var checkingAccount = accountService.create(associateEntity, AccountType.CORRENTE);
-                    var savesAccount = accountService.create(associateEntity, AccountType.POUPANCA);
+                    var checkingAccount = accountService.create(associateEntity, AccountType.CURRENT);
+                    var savesAccount = accountService.create(associateEntity, AccountType.SAVINGS);
                     var accounts = List.of(checkingAccount, savesAccount);
 
                     var response = associateMapper.associateToSaveAssociateResponse(associateEntity, accounts);
                     return ResponseEntity.status(HttpStatus.CREATED).body(response);
                 } catch (Exception e) {
                     log.error("Não foi possivel salvar o associdado. Motivo: {}", e.getMessage());
-                    throw new SaveEntityException("Não foi possível salvar o associado.");
+                    throw new SaveEntityException(ASSOCIATE_SAVE_ERROR);
                 }
             }
-            throw new BusinessRulesException("Idade não atende o mínimo necessário!");
+            throw new BusinessRulesException(ASSOCIATE_BUSINESS_AGE_ERROR);
 
         }
 
-        throw new BusinessRulesException("Não foi possível salvar. Associado já existe!");
+        throw new BusinessRulesException(ASSOCIATE_BUSINESS_CPF_ERROR);
     }
 
     public ResponseEntity<FindAssociateResponse> findById(Long id) {
@@ -75,7 +75,7 @@ public class AssociateService {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Associdado não encontrado com o id: {}", id);
-            throw new FindEntityException(ASSOCIATE_ERROR);
+            throw new FindEntityException(ASSOCIATE_FIND_ERROR);
         }
     }
 
@@ -94,7 +94,7 @@ public class AssociateService {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Não foi possivel atualizar o associdado. Motivo: {}", e.getMessage());
-            throw new UpdateEntityException("Não foi possível atualizar o associado.");
+            throw new UpdateEntityException(ASSOCIATE_UPDATE_ERROR);
         }
     }
 
@@ -117,13 +117,13 @@ public class AssociateService {
                 return ResponseEntity.ok(response);
             } catch (Exception e) {
                 log.error("Não foi possivel atualizar o associdado. Motivo: {}", e.getMessage());
-                throw new UpdateEntityException("Não foi possível atualizar o associado.");
+                throw new UpdateEntityException(ASSOCIATE_UPDATE_ERROR);
             }
         }
 
         log.info("Associado com o id {} não pode ser atualizado, menos de três meses desde a ultima atualização: {}",
                 associateEntity.getId(), associateEntity.getLastPaycheck());
-        throw new BusinessRulesException("Associado com menos de 3 meses desde da última atualização!");
+        throw new BusinessRulesException(ASSOCIATE_BUSINESS_PAYCHECK_ERROR);
     }
 
     public ResponseEntity<Void> delete(Long id) {
@@ -140,11 +140,11 @@ public class AssociateService {
                 return ResponseEntity.noContent().build();
             } catch (Exception e) {
                 log.error("Não foi possível deletar o associdado. Motivo: {}", e.getMessage());
-                throw new DeleteEntityException("Não foi possível deletar o associado.");
+                throw new DeleteEntityException(ASSOCIATE_DELETE_ERROR);
             }
         } else {
             log.info("Associado não pode ser excluído, pois contém contratos ativos!");
-            throw new BusinessRulesException("Associado contém contratos ativos!");
+            throw new BusinessRulesException(ASSOCIATE_BUSINESS_CONTRACT_ERROR);
         }
     }
 

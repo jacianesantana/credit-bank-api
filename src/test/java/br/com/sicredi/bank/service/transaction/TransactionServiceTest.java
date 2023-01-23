@@ -17,14 +17,15 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
 
 import static br.com.sicredi.bank.builder.AccountBuilder.*;
 import static br.com.sicredi.bank.builder.TransactionBuilder.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionServiceTest {
@@ -66,6 +67,17 @@ class TransactionServiceTest {
     }
 
     @Test
+    void depositThrowsSaveEntityException() {
+        var account = buildAccount();
+        var transactionRequest = buildDepositTransactionRequest();
+
+        when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
+        doThrow(RuntimeException.class).when(accountService).save(any(AccountEntity.class));
+
+        assertThrows(SaveEntityException.class, () -> transactionService.deposit(transactionRequest).getBody());
+    }
+
+    @Test
     void depositShouldReturnFindEntityException() {
         var transactionRequest = buildDepositTransactionRequest();
 
@@ -78,7 +90,7 @@ class TransactionServiceTest {
     void withdrawSuccess() {
         var account = buildAccount();
         var transactionRequest = buildWithdrawTransactionRequest();
-        var transaction = buildTransaction(TransactionType.SAQUE);
+        var transaction = buildTransaction(TransactionType.WITHDRAW);
         var accountResponse = buildAccountResponse();
         var newBalance = account.getBalance().subtract(transactionRequest.getValue());
 
@@ -99,7 +111,7 @@ class TransactionServiceTest {
     void withdrawShouldReturnSaveEntityException() {
         var account = buildAccount();
         var transactionRequest = buildWithdrawTransactionRequest();
-        var transaction = buildTransaction(TransactionType.SAQUE);
+        var transaction = buildTransaction(TransactionType.WITHDRAW);
 
         when(accountService.findByAgencyAndNumber(anyInt(), anyInt())).thenReturn(account);
         doNothing().when(accountService).save(any(AccountEntity.class));
@@ -135,7 +147,7 @@ class TransactionServiceTest {
         var debitAccount = buildAccount();
         var creditAccount = buildOtherAccount();
         var transactionRequest = buildTransactionRequest();
-        var transaction = buildTransaction(TransactionType.TRANSFERENCIA);
+        var transaction = buildTransaction(TransactionType.TRANSFER);
         var debitAccountResponse = buildAccountResponse();
         var newBalance = debitAccount.getBalance().subtract(transactionRequest.getValue());
 
@@ -156,6 +168,36 @@ class TransactionServiceTest {
     }
 
     @Test
+    void transferThrowsSaveEntityException() {
+        var debitAccount = buildAccount();
+        var creditAccount = buildOtherAccount();
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findByAgencyAndNumber(debitAccount.getAgency(), debitAccount.getNumber()))
+                .thenReturn(debitAccount);
+        when(accountService.findByAgencyAndNumber(creditAccount.getAgency(), creditAccount.getNumber()))
+                .thenReturn(creditAccount);
+        doThrow(RuntimeException.class).when(accountService).save(any(AccountEntity.class));
+
+        assertThrows(SaveEntityException.class, () -> transactionService.transfer(transactionRequest).getBody());
+    }
+
+    @Test
+    void transferThrowsInsufficientBalanceException() {
+        var debitAccount = buildAccount();
+        debitAccount.setBalance(BigDecimal.ZERO);
+        var creditAccount = buildOtherAccount();
+        var transactionRequest = buildTransactionRequest();
+
+        when(accountService.findByAgencyAndNumber(debitAccount.getAgency(), debitAccount.getNumber()))
+                .thenReturn(debitAccount);
+        when(accountService.findByAgencyAndNumber(creditAccount.getAgency(), creditAccount.getNumber()))
+                .thenReturn(creditAccount);
+
+        assertThrows(InsufficientBalanceException.class, () -> transactionService.transfer(transactionRequest).getBody());
+    }
+
+    @Test
     void transferShouldReturnFindEntityException() {
         var transactionRequest = buildTransactionRequest();
 
@@ -164,4 +206,14 @@ class TransactionServiceTest {
         assertThrows(FindEntityException.class, () -> transactionService.transfer(transactionRequest));
     }
 
+    @Test
+    void findAllByAccountId() {
+        when(transactionRepository.findByDebitAccount(any(AccountEntity.class)))
+                .thenReturn(Collections.singletonList(new TransactionEntity()));
+        when(transactionRepository.findByCreditAccount(any(AccountEntity.class))).thenReturn(List.of());
+
+        var response = transactionService.findAllByAccountId(buildAccount());
+
+        assertEquals(1, response.size());
+    }
 }

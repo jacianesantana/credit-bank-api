@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static br.com.sicredi.bank.utils.Message.TRANSACTION_BUSINESS_BALANCE_ERROR;
+import static br.com.sicredi.bank.utils.Message.TRANSACTION_SAVE_ERROR;
 import static br.com.sicredi.bank.model.enums.TransactionType.*;
 
 @Slf4j
@@ -41,7 +43,7 @@ public class TransactionService {
             accountService.save(account);
 
             var transaction = transactionMapper.toTransaction(null, account,
-                    DEPOSITO, request.getValue());
+                    DEPOSIT, request.getValue());
 
             transactionRepository.save(transaction);
 
@@ -52,7 +54,7 @@ public class TransactionService {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
-            throw new SaveEntityException("Falha interna ao finalizar a transação.");
+            throw new SaveEntityException(TRANSACTION_SAVE_ERROR);
         }
     }
 
@@ -68,11 +70,11 @@ public class TransactionService {
                 accountService.save(account);
 
                 var transaction = transactionMapper.toTransaction(account, null,
-                        SAQUE, request.getValue());
+                        WITHDRAW, request.getValue());
 
                 transactionRepository.save(transaction);
             } catch (Exception e) {
-                throw new SaveEntityException("Falha interna ao finalizar a transação.");
+                throw new SaveEntityException(TRANSACTION_SAVE_ERROR);
             }
 
             var response = TransactionResponse.builder()
@@ -82,7 +84,7 @@ public class TransactionService {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
-            throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação.");
+            throw new InsufficientBalanceException(TRANSACTION_BUSINESS_BALANCE_ERROR);
         }
     }
 
@@ -104,11 +106,11 @@ public class TransactionService {
                 accountService.save(creditAccount);
 
                 var transaction = transactionMapper.toTransaction(debitAccount, creditAccount,
-                        TRANSFERENCIA, request.getValue());
+                        TRANSFER, request.getValue());
 
                 transactionRepository.save(transaction);
             } catch (Exception e) {
-                throw new SaveEntityException("Falha interna ao finalizar a transação.");
+                throw new SaveEntityException(TRANSACTION_SAVE_ERROR);
             }
 
             var response = TransactionResponse.builder()
@@ -118,7 +120,7 @@ public class TransactionService {
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
-            throw new InsufficientBalanceException("Saldo insuficiente para realizar a transação");
+            throw new InsufficientBalanceException(TRANSACTION_BUSINESS_BALANCE_ERROR);
         }
     }
 
