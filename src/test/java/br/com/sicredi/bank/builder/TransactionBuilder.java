@@ -1,9 +1,12 @@
 package br.com.sicredi.bank.builder;
 
-import br.com.sicredi.bank.model.response.transaction.StatementTransaction;
 import br.com.sicredi.bank.model.entity.TransactionEntity;
 import br.com.sicredi.bank.model.enums.TransactionType;
-import br.com.sicredi.bank.model.request.transaction.*;
+import br.com.sicredi.bank.model.request.account.AccountRequest;
+import br.com.sicredi.bank.model.request.transaction.DepositTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.TransferTransactionRequest;
+import br.com.sicredi.bank.model.request.transaction.WithdrawTransactionRequest;
+import br.com.sicredi.bank.model.response.transaction.StatementTransactionResponse;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -35,15 +38,15 @@ public class TransactionBuilder {
                 .build();
     }
 
-    public static DebitAccountRequest buildDebitAccountRequest() {
-        return DebitAccountRequest.builder()
+    public static AccountRequest buildDebitAccountRequest() {
+        return AccountRequest.builder()
                 .agency(1000)
                 .number(12345678)
                 .build();
     }
 
-    public static CreditAccountRequest buildCreditAccountRequest() {
-        return CreditAccountRequest.builder()
+    public static AccountRequest buildCreditAccountRequest() {
+        return AccountRequest.builder()
                 .agency(1234)
                 .number(87654321)
                 .build();
@@ -71,8 +74,8 @@ public class TransactionBuilder {
                 .build();
     }
 
-    public static StatementTransaction buildStatementTransaction() {
-        return StatementTransaction.builder()
+    public static StatementTransactionResponse buildStatementTransaction() {
+        return StatementTransactionResponse.builder()
                 .type(TransactionType.TRANSFERENCIA)
                 .value(BigDecimal.valueOf(100))
                 .createdAt(LocalDateTime.now())

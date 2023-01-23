@@ -87,11 +87,11 @@ ALTER TABLE IF EXISTS public.contract
 
 ALTER TABLE IF EXISTS public.transaction
     ADD CONSTRAINT fk_id_credit_account FOREIGN KEY (id_credit_account)
-    REFERENCES public.account (id);
+    REFERENCES public.account (id) ON DELETE CASCADE;
 
 ALTER TABLE IF EXISTS public.transaction
     ADD CONSTRAINT fk_id_debit_account FOREIGN KEY (id_debit_account)
-    REFERENCES public.account (id);
+    REFERENCES public.account (id) ON DELETE CASCADE;
 
 ALTER TABLE IF EXISTS public.address
     ADD CONSTRAINT "fk_id_associate" FOREIGN KEY (id_associate)

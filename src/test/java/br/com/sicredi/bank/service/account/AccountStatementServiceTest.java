@@ -2,7 +2,6 @@ package br.com.sicredi.bank.service.account;
 
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.model.entity.AccountEntity;
-import br.com.sicredi.bank.model.entity.TransactionEntity;
 import br.com.sicredi.bank.model.enums.TransactionType;
 import br.com.sicredi.bank.service.transaction.TransactionService;
 import org.junit.jupiter.api.Test;
@@ -11,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static br.com.sicredi.bank.builder.AccountBuilder.buildAccount;
@@ -39,13 +39,22 @@ class AccountStatementServiceTest {
     @Test
     void statementSuccecss() {
         var account = buildAccount();
-        var transaction = buildTransaction(TransactionType.TRANSFERENCIA);
+        var transactionOne = buildTransaction(TransactionType.TRANSFERENCIA);
+        var transactionTwo = buildTransaction(TransactionType.DEPOSITO);
+        transactionTwo.setId(2L);
+        transactionTwo.setCreatedAt(LocalDateTime.now().minusHours(1));
         var statementTransaction = buildStatementTransaction();
+        var statementTransactionTwo = buildStatementTransaction();
+        statementTransactionTwo.setType(TransactionType.DEPOSITO);
+        statementTransactionTwo.setCreatedAt(transactionTwo.getCreatedAt());
 
         when(accountService.findById(anyLong())).thenReturn(account);
-        when(transactionService.findAllByAccountId(any(AccountEntity.class))).thenReturn(List.of(transaction));
-        when(transactionMapper.transactionToStatementTransaction(any(AccountEntity.class), any(TransactionEntity.class)))
+        when(transactionService.findAllByAccountId(any(AccountEntity.class)))
+                .thenReturn(List.of(transactionOne, transactionTwo));
+        when(transactionMapper.transactionToStatementTransaction(account, transactionOne))
                 .thenReturn(statementTransaction);
+        when(transactionMapper.transactionToStatementTransaction(account, transactionTwo))
+                .thenReturn(statementTransactionTwo);
 
         var response = accountStatementService.statement(account.getId()).getBody();
 
@@ -53,7 +62,7 @@ class AccountStatementServiceTest {
         assertEquals(account.getType(), response.getType());
         assertEquals(account.getAgency(), response.getAgency());
         assertEquals(account.getNumber(), response.getNumber());
-        assertFalse(response.getTransactions().isEmpty());
+        assertEquals(transactionTwo.getType(), response.getTransactions().get(0).getType());
     }
 
     @Test

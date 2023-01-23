@@ -43,11 +43,11 @@ public class AccountEntity {
     private BigDecimal balance;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creditAccount")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "creditAccount", cascade = CascadeType.ALL)
     private Set<TransactionEntity> creditTransactionSet;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "debitAccount")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "debitAccount", cascade = CascadeType.ALL)
     private Set<TransactionEntity> debitTransactionSet;
 
 }
