@@ -4,6 +4,8 @@ import br.com.sicredi.bank.model.response.transaction.StatementTransactionRespon
 import br.com.sicredi.bank.model.entity.AccountEntity;
 import br.com.sicredi.bank.model.entity.TransactionEntity;
 import br.com.sicredi.bank.model.enums.TransactionType;
+import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -12,7 +14,10 @@ import java.time.LocalDateTime;
 import static br.com.sicredi.bank.model.enums.TransactionType.*;
 
 @Component
+@RequiredArgsConstructor
 public class TransactionMapper {
+
+    private final AccountMapper accountMapper;
 
     public TransactionEntity toTransaction(AccountEntity debitAccount, AccountEntity creditAccount,
                                                   TransactionType type, BigDecimal value) {
@@ -46,6 +51,13 @@ public class TransactionMapper {
                 .type(transaction.getType())
                 .value(isDebit ? value.multiply(BigDecimal.valueOf(-1)) : value)
                 .createdAt(transaction.getCreatedAt())
+                .build();
+    }
+
+    public TransactionResponse toTransactionResponse(AccountEntity account) {
+        return TransactionResponse.builder()
+                .account(accountMapper.accountToAccountResponse(account))
+                .newBalance(account.getBalance())
                 .build();
     }
 
