@@ -1,13 +1,13 @@
 package br.com.sicredi.bank.service.transaction;
 
-import br.com.sicredi.bank.model.entity.AccountEntity;
-import br.com.sicredi.bank.model.entity.TransactionEntity;
-import br.com.sicredi.bank.model.enums.TransactionType;
 import br.com.sicredi.bank.exception.FindEntityException;
 import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
-import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
+import br.com.sicredi.bank.model.entity.AccountEntity;
+import br.com.sicredi.bank.model.entity.TransactionEntity;
+import br.com.sicredi.bank.model.enums.TransactionType;
+import br.com.sicredi.bank.model.response.transaction.TransactionResponse;
 import br.com.sicredi.bank.repository.TransactionRepository;
 import br.com.sicredi.bank.service.account.AccountService;
 import org.junit.jupiter.api.Test;
@@ -42,9 +42,6 @@ class TransactionServiceTest {
     @Mock
     private AccountService accountService;
 
-    @Mock
-    private AccountMapper accountMapper;
-
     @Test
     void depositSuccess() {
         var account = buildAccount();
@@ -58,7 +55,8 @@ class TransactionServiceTest {
         when(transactionMapper.toTransaction(any(), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
-        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
+        when(transactionMapper.toTransactionResponse(any(AccountEntity.class)))
+                .thenReturn(new TransactionResponse(accountResponse, newBalance));
 
         var response = transactionService.deposit(transactionRequest).getBody();
 
@@ -99,7 +97,8 @@ class TransactionServiceTest {
         when(transactionMapper.toTransaction(any(AccountEntity.class), any(), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
-        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(accountResponse);
+        when(transactionMapper.toTransactionResponse(any(AccountEntity.class)))
+                .thenReturn(new TransactionResponse(accountResponse, newBalance));
 
         var response = transactionService.withdraw(transactionRequest).getBody();
 
@@ -159,7 +158,8 @@ class TransactionServiceTest {
         when(transactionMapper.toTransaction(any(AccountEntity.class), any(AccountEntity.class), any(TransactionType.class),
                 any(BigDecimal.class))).thenReturn(transaction);
         when(transactionRepository.save(any(TransactionEntity.class))).thenReturn(transaction);
-        when(accountMapper.accountToAccountResponse(any(AccountEntity.class))).thenReturn(debitAccountResponse);
+        when(transactionMapper.toTransactionResponse(any(AccountEntity.class)))
+                .thenReturn(new TransactionResponse(debitAccountResponse, newBalance));
 
         var response = transactionService.transfer(transactionRequest).getBody();
 

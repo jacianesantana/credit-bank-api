@@ -2,7 +2,6 @@ package br.com.sicredi.bank.service.transaction;
 
 import br.com.sicredi.bank.exception.InsufficientBalanceException;
 import br.com.sicredi.bank.exception.SaveEntityException;
-import br.com.sicredi.bank.mapper.AccountMapper;
 import br.com.sicredi.bank.mapper.TransactionMapper;
 import br.com.sicredi.bank.model.entity.AccountEntity;
 import br.com.sicredi.bank.model.entity.TransactionEntity;
@@ -30,26 +29,21 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
     private final AccountService accountService;
-    private final AccountMapper accountMapper;
 
     public ResponseEntity<TransactionResponse> deposit(DepositTransactionRequest request) {
         var account = accountService.findByAgencyAndNumber(request.getCreditAccount().getAgency(),
                 request.getCreditAccount().getNumber());
-        var newBalance = account.getBalance().add(request.getValue());
-        account.setBalance(newBalance);
 
         try {
-            accountService.save(account);
-
             var transaction = transactionMapper.toTransaction(null, account,
                     DEPOSIT, request.getValue());
-
             transactionRepository.save(transaction);
 
-            var response = TransactionResponse.builder()
-                    .account(accountMapper.accountToAccountResponse(account))
-                    .newBalance(account.getBalance())
-                    .build();
+            var newBalance = account.getBalance().add(request.getValue());
+            account.setBalance(newBalance);
+            accountService.save(account);
+
+            var response = transactionMapper.toTransactionResponse(account);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
@@ -62,24 +56,21 @@ public class TransactionService {
                 request.getDebitAccount().getNumber());
 
         if (account.getBalance().compareTo(request.getValue()) >= 0) {
-            var newBalance = account.getBalance().subtract(request.getValue());
-            account.setBalance(newBalance);
-
             try {
-                accountService.save(account);
-
                 var transaction = transactionMapper.toTransaction(account, null,
                         WITHDRAW, request.getValue());
 
                 transactionRepository.save(transaction);
+
+                var newBalance = account.getBalance().subtract(request.getValue());
+                account.setBalance(newBalance);
+
+                accountService.save(account);
             } catch (Exception e) {
                 throw new SaveEntityException(TRANSACTION_SAVE_ERROR);
             }
 
-            var response = TransactionResponse.builder()
-                    .account(accountMapper.accountToAccountResponse(account))
-                    .newBalance(account.getBalance())
-                    .build();
+            var response = transactionMapper.toTransactionResponse(account);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {
@@ -94,28 +85,25 @@ public class TransactionService {
                 request.getCreditAccount().getNumber());
 
         if (debitAccount.getBalance().compareTo(request.getValue()) >= 0) {
-            var newDebitAccountBalance = debitAccount.getBalance().subtract(request.getValue());
-            debitAccount.setBalance(newDebitAccountBalance);
-
-            var newCreditAccountBalance = creditAccount.getBalance().add(request.getValue());
-            creditAccount.setBalance(newCreditAccountBalance);
-
             try {
-                accountService.save(debitAccount);
-                accountService.save(creditAccount);
-
                 var transaction = transactionMapper.toTransaction(debitAccount, creditAccount,
                         TRANSFER, request.getValue());
 
                 transactionRepository.save(transaction);
+
+                var newDebitAccountBalance = debitAccount.getBalance().subtract(request.getValue());
+                debitAccount.setBalance(newDebitAccountBalance);
+
+                var newCreditAccountBalance = creditAccount.getBalance().add(request.getValue());
+                creditAccount.setBalance(newCreditAccountBalance);
+
+                accountService.save(debitAccount);
+                accountService.save(creditAccount);
             } catch (Exception e) {
                 throw new SaveEntityException(TRANSACTION_SAVE_ERROR);
             }
 
-            var response = TransactionResponse.builder()
-                    .account(accountMapper.accountToAccountResponse(debitAccount))
-                    .newBalance(debitAccount.getBalance())
-                    .build();
+            var response = transactionMapper.toTransactionResponse(debitAccount);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } else {

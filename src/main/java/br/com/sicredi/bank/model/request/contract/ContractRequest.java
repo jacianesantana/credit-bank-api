@@ -23,7 +23,7 @@ public class ContractRequest {
     private Long idAssociate;
 
     @NotNull(message = CONTRACT_PRODUCT_TYPE_NOT_NULL)
-    @Schema(example = "FINANCIAMENTO")
+    @Schema(example = "FINANCING")
     private ProductType productType;
 
     @NotNull(message = CONTRACT_NUMBER_OF_INSTALLMENTS_NOT_NULL)

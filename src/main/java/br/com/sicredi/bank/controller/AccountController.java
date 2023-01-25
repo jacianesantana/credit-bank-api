@@ -5,7 +5,7 @@ import br.com.sicredi.bank.annotation.account.AccountStatementStandard;
 import br.com.sicredi.bank.model.response.account.StatementAccountResponse;
 import br.com.sicredi.bank.model.response.account.BalanceAccountResponse;
 import br.com.sicredi.bank.service.account.AccountService;
-import br.com.sicredi.bank.service.account.AccountStatementService;
+import br.com.sicredi.bank.service.account.StatementAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AccountController {
 
     private final AccountService accountService;
-    private final AccountStatementService statementService;
+    private final StatementAccountService statementService;
 
     @GetMapping("/balance/{id}")
     @AccountBalanceStandard

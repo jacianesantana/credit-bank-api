@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class AccountStatementService {
+public class StatementAccountService {
 
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
