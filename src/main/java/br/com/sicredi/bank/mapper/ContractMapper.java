@@ -4,9 +4,11 @@ import br.com.sicredi.bank.model.response.contract.FindContractResponse;
 import br.com.sicredi.bank.model.response.contract.ListContractResponse;
 import br.com.sicredi.bank.model.entity.ContractEntity;
 import br.com.sicredi.bank.model.response.contract.SaveContractResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class ContractMapper {
 
     public ListContractResponse contractToListContractsResponse(ContractEntity contractEntity) {
@@ -44,4 +46,5 @@ public class ContractMapper {
                 .firstPaymentDate(contract.getFirstPaymentDate())
                 .build();
     }
+
 }

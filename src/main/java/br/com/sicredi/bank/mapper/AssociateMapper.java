@@ -1,10 +1,7 @@
 package br.com.sicredi.bank.mapper;
 
 import br.com.sicredi.bank.model.request.associate.SaveAssociateRequest;
-import br.com.sicredi.bank.model.response.associate.FindAssociateResponse;
-import br.com.sicredi.bank.model.response.associate.SaveAssociateResponse;
-import br.com.sicredi.bank.model.response.associate.UpdateAssociateContactResponse;
-import br.com.sicredi.bank.model.response.associate.UpdateAssociatePaycheckResponse;
+import br.com.sicredi.bank.model.response.associate.*;
 import br.com.sicredi.bank.model.entity.AccountEntity;
 import br.com.sicredi.bank.model.entity.AssociateEntity;
 import lombok.RequiredArgsConstructor;

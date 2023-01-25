@@ -22,10 +22,10 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class AccountStatementServiceTest {
+class StatementAccountServiceTest {
 
     @InjectMocks
-    private AccountStatementService accountStatementService;
+    private StatementAccountService statementAccountService;
 
     @Mock
     private AccountService accountService;
@@ -56,7 +56,7 @@ class AccountStatementServiceTest {
         when(transactionMapper.transactionToStatementTransaction(account, transactionTwo))
                 .thenReturn(statementTransactionTwo);
 
-        var response = accountStatementService.statement(account.getId()).getBody();
+        var response = statementAccountService.statement(account.getId()).getBody();
 
         assertNotNull(response);
         assertEquals(account.getType(), response.getType());
@@ -72,7 +72,7 @@ class AccountStatementServiceTest {
         when(accountService.findById(anyLong())).thenReturn(account);
         when(transactionService.findAllByAccountId(any(AccountEntity.class))).thenReturn(List.of());
 
-        var response = accountStatementService.statement(account.getId()).getBody();
+        var response = statementAccountService.statement(account.getId()).getBody();
 
         assertNotNull(response);
         assertEquals(account.getType(), response.getType());

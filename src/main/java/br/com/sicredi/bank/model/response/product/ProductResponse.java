@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ProductResponse {
 
-    @Schema(example = "FINANCIAMENTO")
+    @Schema(example = "FINANCING")
     private ProductType type;
 
     @Schema(example = "7")
